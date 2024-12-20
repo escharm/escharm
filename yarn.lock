@@ -84,6 +84,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@escharm/app@workspace:packages/app":
+  version: 0.0.0-use.local
+  resolution: "@escharm/app@workspace:packages/app"
+  dependencies:
+    "@eslint/eslintrc": "npm:^3"
+    "@tauri-apps/cli": "npm:^2.1.0"
+    "@types/node": "npm:^20"
+    "@types/react": "npm:^19"
+    "@types/react-dom": "npm:^19"
+    "@webcontainer/api": "npm:1.5.1-internal.5"
+    eslint: "npm:^9"
+    eslint-config-next: "npm:15.1.2"
+    next: "npm:15.1.2"
+    postcss: "npm:^8"
+    react: "npm:^19.0.0"
+    react-dom: "npm:^19.0.0"
+    tailwindcss: "npm:^3.4.1"
+    typescript: "npm:^5"
+  languageName: unknown
+  linkType: soft
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.0
   resolution: "@eslint-community/eslint-utils@npm:4.4.0"
@@ -3329,27 +3350,6 @@ __metadata:
   checksum: 10/98b48897d93060f2322108bf29db0feba7dd774be96cd069458d1453347b25ce8682ecc39859d4bca2203cc0ab19c237bcc71755eff49a0f8d90beadeeba5cc5
   languageName: node
   linkType: hard
-
-"escharm@workspace:packages/escharm":
-  version: 0.0.0-use.local
-  resolution: "escharm@workspace:packages/escharm"
-  dependencies:
-    "@eslint/eslintrc": "npm:^3"
-    "@tauri-apps/cli": "npm:^2.1.0"
-    "@types/node": "npm:^20"
-    "@types/react": "npm:^19"
-    "@types/react-dom": "npm:^19"
-    "@webcontainer/api": "npm:1.5.1-internal.5"
-    eslint: "npm:^9"
-    eslint-config-next: "npm:15.1.2"
-    next: "npm:15.1.2"
-    postcss: "npm:^8"
-    react: "npm:^19.0.0"
-    react-dom: "npm:^19.0.0"
-    tailwindcss: "npm:^3.4.1"
-    typescript: "npm:^5"
-  languageName: unknown
-  linkType: soft
 
 "eslint-config-next@npm:15.1.2":
   version: 15.1.2
