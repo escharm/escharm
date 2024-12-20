@@ -10,8 +10,6 @@
     "lint": "eslint packages/**/*.{tsx,ts} examples/**/*.{tsx,ts} --fix"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.18.1",
-    "@typescript-eslint/parser": "^8.18.1",
     "eslint": "^9.17.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "lerna": "^8.1.9",
