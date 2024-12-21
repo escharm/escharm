@@ -9,7 +9,6 @@
     "typings": "tsc -v && tsc -b -v",
     "prepack": "rimraf dist && yarn typings && yarn build",
     "lint": "eslint packages/**/*.{tsx,ts} examples/**/*.{tsx,ts} --fix"
-
   },
   "dependencies": {
     "@escharm/dnd-react": "^3.0.0",

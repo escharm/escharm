@@ -7,7 +7,6 @@
   ],
   "repository": "git@github.com:escharm/escharm.git",
   "license": "MIT",
-  "scripts": {},
   "devDependencies": {
     "eslint": "^9.17.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
