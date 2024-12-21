@@ -6,6 +6,7 @@ import {
   directionFromMask,
   findLayoutNode,
   findPanelNode,
+  getLayoutById,
   getPanelById,
   RLD,
 } from "./helper";
@@ -407,8 +408,9 @@ class LayoutNode {
   }
 
   private moveSplitter(data: MoveSplitterData) {
-    const primaryNode = getPanelById(this, data.primary)?.parent;
-    const secondaryNode = getPanelById(this, data.secondary)?.parent;
+    const primaryNode = getLayoutById(this, data.primary);
+    const secondaryNode = getLayoutById(this, data.secondary);
+    console.debug("[Debug] moveSplitter", primaryNode, secondaryNode, this);
     if (primaryNode != null && secondaryNode != null) {
       primaryNode.secondaryOffset = primaryNode.secondaryOffset + data.offset;
       secondaryNode.primaryOffset = secondaryNode.primaryOffset - data.offset;
