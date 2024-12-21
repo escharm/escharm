@@ -13,7 +13,7 @@ import { useLayoutNode, useLayoutSymbol } from "../features";
 import useRect from "./useRect";
 import useUpdate from "./useUpdate";
 
-const useInitSlotListener = (ref: React.RefObject<HTMLDivElement>) => {
+const useInitSlotListener = (ref: React.RefObject<HTMLDivElement | null>) => {
   const [rect] = useRect(ref);
   const layoutNode = useLayoutNode();
   const layoutSymbol = useLayoutSymbol();
@@ -42,7 +42,7 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement>) => {
       });
       update(rect);
     },
-    [layoutNode],
+    [layoutNode, rect, update],
   );
 
   const movePanel = useCallback(
@@ -53,7 +53,7 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement>) => {
       });
       update(rect);
     },
-    [layoutNode],
+    [layoutNode, rect, update],
   );
 
   const moveSplitter = useCallback(
@@ -64,7 +64,7 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement>) => {
       });
       update(rect);
     },
-    [layoutNode],
+    [layoutNode, rect, update],
   );
 
   const selectTab = useCallback(
@@ -73,8 +73,9 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement>) => {
         type: LayoutNodeActionType.SELECT_TAB,
         payload: data,
       });
+      update(rect);
     },
-    [layoutNode],
+    [layoutNode, rect, update],
   );
 
   useEffect(() => {

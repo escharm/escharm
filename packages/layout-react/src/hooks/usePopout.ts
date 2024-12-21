@@ -10,6 +10,7 @@ import { useSlot, useSns } from "@escharm/sns-react";
 import { nanoid } from "nanoid";
 import { useCallback, useMemo } from "react";
 
+import { ROOTID } from "../constant";
 import {
   useLayoutNode,
   useLayoutSymbol,
@@ -17,7 +18,6 @@ import {
   usePanel,
   usePortals,
 } from "../features";
-import { ROOTID } from "../constant";
 
 const usePopout = (nodeId: string): [boolean, (screen?: IPoint) => void] => {
   const layoutNode = useLayoutNode();

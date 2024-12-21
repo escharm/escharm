@@ -1,3 +1,4 @@
+import { getLayouts, getPanels, getSplitters } from "@escharm/layout-core";
 import { useCallback } from "react";
 
 import { useLayoutNode } from "../features/Provider/LayoutNodeProvider";
@@ -8,7 +9,6 @@ import {
   useSetAllPanels,
   useSetAllSplitters,
 } from "../features/Provider/ValtioStateProvider";
-import { getLayouts, getPanels, getSplitters } from "@escharm/layout-core";
 
 const useUpdate = () => {
   const layoutSymbol = useLayoutSymbol();
@@ -22,7 +22,9 @@ const useUpdate = () => {
   return useCallback(
     (rect: { height: number; width: number }) => {
       console.debug("[debug] update rect", rect);
-      hook?.before && hook.before(layoutSymbol, layoutNode);
+      if (hook?.before) {
+        hook.before(layoutSymbol, layoutNode);
+      }
       layoutNode.shakeTree();
       if (rect != null) {
         layoutNode.fill({ ...rect, left: 0, top: 0 });
@@ -38,11 +40,14 @@ const useUpdate = () => {
       const splitters = getSplitters(layoutNode);
       const panels = getPanels(layoutNode);
 
+      console.debug("[debug] update", layouts, panels, splitters);
       setAllLayouts(layouts);
       setAllPanels(panels);
       setAllSplitters(splitters);
 
-      hook?.after && hook.after(layoutSymbol, layoutNode);
+      if (hook?.after) {
+        hook.after(layoutSymbol, layoutNode);
+      }
     },
     [
       hook,

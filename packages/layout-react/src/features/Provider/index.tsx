@@ -1,16 +1,16 @@
 import { LayoutNode } from "@escharm/layout-core";
 import { createContext, FC, FunctionComponent, useContext } from "react";
 
+import { UPDATE_HOOK } from "../../types";
 import LayoutNodeProvider from "./LayoutNodeProvider";
 import LayoutSymbolProvider from "./LayoutSymbolProvider";
 import UpdateHookProvider from "./UpdateHookProvider";
 import ValtioStateProvider from "./ValtioStateProvider";
-import { UPDATE_HOOK } from "../../types";
 
 export type CMPTFactory = (
   page: string,
-  data?: any,
-) => FunctionComponent<React.PropsWithChildren<{ nodeData: any }>>;
+  data?: unknown,
+) => FunctionComponent<React.PropsWithChildren<{ nodeData: unknown }>>;
 
 export interface ILayoutProviderProps {
   factory: CMPTFactory;

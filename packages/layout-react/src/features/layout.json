@@ -1,5 +1,5 @@
 {
-    "id": "layout-root",
+    "id": "@escharm/layout-react-root",
     "direction": "ROOT",
     "primaryOffset": 0,
     "secondaryOffset": 0,
