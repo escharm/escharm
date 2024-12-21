@@ -4,18 +4,10 @@ import "valtio";
 import "@escharm/sns-react";
 
 declare module "@escharm/sns-react" {
-  interface Slot extends ISlot {}
-
-  interface Sns extends ISns {
-    send(target: string | number, event: "popin", data?: unknown): this;
-  }
-}
-
-declare module "@escharm/sns-react" {
   interface Slot extends ISlot {
     addListener(event: "ready", listener: (...args: unknown[]) => void): this;
     addListener(
-      event: "popin",
+      event: LayoutNodeActionType.POPIN,
       listener: (data: { panelNode: PanelNode }) => void,
     ): this;
 
@@ -42,7 +34,11 @@ declare module "@escharm/sns-react" {
   }
 
   interface Sns extends ISns {
-    send(target: string | number, event: "popin", data?: unknown): this;
+    send(
+      target: string | number,
+      event: LayoutNodeActionType.POPIN,
+      data?: unknown,
+    ): this;
 
     send(
       target: string | number,

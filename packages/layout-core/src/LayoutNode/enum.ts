@@ -19,4 +19,5 @@ export enum LayoutNodeActionType {
   MOVE_SPLITTER = "MOVE_SPLITTER",
   REMOVE_PANEL = "REMOVE_PANEL",
   SELECT_TAB = "SELECT_TAB",
+  POPIN = "POPIN",
 }

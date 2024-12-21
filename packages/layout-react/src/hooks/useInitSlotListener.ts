@@ -131,7 +131,7 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement | null>) => {
       slot.addListener(LayoutNodeActionType.MOVE_PANEL, movePanel);
       slot.addListener(LayoutNodeActionType.MOVE_SPLITTER, moveSplitter);
       slot.addListener(LayoutNodeActionType.SELECT_TAB, selectTab);
-      slot.addListener("popin", popinListener);
+      slot.addListener(LayoutNodeActionType.POPIN, popinListener);
       sns.broadcast("ready", { layoutSymbol });
 
       update(rect);
@@ -143,7 +143,7 @@ const useInitSlotListener = (ref: React.RefObject<HTMLDivElement | null>) => {
       slot?.removeListener(LayoutNodeActionType.MOVE_PANEL, movePanel);
       slot?.removeListener(LayoutNodeActionType.MOVE_SPLITTER, moveSplitter);
       slot?.removeListener(LayoutNodeActionType.SELECT_TAB, selectTab);
-      slot?.removeListener("popin", popinListener);
+      slot?.removeListener(LayoutNodeActionType.POPIN, popinListener);
     };
   }, [
     addPanel,

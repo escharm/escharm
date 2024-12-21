@@ -29,7 +29,6 @@ const GrapeLayout = (props: PropsWithChildren<IProps>) => {
             factory={factory}
           >
             {children}
-            {/* <PopinListener /> */}
           </Provider>
         </div>
         <PopoutManager factory={factory}>{children}</PopoutManager>

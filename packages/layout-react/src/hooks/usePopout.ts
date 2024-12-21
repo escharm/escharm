@@ -63,7 +63,7 @@ const usePopout = (nodeId: string): [boolean, (screen?: IPoint) => void] => {
           search: nodeId,
         });
 
-        sns.send(mainLayoutSymbol, "popin", {
+        sns.send(mainLayoutSymbol, LayoutNodeActionType.POPIN, {
           panelNode: panelNode,
         });
       } else {
