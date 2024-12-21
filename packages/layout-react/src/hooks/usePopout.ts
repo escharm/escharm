@@ -12,7 +12,6 @@ import { useCallback, useMemo } from "react";
 
 import { ROOTID } from "../constant";
 import {
-  useLayoutNode,
   useLayoutSymbol,
   useMainLayoutSymbol,
   usePanel,
@@ -20,7 +19,6 @@ import {
 } from "../features";
 
 const usePopout = (nodeId: string): [boolean, (screen?: IPoint) => void] => {
-  const layoutNode = useLayoutNode();
   const layoutSymbol = useLayoutSymbol();
   const sns = useSns();
   const slot = useSlot(nodeId);
@@ -61,11 +59,8 @@ const usePopout = (nodeId: string): [boolean, (screen?: IPoint) => void] => {
         console.debug("[Debug] popin", mainLayoutSymbol);
         const panelNode = new PanelNode(panel!);
 
-        layoutNode.doAction({
-          type: LayoutNodeActionType.REMOVE_PANEL,
-          payload: {
-            search: nodeId,
-          },
+        sns.send(layoutSymbol, LayoutNodeActionType.REMOVE_PANEL, {
+          search: nodeId,
         });
 
         sns.send(mainLayoutSymbol, "popin", {
@@ -81,14 +76,14 @@ const usePopout = (nodeId: string): [boolean, (screen?: IPoint) => void] => {
     },
     [
       inPopout,
-      panel,
-      layoutNode,
-      nodeId,
-      sns,
       mainLayoutSymbol,
-      setPortals,
+      panel,
+      sns,
+      layoutSymbol,
+      nodeId,
       slot,
       popoutReady,
+      setPortals,
     ],
   );
 

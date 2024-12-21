@@ -309,6 +309,7 @@ class LayoutNode {
         ? target
         : findPanelNode(this, (p) => p.id === target)?.parent ||
           findLayoutNode(this, (p) => p.id === target);
+    console.debug("[Debug]", oldLayout?.id, direction);
     if (oldLayout?.direction === LAYOUT_DIRECTION.ROOT) {
       if (oldLayout.layoutNodes.length !== 0) {
         this.addPanelNode({

@@ -1,9 +1,9 @@
-import { ILayoutJSON, LayoutNode } from "@escharm/layout-core";
+import { LAYOUT_DIRECTION, LayoutNode } from "@escharm/layout-core";
 import PortalWindow from "@escharm/portal-window";
 import { FC, useCallback, useRef } from "react";
 import { useMemo } from "react";
 
-import layoutJSON from "./layout.json";
+import { ROOTID } from "../constant";
 import { usePortals } from "./PopoutManager";
 import Provider, { ILayoutProviderProps } from "./Provider";
 
@@ -18,7 +18,14 @@ const Popout: FC<React.PropsWithChildren<IProps>> = (props) => {
   const portalRef = useRef<{ close: () => void }>(null);
   const { portalsRef, setPortals } = usePortals();
 
-  const ROOT = useMemo(() => new LayoutNode(layoutJSON as ILayoutJSON), []);
+  const ROOT = useMemo(
+    () =>
+      new LayoutNode({
+        id: ROOTID,
+        direction: LAYOUT_DIRECTION.ROOT,
+      }),
+    [],
+  );
 
   const afterUpdate = useCallback(
     (layoutSymbol: string | number, layoutNode: LayoutNode) => {
@@ -26,10 +33,10 @@ const Popout: FC<React.PropsWithChildren<IProps>> = (props) => {
         .map((p) => p.id)
         .includes(layoutSymbol);
       if (inPopout) {
-        console.log("[Debug] closing popout", layoutNode.layoutNodes.length);
+        console.debug("[Debug] closing popout", layoutNode.layoutNodes.length);
 
         if (layoutNode.layoutNodes.length === 0) {
-          console.log("[Debug] closing popout", layoutSymbol);
+          console.debug("[Debug] closing popout", layoutSymbol);
           portalRef.current?.close();
         }
       }

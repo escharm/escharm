@@ -47,7 +47,6 @@ const Page = () => {
           await syncLocalToWebContainer(directoryHandle, webcontainerInstance);
 
           const structure = await getFileStructure(webcontainerInstance);
-          console.log(structure);
           setFiles(structure);
         }}
       >
