@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
+    "emitDeclarationOnly": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@escharm/sns-react": ["../sns-react/src"],
+      "@escharm/dnd-react": ["../dnd-react/src"],
+      "@escharm/portal-window": ["../portal-window/src"],
+      "@escharm/layout-core": ["../layout-core/src"]
+    }
+  },
+  "references": [
+    {
+      "path": "../dnd-core"
+    },
+    {
+      "path": "../dnd-core"
+    },
+    {
+      "path": "../dnd-react"
+    },
+    {
+      "path": "../sns-react"
+    },
+    {
+      "path": "../portal-window"
+    },
+    {
+      "path": "../layout-core"
+    }
+  ],
+  "include": ["src", "src/**/*.json"],
+  "exclude": ["node_modules"]
+}

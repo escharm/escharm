@@ -1,0 +1,42 @@
+{
+  "name": "@escharm/layout-core",
+  "version": "3.0.0",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "react",
+    "layout",
+    "widget"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/umd/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest",
+    "build": "rollup --config rollup.config.js --bundleConfigAsCjs",
+    "typings": "tsc -v && tsc -b -v",
+    "prepack": "rimraf dist && yarn typings && yarn build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "eslint": "^9.17.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.29.0",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.9"
+  }
+}

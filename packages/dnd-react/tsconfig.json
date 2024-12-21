@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
+    "emitDeclarationOnly": true,
+    "paths": {
+      "@escharm/dnd-core": ["../dnd-core/src"]
+    }
+  },
+  "references": [
+    {
+      "path": "../dnd-core"
+    }
+  ],
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

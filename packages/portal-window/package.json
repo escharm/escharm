@@ -1,0 +1,23 @@
+{
+  "name": "@escharm/portal-window",
+  "version": "3.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest",
+    "build": "rollup --config rollup.config.js --bundleConfigAsCjs",
+    "typings": "tsc -v && tsc -b -v",
+    "prepack": "rimraf dist && yarn typings && yarn build"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "vitest": "^2.1.8"
+  }
+}
