@@ -33,6 +33,6 @@
       "path": "../layout-core"
     }
   ],
-  "include": ["src", "src/**/*.json"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "./dist/**/*"]
 }

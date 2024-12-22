@@ -6,5 +6,6 @@ export * from "./Popout";
 export { default as Popout } from "./Popout";
 export * from "./PopoutManager";
 export { default as PopoutManager } from "./PopoutManager";
+export * from "./portals";
 export * from "./Provider";
 export { default as Provider } from "./Provider";

@@ -1,13 +1,8 @@
-import { FC, PropsWithChildren, RefObject } from "react";
-import {
-  createContext,
-  Dispatch,
-  Fragment,
-  SetStateAction,
-  useContext,
-} from "react";
+import { PropsWithChildren } from "react";
+import { Fragment } from "react";
 
 import Popout from "./Popout";
+import { usePortals } from "./portals";
 import { ILayoutProviderProps } from "./Provider";
 
 export interface IPortal {
@@ -17,14 +12,6 @@ export interface IPortal {
   height?: number;
   width?: number;
 }
-
-type ContextType = {
-  portalsRef: RefObject<IPortal[]>;
-  portals: IPortal[];
-  setPortals: Dispatch<SetStateAction<IPortal[]>>;
-} | null;
-
-const PortalsContext = createContext<ContextType>(null);
 
 interface IProps extends Partial<ILayoutProviderProps> {}
 
@@ -51,22 +38,3 @@ const PopoutManager = (props: PropsWithChildren<IProps>) => {
 };
 
 export default PopoutManager;
-
-export const PortalsProvider: FC<
-  React.PropsWithChildren<NonNullable<ContextType>>
-> = (props) => {
-  const { children, portalsRef, portals, setPortals } = props;
-  return (
-    <PortalsContext.Provider value={{ portalsRef, portals, setPortals }}>
-      {children}
-    </PortalsContext.Provider>
-  );
-};
-
-export const usePortals = () => {
-  const ctx = useContext(PortalsContext);
-  if (ctx == null) {
-    throw new Error("no portals context found");
-  }
-  return ctx;
-};

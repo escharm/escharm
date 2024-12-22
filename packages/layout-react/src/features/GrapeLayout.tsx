@@ -3,7 +3,8 @@ import { PropsWithChildren, useState } from "react";
 
 import useStateRef from "../hooks/useStateRef";
 import MainLayoutSymbolProvider from "./MainLayoutSymbolProvider";
-import PopoutManager, { IPortal, PortalsProvider } from "./PopoutManager";
+import PopoutManager, { IPortal } from "./PopoutManager";
+import { PortalsProvider } from "./portals";
 import Provider, { CMPTFactory } from "./Provider";
 
 interface IProps {

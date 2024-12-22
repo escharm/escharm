@@ -1,7 +1,6 @@
 /// <reference types="@escharm/layout-core/custom" />
-
-import "valtio";
 import "@escharm/sns-react";
+import "valtio";
 
 declare module "@escharm/sns-react" {
   interface Slot extends ISlot {
@@ -68,6 +67,20 @@ declare module "@escharm/sns-react" {
   }
 }
 
-declare module "valtio" {
-  function useSnapshot<T extends object>(p: T): T;
+declare global {
+  declare module "valtio" {
+    function useSnapshot<T extends object>(p: T): T;
+  }
+
+  declare module "*.module.css" {
+    const classes: { [key: string]: string };
+    export default classes;
+  }
+
+  declare module "*.svg" {
+    import React from "react";
+    export const ReactComponent: React.FunctionComponent<
+      React.SVGProps<SVGSVGElement>
+    >;
+  }
 }

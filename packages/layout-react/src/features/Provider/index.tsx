@@ -5,11 +5,10 @@ import { UPDATE_HOOK } from "../../types";
 import LayoutNodeProvider from "./LayoutNodeProvider";
 import LayoutSymbolProvider from "./LayoutSymbolProvider";
 import UpdateHookProvider from "./UpdateHookProvider";
-import ValtioStateProvider from "./ValtioStateProvider";
+import { ValtioStateProvider } from "./ValtioStateProvider";
 
 export type CMPTFactory = (
   page: string,
-  data?: unknown,
 ) => FunctionComponent<React.PropsWithChildren<{ nodeData: unknown }>>;
 
 export interface ILayoutProviderProps {
@@ -63,4 +62,3 @@ export { default as LayoutSymbolProvider } from "./LayoutSymbolProvider";
 export * from "./UpdateHookProvider";
 export { default as UpdateHookProvider } from "./UpdateHookProvider";
 export * from "./ValtioStateProvider";
-export { default as ValtioStateProvider } from "./ValtioStateProvider";

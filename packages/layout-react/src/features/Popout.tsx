@@ -4,7 +4,7 @@ import { FC, useCallback, useRef } from "react";
 import { useMemo } from "react";
 
 import { ROOTID } from "../constant";
-import { usePortals } from "./PopoutManager";
+import { usePortals } from "./portals";
 import Provider, { ILayoutProviderProps } from "./Provider";
 
 interface IProps extends Partial<ILayoutProviderProps> {

@@ -1,6 +1,8 @@
-import { useFactory, usePanel, usePanelRef } from "@escharm/layout-react";
 import { MASK_PART } from "@escharm/layout-core";
 import { CSSProperties, useMemo } from "react";
+
+import { useFactory, usePanel } from "../features";
+import { usePanelRef } from "../hooks";
 
 const top: CSSProperties = {
   zIndex: 1,
@@ -82,7 +84,10 @@ const Panel = (props: { nodeId: string }) => {
 
   const node = usePanel(nodeId);
   const factory = useFactory();
-  const Page = useMemo(() => factory(node?.page!), [factory, node?.page]);
+  const Page = useMemo(
+    () => (node?.page ? factory(node.page) : () => null),
+    [factory, node?.page],
+  );
 
   return (
     <div

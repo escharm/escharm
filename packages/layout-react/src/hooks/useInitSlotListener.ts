@@ -13,7 +13,8 @@ import { useSlot, useSns } from "@escharm/sns-react";
 import { useCallback, useEffect } from "react";
 
 import { ROOTID } from "../constant";
-import { useLayoutNode, useLayoutSymbol, usePortals } from "../features";
+import { useLayoutNode, useLayoutSymbol } from "../features";
+import { usePortals } from "../features/portals";
 import { rules } from "../lib/constant";
 import useRect from "./useRect";
 import useUpdate from "./useUpdate";

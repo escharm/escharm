@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import FileTree from "@/components/FileTree";
 import { getFileStructure, IFileNode } from "@/components/FileTree/files";
+import TopMenu from "@/components/TopMenu";
 
 async function syncLocalToWebContainer(
   dirHandle: FileSystemDirectoryHandle,
@@ -36,6 +37,7 @@ const Page = () => {
 
   return (
     <div>
+      <TopMenu />
       <button
         onClick={async () => {
           const { webcontainerInstance } = await import("../webcontainer");
