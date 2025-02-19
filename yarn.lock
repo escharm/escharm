@@ -1820,6 +1820,8 @@ __metadata:
     "@types/react": "npm:^19.0.2"
     "@types/react-dom": "npm:^19.0.2"
     "@types/wicg-file-system-access": "npm:^2023.10.5"
+    "@use-gesture/react": "npm:^10.3.1"
+    "@vanilla-extract/css-utils": "npm:^0.1.4"
     "@webcontainer/api": "npm:1.5.1"
     eslint: "npm:^9"
     eslint-config-next: "npm:15.1.2"
@@ -1894,7 +1896,6 @@ __metadata:
     "@escharm/layout-core": "npm:^3.0.0"
     "@escharm/portal-window": "npm:^3.0.0"
     "@escharm/sns-react": "npm:^3.0.0"
-    "@heroicons/react": "npm:^2.2.0"
     autoprefixer: "npm:^10.4.20"
     clsx: "npm:^2.1.1"
     esbuild: "npm:^0.24.2"
@@ -2036,15 +2037,6 @@ __metadata:
   dependencies:
     levn: "npm:^0.4.1"
   checksum: 10/e34d02ea1dccd716e51369620263a4b2167aff3c0510ed776e21336cc3ad7158087449a76931baf07cdc33810cb6919db375f2e9f409435d2c6e0dd5f4786b25
-  languageName: node
-  linkType: hard
-
-"@heroicons/react@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@heroicons/react@npm:2.2.0"
-  peerDependencies:
-    react: ">= 16 || ^19.0.0-rc"
-  checksum: 10/5bf8a3faa16f1566165bfaec2448ce3c2bd3e4f49e446ccf233f6aa63626155585eaf7e89f01fb4e8e92dfca3d7113b8c517c3b3c04036b9243c818595db3908
   languageName: node
   linkType: hard
 
@@ -4027,6 +4019,31 @@ __metadata:
     "@typescript-eslint/types": "npm:8.18.1"
     eslint-visitor-keys: "npm:^4.2.0"
   checksum: 10/00e88b1640a68c3afea08731395eb09a8216892248fee819cb7526e99093256743239d6b9e880a499f1c0ddfe2ffa4d1ad895d9e778b5d42e702d5880db1a594
+  languageName: node
+  linkType: hard
+
+"@use-gesture/core@npm:10.3.1":
+  version: 10.3.1
+  resolution: "@use-gesture/core@npm:10.3.1"
+  checksum: 10/66c5bda4cf75927e0d1f9cb1b1a0a06d9812f918dfd634b768b6011385ce7b295ca89e0b016f4fe7a6d97d571726653b75c4271fd7f635bb8c159bf7886ce21c
+  languageName: node
+  linkType: hard
+
+"@use-gesture/react@npm:^10.3.1":
+  version: 10.3.1
+  resolution: "@use-gesture/react@npm:10.3.1"
+  dependencies:
+    "@use-gesture/core": "npm:10.3.1"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 10/2c01c1b73bbdeecb9d51370f9117418953accad6789818e1b50f505dcba9e38685612b3fcb25a5dfcbf3a10ae561506378f5ab7586c773c4485ef86107d53898
+  languageName: node
+  linkType: hard
+
+"@vanilla-extract/css-utils@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@vanilla-extract/css-utils@npm:0.1.4"
+  checksum: 10/37edf1f8a6dae124bc84bc0ed1260b866f563a9e4487cca6888b4eaf8d74c2f07c92566f7290e435deb38c6cba6e4c6b8fb7c22c62917afb22a9491e5d7e4c2c
   languageName: node
   linkType: hard
 
