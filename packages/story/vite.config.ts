@@ -11,16 +11,16 @@ export default defineConfig({
       config: () => {
         return {
           build: {
-            ssr: "./src/index.ts",
+            ssr: "./src/server/main.ts",
             rollupOptions: {
-              input: "./src/index.ts",
+              input: "./src/server/main.ts",
             },
           },
         };
       },
       configureServer: (server) => {
         server.middlewares.use(async (req, res) => {
-          const module = await server.ssrLoadModule("./src/app.ts");
+          const module = await server.ssrLoadModule("./src/server/app.ts");
           const app = module.default as FastifyInstance;
           await app.ready();
           app.routing(req, res);
