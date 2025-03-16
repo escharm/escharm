@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "emitDeclarationOnly": true,
-    "lib": ["esnext"],
+    "lib": ["esnext", "DOM"],
     "paths": {},
     "jsx": "react-jsx"
   },

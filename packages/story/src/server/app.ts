@@ -14,44 +14,49 @@ import http from "./http";
 import http2 from "./http2";
 import routes from "./routes";
 
-const app = (
-  process.env.HTTP2 === "true" ? http2() : http()
-) as FastifyInstance<
-  Http2SecureServer | Server,
-  IncomingMessage | Http2ServerRequest,
-  ServerResponse | Http2ServerResponse
->;
+export interface ICreateAppParams {
+  staticPath?: { prefix: string };
+}
 
-app.register(routes);
+export const createApp = (params?: ICreateAppParams) => {
+  const staticPathPrefix = params?.staticPath?.prefix;
 
-app.register(fastifyStatic, {
-  root: path.join(__dirname, "../../"),
-  index: false,
-  prefixAvoidTrailingSlash: true,
-  list: {
-    format: "html",
-    render: (dirs, files) => {
-      let html = "<h1>Directory Listing</h1><ul>";
+  const app = (
+    process.env.HTTP2 === "true" ? http2() : http()
+  ) as FastifyInstance<
+    Http2SecureServer | Server,
+    IncomingMessage | Http2ServerRequest,
+    ServerResponse | Http2ServerResponse
+  >;
 
-      // 添加父目录链接
-      html += `<li><a href="../">../</a></li>`;
+  app.register(routes);
 
-      // 添加目录项
-      for (const dir of dirs) {
-        html += `<li><a href="${dir.name}/">${dir.name}</a></li>`;
-      }
+  if (staticPathPrefix) {
+    app.register(fastifyStatic, {
+      root: path.join(__dirname, "../../"),
+      index: false,
+      prefixAvoidTrailingSlash: true,
+      prefix: staticPathPrefix,
+      setHeaders(res, path, stat) {
+        res.setHeader("Content-Disposition", "inline");
+      },
+      list: {
+        format: "html",
+        render: (dirs, files) => {
+          return `
+              <html><body>
+              <ul>
+                ${dirs.map((dir) => `<li><a href="${dir.href}">${dir.name}</a></li>`).join("\n  ")}
+                ${files.map((file) => `<li><a href="${file.href}">${file.name}</a></li>`).join("\n  ")}
+              </ul>
+              </body></html>
+          `;
+        },
+      },
+    });
+  }
 
-      // 添加文件项
-      for (const file of files) {
-        html += `<li><a href="${file.name}">${file.name}</a></li>`;
-      }
+  return app;
+};
 
-      html += "</ul>";
-      return html;
-    },
-  },
-});
-
-export default app;
-
-export { app as viteNodeApp };
+export type CreateApp = typeof createApp;

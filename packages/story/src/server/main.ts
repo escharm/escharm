@@ -1,4 +1,4 @@
-import app from "./app";
+import { createApp } from "./app";
 
 const port = 3100;
 
@@ -9,4 +9,4 @@ const callback = (err: Error | null) => {
   }
 };
 
-app.listen({ port, host: "0.0.0.0" }, callback);
+createApp().listen({ port, host: "0.0.0.0" }, callback);
