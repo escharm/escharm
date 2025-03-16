@@ -29,9 +29,14 @@ const vitePlugin = (params?: IParams) => {
     name: "fastify",
     async load(source) {
       if (storyPathTest.test(source)) {
-        const url = new URL(source, "http://localhost");
-        const componentPath =
-          url.searchParams.get("path") || "/src/client/App.tsx";
+        const queryStringMatch = source.match(/\?(.+)$/);
+        const queryString = queryStringMatch ? queryStringMatch[1] : "";
+        const params = new URLSearchParams(queryString);
+        const componentPath = params.get("path");
+
+        if (!componentPath) {
+          return null;
+        }
 
         const code = `
         import { createRoot } from 'react-dom/client';
