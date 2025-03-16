@@ -25,6 +25,27 @@ describe("getInterfaceProps", () => {
     `);
   });
 
+  it("interface + default arrow function", () => {
+    const result = getInterfaceProps(`
+      interface IProps {
+        a: string;
+        b: string;
+      }
+      export default (x: IProps) => {};`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "value": "mockString",
+        },
+        {
+          "key": "b",
+          "value": "mockString",
+        },
+      ]
+    `);
+  });
+
   it("interface + function", () => {
     const result = getInterfaceProps(`
       interface IProps {
@@ -33,6 +54,28 @@ describe("getInterfaceProps", () => {
       }
       export function d(x: IProps) {}
       export default d;`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "value": "mockString",
+        },
+        {
+          "key": "b",
+          "value": "mockString",
+        },
+      ]
+    `);
+  });
+
+  it("interface + default function", () => {
+    const result = getInterfaceProps(`
+      interface IProps {
+        a: string;
+        b: string;
+      }
+
+      export default function d(x: IProps) {}`);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -69,6 +112,27 @@ describe("getInterfaceProps", () => {
     `);
   });
 
+  it("type + default arrow function", () => {
+    const result = getInterfaceProps(`
+      type IProps = {
+        a: string;
+        b: string;
+      };
+      export default (x: IProps) => {};`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "value": "mockString",
+        },
+        {
+          "key": "b",
+          "value": "mockString",
+        },
+      ]
+    `);
+  });
+
   it("type + function", () => {
     const result = getInterfaceProps(`
       type IProps = {
@@ -77,6 +141,27 @@ describe("getInterfaceProps", () => {
       };
       export function d(x: IProps) {}
       export default d;`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "value": "mockString",
+        },
+        {
+          "key": "b",
+          "value": "mockString",
+        },
+      ]
+    `);
+  });
+
+  it("type + default function", () => {
+    const result = getInterfaceProps(`
+      type IProps = {
+        a:string
+        b:string
+      };
+      export default function d(x: IProps) {}`);
     expect(result).toMatchInlineSnapshot(`
       [
         {

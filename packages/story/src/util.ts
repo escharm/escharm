@@ -144,7 +144,7 @@ export const getInterfaceProps = (code: string) => {
           t.isArrowFunctionExpression(binding.path.node.init)
         ) {
           const paramsResults = handleFunctionParams(
-            binding.path,
+            path,
             binding.path.node.init,
           );
           results.push(...paramsResults);
@@ -154,10 +154,7 @@ export const getInterfaceProps = (code: string) => {
           t.isFunctionDeclaration(binding?.path.node) ||
           t.isArrowFunctionExpression(binding?.path.node)
         ) {
-          const paramsResults = handleFunctionParams(
-            binding.path,
-            binding.path.node,
-          );
+          const paramsResults = handleFunctionParams(path, binding.path.node);
           results.push(...paramsResults);
         }
       }
