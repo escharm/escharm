@@ -3,11 +3,14 @@
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/umd/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/umd/index.js",
-      "import": "./dist/esm/index.js"
+      "import": "./dist/esm/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./react": {
       "require": "./dist/umd/react.js",
@@ -23,7 +26,8 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup --config rollup.config.js --bundleConfigAsCjs",
-    "prepack": "rimraf dist && yarn build",
+    "typings": "tsc -v && tsc -b -v",
+    "prepack": "rimraf dist && yarn typings && yarn build",
     "generate:dev": "openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -addext 'subjectAltName = DNS.1:localhost' -keyout server.key -out server.crt"
   },
   "devDependencies": {

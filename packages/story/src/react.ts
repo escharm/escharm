@@ -6,6 +6,7 @@ export interface IParams {
   staticPath?: { prefix: string };
   previewPath?: { prefix: string };
   storyPath?: { prefix: string; test: RegExp };
+  homeTemplate?: (componentPath: string) => string;
 }
 
 export const reactStoryPlugin = (params?: IParams): PluginOption => {
@@ -28,14 +29,16 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
       if (storyPathTest.test(source)) {
         const queryStringMatch = source.match(/\?(.+)$/);
         const queryString = queryStringMatch?.[1];
-        const params = new URLSearchParams(queryString);
-        const componentPath = params.get("path");
+        const searchParams = new URLSearchParams(queryString);
+        const componentPath = searchParams.get("path");
 
         if (!componentPath) {
           return null;
         }
 
-        const code = `
+        const code = params?.homeTemplate
+          ? params.homeTemplate(componentPath)
+          : `
         import { createRoot } from 'react-dom/client';
         import Component from '${componentPath}';
         
@@ -138,7 +141,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
             next();
           }
         } catch (err) {
-          console.error("静态文件服务错误:", err);
+          console.error("static service:", err);
           next();
         }
       });
@@ -187,7 +190,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
           res.writeHead(200, { "Content-Type": "text/html" });
           res.end(transformedContent);
         } catch (err) {
-          console.error("预览路由错误:", err);
+          console.error("preview service:", err);
           res.writeHead(500);
           res.end("Internal Server Error");
         }
