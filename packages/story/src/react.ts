@@ -59,16 +59,6 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
       }
       return null;
     },
-    config: () => {
-      return {
-        build: {
-          ssr: "./src/server/main.ts",
-          rollupOptions: {
-            input: "./src/server/main.ts",
-          },
-        },
-      };
-    },
     configureServer: (server) => {
       server.middlewares.use(staticPathPrefix, async (req, res, next) => {
         const originalUrl = req.url || "";
