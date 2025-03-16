@@ -5,6 +5,7 @@
     "EditorConfig.EditorConfig",
     "mhutchie.git-graph",
     "eamodio.gitlens",
-    "dsznajder.es7-react-js-snippets"
+    "dsznajder.es7-react-js-snippets",
+    "jyee721.babel-ast-explorer"
   ]
 }

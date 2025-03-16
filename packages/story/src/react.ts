@@ -24,7 +24,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
     params?.storyPath?.test ?? new RegExp(`^${defaultStoryPathPrefix}`);
 
   return {
-    name: "fastify",
+    name: "@escharm/story/react",
     async load(source) {
       if (storyPathTest.test(source)) {
         const queryStringMatch = source.match(/\?(.+)$/);
@@ -38,12 +38,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
 
         const code = params?.homeTemplate
           ? params.homeTemplate(componentPath)
-          : `
-        import { createRoot } from 'react-dom/client';
-        import Component from '${componentPath}';
-        
-        const root = createRoot(document.getElementById('root'));
-        root.render(<Component />)`;
+          : defaultHomeTemplate(componentPath);
 
         let transformed;
         try {
@@ -187,4 +182,17 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
       });
     },
   } satisfies PluginOption;
+};
+
+export const defaultHomeTemplate = (componentPath: string) => {
+  // 1. 从 componentPath 加载源码。格式如 /src/Logo.tsx
+  // 2. parse 源代码，获取组件的 props 接口定义 使用 babel
+  // 3. 根据 props 定义生成 mock 数据 使用 @faker-js/faker
+  // 4. 根据 mock 数据生成 组件的使用
+  return `
+    import { createRoot } from 'react-dom/client';
+    import Component from '${componentPath}';
+    
+    const root = createRoot(document.getElementById('root'));
+    root.render(<Component />)`;
 };
