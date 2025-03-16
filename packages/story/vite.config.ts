@@ -30,7 +30,7 @@ const vitePlugin = (params?: IParams) => {
     async load(source) {
       if (storyPathTest.test(source)) {
         const queryStringMatch = source.match(/\?(.+)$/);
-        const queryString = queryStringMatch ? queryStringMatch[1] : "";
+        const queryString = queryStringMatch?.[1];
         const params = new URLSearchParams(queryString);
         const componentPath = params.get("path");
 
