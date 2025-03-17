@@ -1,8 +1,5 @@
 /**
- *
  * @param path path=/src/client/App.tsx
- *
- * @returns
  */
 export function getFixturesPath(path: string) {
   const queryStringMatch = path.match(/\?(.+)$/);
