@@ -6,46 +6,19 @@ function handleTSPropertySignature(
   node: t.TSPropertySignature,
 ) {
   if (t.isIdentifier(node.key) && t.isTSTypeAnnotation(node.typeAnnotation)) {
-    let mockValue;
-
-    switch (node.typeAnnotation.typeAnnotation.type) {
-      case "TSStringKeyword":
-        mockValue = "mockString";
-        break;
-      case "TSNumberKeyword":
-        mockValue = 123;
-        break;
-      case "TSBooleanKeyword":
-        mockValue = true;
-        break;
-      case "TSNullKeyword":
-        mockValue = null;
-        break;
-      case "TSTypeReference":
-        mockValue = `mockTSTypeReference`;
-        break;
-      case "TSArrayType":
-        mockValue = [];
-        break;
-      case "TSObjectKeyword":
-        mockValue = {};
-        break;
-      default:
-        mockValue = null;
-    }
-
     return {
       key: node.key.name,
-      value: mockValue,
+      type: node.typeAnnotation.typeAnnotation.type as t.TSType["type"],
     };
   }
 }
 
+// 更新 results 类型
 function handleFunctionParams(
   path: NodePath,
   node: t.FunctionDeclaration | t.ArrowFunctionExpression,
 ) {
-  const results: Array<{ key: string; value: unknown }> = [];
+  const results: Array<{ key: string; type: t.TSType["type"] }> = [];
 
   node.params.forEach((param) => {
     if (
@@ -122,17 +95,14 @@ function handleFunctionParams(
 export const getInterfaceProps = (code: string) => {
   const ast = parseSync(code, {
     sourceType: "module",
-    plugins: [
-      "@babel/plugin-transform-typescript",
-      "@babel/plugin-transform-react-jsx",
-    ],
+    plugins: [["@babel/plugin-syntax-typescript", { isTSX: true }]],
   });
 
   if (!ast) {
     return null;
   }
 
-  const results: Array<{ key: string; value: unknown }> = [];
+  const results: Array<{ key: string; type: t.TSType["type"] }> = [];
 
   traverse(ast, {
     ExportDefaultDeclaration(path) {
@@ -170,3 +140,22 @@ export const getInterfaceProps = (code: string) => {
 
   return results;
 };
+
+/**
+ *
+ * @param path path=/src/client/App.tsx
+ *
+ * @returns
+ */
+export function getDefaultFixturesPath(path: string) {
+  const queryStringMatch = path.match(/\?(.+)$/);
+  const queryString = queryStringMatch?.[1];
+
+  const searchParams = new URLSearchParams(queryString);
+  const componentPath = searchParams.get("path");
+
+  if (componentPath) {
+    return `/src/fixtures${componentPath.replace("/src", "")}.json`;
+  }
+  return `/src/fixtures${componentPath}.json`;
+}

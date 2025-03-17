@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { getInterfaceProps } from "./util";
 
-describe("getInterfaceProps", () => {
+describe("getInterfaceProps ast test", () => {
   it("interface + arrow function", () => {
     const result = getInterfaceProps(`
       interface IProps {
@@ -15,11 +15,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -36,11 +36,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -58,11 +58,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -80,11 +80,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -102,11 +102,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -123,11 +123,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -145,11 +145,11 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
       ]
     `);
@@ -166,11 +166,68 @@ describe("getInterfaceProps", () => {
       [
         {
           "key": "a",
-          "value": "mockString",
+          "type": "TSStringKeyword",
         },
         {
           "key": "b",
-          "value": "mockString",
+          "type": "TSStringKeyword",
+        },
+      ]
+    `);
+  });
+});
+
+describe("getInterfaceProps ast test", () => {
+  it("interface + arrow function", () => {
+    const result = getInterfaceProps(`
+      interface IProps {
+        a: string;
+        b: string;
+        c: {
+          c1: string;
+        }
+      }
+      export const d = (x: IProps) => {};
+      export default d;`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "type": "TSStringKeyword",
+        },
+        {
+          "key": "b",
+          "type": "TSStringKeyword",
+        },
+        {
+          "key": "c",
+          "type": "TSTypeLiteral",
+        },
+      ]
+    `);
+  });
+});
+
+
+
+describe("getInterfaceProps component test", () => {
+  it("interface + arrow function", () => {
+    const result = getInterfaceProps(`
+      interface IProps {
+        a: string;
+      }
+
+      const Test = (props: IProps) => {
+        const { a } = props;
+        return <div>{a}</div>;
+      };
+
+      export default Test;`);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "key": "a",
+          "type": "TSStringKeyword",
         },
       ]
     `);

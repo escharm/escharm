@@ -15,6 +15,18 @@ export default defineConfig({
         prefix: "/story",
         test: new RegExp(`^/story`),
       },
+      fixturesPath(path) {
+        const queryStringMatch = path.match(/\?(.+)$/);
+        const queryString = queryStringMatch?.[1];
+
+        const searchParams = new URLSearchParams(queryString);
+        const componentPath = searchParams.get("path");
+
+        if (componentPath) {
+          return `/src/hello/fixtures${componentPath.replace("/src", "")}`;
+        }
+        return `/src/hello/fixtures${componentPath}.json`;
+      },
     }),
   ],
   resolve: {

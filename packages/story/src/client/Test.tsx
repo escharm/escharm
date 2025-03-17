@@ -1,9 +1,10 @@
-import React from 'react'
-
-const Test = () => {
-  return (
-    <div>Test</div>
-  )
+interface IProps {
+  a: string;
 }
 
-export default Test
+const Test = (props: IProps) => {
+  const { a } = props;
+  return <div>{a}</div>;
+};
+
+export default Test;

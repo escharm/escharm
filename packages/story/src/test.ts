@@ -1,15 +1,6 @@
-interface IB {
+interface IProps {
   a: string;
+  b: string;
 }
-
-type X = {
-    a:string;
-}
-
-export const d = (x: IB) => {};
-
-export function c(x: IB) {}
-
-export const e = (x: { a: string }) => {};
-
-export default ()=>{};
+export const d = (x: IProps) => {};
+export default d;

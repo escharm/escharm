@@ -2,11 +2,20 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
+import { getDefaultFixturesPath, getInterfaceProps } from "./util";
+
 export interface IParams {
   staticPath?: { prefix: string };
   previewPath?: { prefix: string };
   storyPath?: { prefix: string; test: RegExp };
-  homeTemplate?: (componentPath: string) => string;
+  fixturesPath?: (path: string) => string;
+  homeTemplate?: (
+    componentPath: string,
+    mockData: {
+      name: string;
+      data: Record<string, unknown>;
+    }[],
+  ) => string;
 }
 
 export const reactStoryPlugin = (params?: IParams): PluginOption => {
@@ -36,9 +45,56 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
           return null;
         }
 
+        const fixturesPath =
+          params?.fixturesPath?.(source) ?? getDefaultFixturesPath(source);
+
+        const mockFilePath = path.join(process.cwd(), fixturesPath);
+
+        let mockData: {
+          name: string;
+          data: Record<string, unknown>;
+        }[] = [];
+
+        if (fs.existsSync(mockFilePath)) {
+          try {
+            mockData = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
+          } catch (err) {
+            console.error("Failed to read mock data:", err);
+          }
+        } else {
+          const rawCode = fs.readFileSync(
+            path.join(process.cwd(), componentPath),
+            "utf-8",
+          );
+          const props = getInterfaceProps(rawCode);
+          mockData = [
+            {
+              name: "autoCreate",
+              data:
+                props?.reduce(
+                  (acc, prop) => {
+                    acc[prop.key] = prop.type;
+                    return acc;
+                  },
+                  {} as Record<string, unknown>,
+                ) || {},
+            },
+          ];
+          try {
+            fs.mkdirSync(path.dirname(mockFilePath), { recursive: true });
+            fs.writeFileSync(
+              mockFilePath,
+              JSON.stringify(mockData, null, 2),
+              "utf-8",
+            );
+          } catch (err) {
+            console.error("Failed to write mock data:", err);
+          }
+        }
+
         const code = params?.homeTemplate
-          ? params.homeTemplate(componentPath)
-          : defaultHomeTemplate(componentPath);
+          ? params.homeTemplate(componentPath, mockData)
+          : defaultHomeTemplate(componentPath, mockData);
 
         let transformed;
         try {
@@ -184,15 +240,19 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
   } satisfies PluginOption;
 };
 
-export const defaultHomeTemplate = (componentPath: string) => {
-  // 1. 从 componentPath 加载源码。格式如 /src/Logo.tsx
-  // 2. parse 源代码，获取组件的 props 接口定义 使用 babel
-  // 3. 根据 props 定义生成 mock 数据 使用 @faker-js/faker
-  // 4. 根据 mock 数据生成 组件的使用
+export const defaultHomeTemplate = (
+  componentPath: string,
+  mockData: {
+    name: string;
+    data: Record<string, unknown>;
+  }[],
+) => {
   return `
     import { createRoot } from 'react-dom/client';
     import Component from '${componentPath}';
     
     const root = createRoot(document.getElementById('root'));
-    root.render(<Component />)`;
+    root.render(<Component ${Object.entries(mockData[0].data)
+      .map(([key, value]) => `${key}={${JSON.stringify(value)}}`)
+      .join(" ")} />)`;
 };

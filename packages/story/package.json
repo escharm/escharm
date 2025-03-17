@@ -52,8 +52,7 @@
   "dependencies": {
     "@babel/core": "^7",
     "@babel/helpers": "^7",
-    "@babel/plugin-transform-react-jsx": "^7",
-    "@babel/plugin-transform-typescript": "^7",
+    "@babel/plugin-syntax-typescript": "^7.25.9",
     "@babel/preset-react": "^7",
     "@babel/preset-typescript": "^7",
     "@faker-js/faker": "^9.6.0"

@@ -1677,6 +1677,8 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7"
     "@babel/helpers": "npm:^7"
+    "@babel/plugin-syntax-jsx": "npm:^7.25.9"
+    "@babel/plugin-syntax-typescript": "npm:^7.25.9"
     "@babel/plugin-transform-react-jsx": "npm:^7"
     "@babel/plugin-transform-typescript": "npm:^7"
     "@babel/preset-react": "npm:^7"
