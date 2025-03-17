@@ -85,18 +85,7 @@ export const vueStoryPlugin = (params?: IPluginParams): PluginOption => {
           ? params.homeTemplate(componentPath, mockData)
           : defaultHomeTemplate(componentPath, mockData);
 
-        // let transformed;
-        // try {
-        //   transformed = await transformWithEsbuild(code, source, {
-        //     jsx: "automatic",
-        //     jsxDev: true,
-        //   });
-        // } catch (error) {
-        //   console.error("test test error", source, error);
-        //   return null;
-        // }
         return code;
-        // return transformed.code;
       }
       return null;
     },

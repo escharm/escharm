@@ -85,17 +85,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           ? params.homeTemplate(componentPath, mockData)
           : defaultHomeTemplate(componentPath, mockData);
 
-        let transformed;
-        try {
-          transformed = await transformWithEsbuild(code, source, {
-            jsx: "automatic",
-            jsxDev: true,
-          });
-        } catch (error) {
-          console.error("test test error", source, error);
-          return null;
-        }
-        return transformed.code;
+        return code;
       }
       return null;
     },
