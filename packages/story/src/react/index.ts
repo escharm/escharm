@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
-import { getDefaultFixturesPath, getInterfaceProps } from "./parser";
+import { getDefaultFixturesPath, getProps } from "./parser";
 
 export interface IParams {
   staticPath?: { prefix: string };
@@ -66,7 +66,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
             path.join(process.cwd(), componentPath),
             "utf-8",
           );
-          const props = getInterfaceProps(rawCode);
+          const props = getProps(rawCode);
           mockData = [
             {
               name: "autoCreate",

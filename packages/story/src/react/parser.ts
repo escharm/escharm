@@ -92,7 +92,7 @@ function handleFunctionParams(
   return results;
 }
 
-export const getInterfaceProps = (code: string) => {
+export const getProps = (code: string) => {
   const ast = parseSync(code, {
     sourceType: "module",
     plugins: [["@babel/plugin-syntax-typescript", { isTSX: true }]],

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { getInterfaceProps } from "./parser";
+import { getProps } from "./parser";
 
 describe("getInterfaceProps ast test", () => {
   it("interface + arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
         b: string;
@@ -26,7 +26,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("interface + default arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
         b: string;
@@ -47,7 +47,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("interface + function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
         b: string;
@@ -69,7 +69,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("interface + default function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
         b: string;
@@ -91,7 +91,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("type + arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       type IProps = {
         a: string;
         b: string;
@@ -113,7 +113,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("type + default arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       type IProps = {
         a: string;
         b: string;
@@ -134,7 +134,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("type + function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       type IProps = {
         a:string
         b:string
@@ -156,7 +156,7 @@ describe("getInterfaceProps ast test", () => {
   });
 
   it("type + default function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       type IProps = {
         a:string
         b:string
@@ -179,7 +179,7 @@ describe("getInterfaceProps ast test", () => {
 
 describe("getInterfaceProps ast test", () => {
   it("interface + arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
         b: string;
@@ -212,7 +212,7 @@ describe("getInterfaceProps ast test", () => {
 
 describe("getInterfaceProps component test", () => {
   it("interface + arrow function", () => {
-    const result = getInterfaceProps(`
+    const result = getProps(`
       interface IProps {
         a: string;
       }
