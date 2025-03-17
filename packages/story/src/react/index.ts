@@ -2,25 +2,12 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
+import { IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
 import defaultHomeTemplate from "./homeTemplate";
 import { getProps } from "./parser";
 
-export interface IParams {
-  staticPath?: { prefix: string };
-  previewPath?: { prefix: string };
-  storyPath?: { prefix: string; test: RegExp };
-  fixturesPath?: (path: string) => string;
-  homeTemplate?: (
-    componentPath: string,
-    mockData: {
-      name: string;
-      data: Record<string, unknown>;
-    }[],
-  ) => string;
-}
-
-export const reactStoryPlugin = (params?: IParams): PluginOption => {
+export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
   const defaultStaticPathPrefix = "/static";
   const staticPathPrefix =
     params?.staticPath?.prefix ?? defaultStaticPathPrefix;
@@ -214,14 +201,13 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
               <head>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
                 <title>Preview</title>
-                <script type="module">
-                  ${transformed.code}
-                </script>
               </head>
               <body>
                 <div id="root"></div>
+                <script type="module">
+                  ${transformed.code}
+                </script>
               </body>
             </html>`;
 
