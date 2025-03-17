@@ -35,7 +35,7 @@ const mainConfig = {
 
 // React 入口配置
 const reactConfig = {
-  input: ["./src/react.ts"],
+  input: ["./src/react/index.ts"],
   plugins: createPlugins("react"),
   output: createOutputs("react"),
   external: ["react", "react-dom"],
@@ -43,7 +43,7 @@ const reactConfig = {
 
 // Vue 入口配置
 const vueConfig = {
-  input: ["./src/vue.ts"],
+  input: ["./src/vue/index.ts"],
   plugins: createPlugins("vue"),
   output: createOutputs("vue"),
   external: ["vue"],

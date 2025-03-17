@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
-import { getDefaultFixturesPath, getInterfaceProps } from "./util";
+import { getDefaultFixturesPath, getInterfaceProps } from "./parser";
 
 export interface IParams {
   staticPath?: { prefix: string };
