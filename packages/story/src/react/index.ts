@@ -2,8 +2,9 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
+import { getFixturesPath } from "../utils";
 import defaultHomeTemplate from "./homeTemplate";
-import { getDefaultFixturesPath, getProps } from "./parser";
+import { getProps } from "./parser";
 
 export interface IParams {
   staticPath?: { prefix: string };
@@ -47,7 +48,7 @@ export const reactStoryPlugin = (params?: IParams): PluginOption => {
         }
 
         const fixturesPath =
-          params?.fixturesPath?.(source) ?? getDefaultFixturesPath(source);
+          params?.fixturesPath?.(source) ?? getFixturesPath(source);
 
         const mockFilePath = path.join(process.cwd(), fixturesPath);
 
