@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getProps } from "./parser";
+import { getProps } from "./getProps";
 
 describe("getInterfaceProps ast test", () => {
   it("interface + arrow function", () => {

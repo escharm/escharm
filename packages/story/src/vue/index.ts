@@ -4,8 +4,8 @@ import { PluginOption } from "vite";
 
 import { IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
+import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";
-import { getProps } from "./parser";
 
 export const vueStoryPlugin = (params?: IPluginParams): PluginOption => {
   const defaultStaticPathPrefix = "/static";

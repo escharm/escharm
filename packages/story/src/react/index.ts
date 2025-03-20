@@ -4,9 +4,9 @@ import { PluginOption, transformWithEsbuild } from "vite";
 
 import { IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
+import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";
 import { addDataIdToHtmlTags } from "./htmlMatcher";
-import { getProps } from "./parser";
 
 export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
   const defaultStaticPathPrefix = "/static";
