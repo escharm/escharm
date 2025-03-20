@@ -55,6 +55,7 @@
     "@babel/plugin-syntax-typescript": "^7.25.9",
     "@babel/preset-react": "^7",
     "@babel/preset-typescript": "^7",
-    "@faker-js/faker": "^9.6.0"
+    "@faker-js/faker": "^9.6.0",
+    "valtio": "^2.1.4"
   }
 }

@@ -7,6 +7,7 @@ import { getFixturesPath } from "../utils";
 import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";
 import { addDataIdToHtmlTags } from "./htmlMatcher";
+import { parseToHierarchy } from "./parseToHierarchy";
 
 export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
   const defaultStaticPathPrefix = "/static";
@@ -57,6 +58,9 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           "utf-8",
         );
 
+        // 获取层级数据
+        const hierarchy = parseToHierarchy(processedCode);
+
         if (fs.existsSync(mockFilePath)) {
           try {
             mockData = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
@@ -91,8 +95,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
 
         const code = params?.homeTemplate
-          ? params.homeTemplate(componentPath, mockData)
-          : defaultHomeTemplate(componentPath, mockData);
+          ? params.homeTemplate(componentPath, mockData, hierarchy)
+          : defaultHomeTemplate(componentPath, mockData, hierarchy);
 
         let transformed;
         try {

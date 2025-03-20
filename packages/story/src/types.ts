@@ -1,3 +1,5 @@
+import { IFlatHierarchy } from "./react/types";
+
 export interface IPluginParams {
   staticPath?: { prefix: string };
   previewPath?: { prefix: string };
@@ -9,5 +11,6 @@ export interface IPluginParams {
       name: string;
       data: Record<string, unknown>;
     }[],
+    hierarchy: IFlatHierarchy,
   ) => string;
 }

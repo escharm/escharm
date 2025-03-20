@@ -1700,6 +1700,7 @@ __metadata:
     rollup: "npm:^4.35.0"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.8.2"
+    valtio: "npm:^2.1.4"
     vite: "npm:^6.2.2"
     vitest: "npm:^3.0.8"
   peerDependencies:
@@ -13246,6 +13247,23 @@ __metadata:
     react:
       optional: true
   checksum: 10/460a553fe6b8cee16f6488f6fc581326bed1366fd8069ce03ca54e0b6eb2f2d17118cbe0bd62fca718bdb6dcde3a82dccfbd25bc39c9f67332d42f8d23d9bfdf
+  languageName: node
+  linkType: hard
+
+"valtio@npm:^2.1.4":
+  version: 2.1.4
+  resolution: "valtio@npm:2.1.4"
+  dependencies:
+    proxy-compare: "npm:^3.0.1"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    react: ">=18.0.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10/439a9ae77e101231587bd41286741cc436d5f45e1d2a4a2b4941427664a9e8502c0fda6813a9118046c32e4e4c22ef37ba1b83e191cf3c3e850d54a59eff25b2
   languageName: node
   linkType: hard
 
