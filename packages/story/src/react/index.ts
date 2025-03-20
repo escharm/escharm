@@ -5,6 +5,7 @@ import { PluginOption, transformWithEsbuild } from "vite";
 import { IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
 import defaultHomeTemplate from "./homeTemplate";
+import { addDataIdToHtmlTags } from "./htmlMatcher";
 import { getProps } from "./parser";
 
 export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
@@ -55,6 +56,14 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             path.join(process.cwd(), componentPath),
             "utf-8",
           );
+
+          const processedCode = addDataIdToHtmlTags(rawCode);
+          fs.writeFileSync(
+            path.join(process.cwd(), componentPath),
+            processedCode,
+            "utf-8",
+          );
+
           const props = getProps(rawCode);
           mockData = [
             {
@@ -85,7 +94,21 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           ? params.homeTemplate(componentPath, mockData)
           : defaultHomeTemplate(componentPath, mockData);
 
-        return code;
+        let transformed;
+        try {
+          transformed = await transformWithEsbuild(code, source, {
+            jsx: "automatic",
+            jsxDev: true,
+          });
+        } catch (error) {
+          console.error(
+            "react story plugin transform code error:",
+            source,
+            error,
+          );
+          return null;
+        }
+        return transformed;
       }
       return null;
     },
@@ -179,6 +202,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             reqUrl.replace(previewPathPrefix, storyPathPrefix),
           );
 
+          console.log("test test transformed", transformed);
+
           if (!transformed || !transformed.code) {
             res.writeHead(404);
             res.end("Resource not found or cannot be transformed");
@@ -205,6 +230,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             req.url || "",
             content,
           );
+
+          console.log("test test transformedContent", transformedContent);
 
           res.writeHead(200, { "Content-Type": "text/html" });
           res.end(transformedContent);

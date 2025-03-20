@@ -4,7 +4,7 @@ interface IProps {
 
 const Test = (props: IProps) => {
   const { a } = props;
-  return <div>{a}</div>;
+  return <div data-id="Z-dDqMJMPX5qFrRSvmja7">{a}</div>;
 };
 
 export default Test;
