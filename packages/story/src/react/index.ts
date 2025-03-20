@@ -45,6 +45,18 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           data: Record<string, unknown>;
         }[] = [];
 
+        const rawCode = fs.readFileSync(
+          path.join(process.cwd(), componentPath),
+          "utf-8",
+        );
+
+        const processedCode = addDataIdToHtmlTags(rawCode);
+        fs.writeFileSync(
+          path.join(process.cwd(), componentPath),
+          processedCode,
+          "utf-8",
+        );
+
         if (fs.existsSync(mockFilePath)) {
           try {
             mockData = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
@@ -52,18 +64,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             console.error("Failed to read mock data:", err);
           }
         } else {
-          const rawCode = fs.readFileSync(
-            path.join(process.cwd(), componentPath),
-            "utf-8",
-          );
-
-          const processedCode = addDataIdToHtmlTags(rawCode);
-          fs.writeFileSync(
-            path.join(process.cwd(), componentPath),
-            processedCode,
-            "utf-8",
-          );
-
           const props = getProps(rawCode);
           mockData = [
             {

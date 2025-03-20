@@ -28,6 +28,7 @@ const eslintConfig = tseslint.config(
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-empty-object-type": "off",
     },
   },
 );
