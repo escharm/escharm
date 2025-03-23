@@ -1694,6 +1694,8 @@ __metadata:
     "@types/node": "npm:^22.13.10"
     "@types/react": "npm:^19.0.10"
     "@types/react-dom": "npm:^19.0.4"
+    "@use-gesture/react": "npm:^10.3.1"
+    "@vanilla-extract/css-utils": "npm:^0.1.4"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
     rimraf: "npm:^6.0.1"

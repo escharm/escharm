@@ -9,7 +9,7 @@
     "paths": {},
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "custom.d.ts"],
   "exclude": ["node_modules"],
   "references": []
 }

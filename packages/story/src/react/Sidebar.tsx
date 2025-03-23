@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
+import { useSnapshot } from "valtio";
 
 import { DataContext } from "./DataProvider";
+import { useSelectedHierarchyIds } from "./DataProvider";
 import { IFlatHierarchy, IHierarchy } from "./types";
 
 interface IProps {
@@ -10,13 +12,23 @@ interface IProps {
 
 const HierarchyItem = (props: IProps) => {
   const { item, hierarchy } = props;
+  const selectedIds = useSelectedHierarchyIds();
+  const isSelected = selectedIds.includes(item.id);
   const children = Object.values(hierarchy).filter(
     (child) => child?.parentId === item.id,
   ) as IHierarchy[];
 
   return (
     <div style={{ marginLeft: "16px" }}>
-      <div>{item.name}</div>
+      <div
+        style={{
+          backgroundColor: isSelected ? "#e3f2fd" : "transparent",
+          padding: "4px 8px",
+          borderRadius: "4px",
+        }}
+      >
+        {item.name}
+      </div>
       {children.map((child) => (
         <HierarchyItem key={child.id} item={child} hierarchy={hierarchy} />
       ))}
@@ -25,17 +37,23 @@ const HierarchyItem = (props: IProps) => {
 };
 
 const Sidebar: React.FC = () => {
-  const { hierarchy } = useContext(DataContext);
+  const { hierarchyProxy } = useContext(DataContext);
+  const hierarchy = useSnapshot(hierarchyProxy);
   const rootItems = Object.values(hierarchy).filter(
     (item) => item?.parentId === null,
   ) as IHierarchy[];
+
+  Object.values(hierarchy).filter((item) => {
+    console.log("test test", JSON.stringify(item, null, 2));
+    return item?.parentId === null;
+  });
 
   return (
     <div
       style={{
         position: "fixed",
         top: "16px",
-        right: "16px",
+        left: "16px",
         backgroundColor: "white",
         padding: "16px",
         borderRadius: "8px",
