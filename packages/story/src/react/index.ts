@@ -206,8 +206,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             reqUrl.replace(previewPathPrefix, storyPathPrefix),
           );
 
-          console.log("test test transformed", transformed);
-
           if (!transformed || !transformed.code) {
             res.writeHead(404);
             res.end("Resource not found or cannot be transformed");
@@ -235,8 +233,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             content,
           );
 
-          console.log("test test transformedContent", transformedContent);
-
           res.writeHead(200, { "Content-Type": "text/html" });
           res.end(transformedContent);
         } catch (err) {
@@ -245,6 +241,14 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           res.end("Internal Server Error");
         }
       });
+
+      server.ws.on("hello", (data) => {
+        console.log("hello", data);
+      });
     },
+    // handleHotUpdate({ server }) {
+    //   server.ws.send({ type: "full-reload" });
+    //   return [];
+    // },
   } satisfies PluginOption;
 };

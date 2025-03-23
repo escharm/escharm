@@ -14,8 +14,8 @@ export const useTopLeftResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x}px`).toString();
-    style.top = calc(`${groupedRect.rect.y}px`).toString();
+    style.left = calc(`${groupedRect.rect.x - 2}px`).toString();
+    style.top = calc(`${groupedRect.rect.y - 2}px`).toString();
 
     return style;
   }, [groupedRect]);
@@ -43,10 +43,10 @@ export const useTopRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x}px`)
+    style.left = calc(`${groupedRect.rect.x - 2}px`)
       .add(`${groupedRect.rect.width}px`)
       .toString();
-    style.top = calc(`${groupedRect.rect.y}px`).toString();
+    style.top = calc(`${groupedRect.rect.y - 2}px`).toString();
 
     return style;
   }, [groupedRect]);
@@ -73,8 +73,8 @@ export const useBottomLeftResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x}px`).toString();
-    style.top = calc(`${groupedRect.rect.y}px`)
+    style.left = calc(`${groupedRect.rect.x - 2}px`).toString();
+    style.top = calc(`${groupedRect.rect.y - 2}px`)
       .add(`${groupedRect.rect.height}px`)
       .toString();
 
@@ -103,10 +103,10 @@ export const useBottomRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x}px`)
+    style.left = calc(`${groupedRect.rect.x - 2}px`)
       .add(`${groupedRect.rect.width}px`)
       .toString();
-    style.top = calc(`${groupedRect.rect.y}px`)
+    style.top = calc(`${groupedRect.rect.y - 2}px`)
       .add(`${groupedRect.rect.height}px`)
       .toString();
 
@@ -124,27 +124,11 @@ export const useBottomRightResizer = () => {
   };
 };
 
-export const useResizerGroup = () => {
-  const { topLeft, topLeftBind } = useTopLeftResizer();
-  const { topRight, topRightBind } = useTopRightResizer();
-  const { bottomLeft, bottomLeftBind } = useBottomLeftResizer();
-  const { bottomRight, bottomRightBind } = useBottomRightResizer();
-
-  return {
-    topLeftBind,
-    topRightBind,
-    bottomLeftBind,
-    bottomRightBind,
-    topLeft,
-    topRight,
-    bottomLeft,
-    bottomRight,
-  };
-};
-
-export function useResizerStyle() {
+export const useBodyResizer = () => {
+  const { groupedRectProxy } = useContext(DataContext);
   const groupedRect = useGroupedRect();
-  const style = useMemo(() => {
+
+  const body = useMemo(() => {
     const style = {
       ...groupedRect.style,
       width: calc(`${groupedRect.rect.width}px`).toString(),
@@ -156,6 +140,34 @@ export function useResizerStyle() {
 
     return style;
   }, [groupedRect]);
+  const bodyBind = useDrag(({ delta: [dx, dy] }) => {
+    groupedRectProxy.rect.x += dx;
+    groupedRectProxy.rect.y += dy;
+  });
 
-  return style;
-}
+  return {
+    body,
+    bodyBind,
+  };
+};
+
+export const useResizerGroup = () => {
+  const { body, bodyBind } = useBodyResizer();
+  const { topLeft, topLeftBind } = useTopLeftResizer();
+  const { topRight, topRightBind } = useTopRightResizer();
+  const { bottomLeft, bottomLeftBind } = useBottomLeftResizer();
+  const { bottomRight, bottomRightBind } = useBottomRightResizer();
+
+  return {
+    bodyBind,
+    topLeftBind,
+    topRightBind,
+    bottomLeftBind,
+    bottomRightBind,
+    body,
+    topLeft,
+    topRight,
+    bottomLeft,
+    bottomRight,
+  };
+};

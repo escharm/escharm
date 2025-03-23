@@ -1,24 +1,25 @@
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useEffect } from "react";
 
 import {
   useFlatHierarchy,
   useSelectedHierarchyIds,
   useSetSelectedHierarchyId,
 } from "./DataProvider";
-import { useResizerGroup, useResizerStyle } from "./useResizerGroup";
+import { useResizerGroup } from "./useResizerGroup";
 
 const GroupResizer = () => {
   const {
+    bodyBind,
     topLeftBind,
     topRightBind,
     bottomLeftBind,
     bottomRightBind,
+    body,
     topLeft,
     topRight,
     bottomLeft,
     bottomRight,
   } = useResizerGroup();
-  const style = useResizerStyle();
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const setSelectedHierarchyId = useSetSelectedHierarchyId();
   const flatHierarchy = useFlatHierarchy();
@@ -76,6 +77,12 @@ const GroupResizer = () => {
     [flatHierarchy, selectedHierarchyIds, setSelectedHierarchyId],
   );
 
+  useEffect(() => {
+    if (import.meta.hot) {
+      import.meta.hot.send("hello", { name: "" });
+    }
+  }, []);
+
   if (selectedHierarchyIds.length === 0) {
     return null;
   }
@@ -83,13 +90,15 @@ const GroupResizer = () => {
   return (
     <Fragment>
       <div
+        {...bodyBind()}
         className="absolute bg-blue-400 opacity-50"
         onDoubleClickCapture={handleDoubleClick}
         style={{
           position: "absolute",
           backgroundColor: "blue",
           opacity: 0.5,
-          ...style,
+          cursor: "move",
+          ...body,
         }}
       />
       <div
@@ -97,36 +106,40 @@ const GroupResizer = () => {
         style={{
           position: "absolute",
           backgroundColor: "black",
+          cursor: "nwse-resize", // 左上角
           ...topLeft,
         }}
-        className="top-left absolute bg-black cursor-move"
+        className="top-left absolute bg-black"
       />
       <div
         {...topRightBind()}
         style={{
           position: "absolute",
           backgroundColor: "black",
+          cursor: "nesw-resize", // 右上角
           ...topRight,
         }}
-        className="top-right absolute bg-black cursor-move"
+        className="top-right absolute bg-black"
       />
       <div
         {...bottomLeftBind()}
         style={{
           position: "absolute",
           backgroundColor: "black",
+          cursor: "nesw-resize", // 左下角
           ...bottomLeft,
         }}
-        className="bottom-left absolute bg-black cursor-move"
+        className="bottom-left absolute bg-black"
       />
       <div
         {...bottomRightBind()}
         style={{
           position: "absolute",
           backgroundColor: "black",
+          cursor: "nwse-resize", // 右下角
           ...bottomRight,
         }}
-        className="bottom-right absolute bg-black cursor-move"
+        className="bottom-right absolute bg-black"
       />
     </Fragment>
   );
