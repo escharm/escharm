@@ -2,10 +2,10 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import { DataContext, useGroupedRect } from "./DataProvider";
+import { StoryContext, useGroupedRect } from "./DataProvider";
 
 export const useTopLeftResizer = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const topLeft: CSSProperties = useMemo(() => {
@@ -21,10 +21,10 @@ export const useTopLeftResizer = () => {
   }, [groupedRect]);
 
   const topLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedRectProxy.rect.x += dx;
-    groupedRectProxy.rect.width -= dx;
-    groupedRectProxy.rect.y += dy;
-    groupedRectProxy.rect.height -= dy;
+    groupedProxy.rect.x += dx;
+    groupedProxy.rect.width -= dx;
+    groupedProxy.rect.y += dy;
+    groupedProxy.rect.height -= dy;
   });
 
   return {
@@ -34,7 +34,7 @@ export const useTopLeftResizer = () => {
 };
 
 export const useTopRightResizer = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const topRight: CSSProperties = useMemo(() => {
@@ -52,9 +52,9 @@ export const useTopRightResizer = () => {
   }, [groupedRect]);
 
   const topRightBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedRectProxy.rect.width += dx;
-    groupedRectProxy.rect.y += dy;
-    groupedRectProxy.rect.height -= dy;
+    groupedProxy.rect.width += dx;
+    groupedProxy.rect.y += dy;
+    groupedProxy.rect.height -= dy;
   });
 
   return {
@@ -64,7 +64,7 @@ export const useTopRightResizer = () => {
 };
 
 export const useBottomLeftResizer = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const bottomLeft: CSSProperties = useMemo(() => {
@@ -82,9 +82,9 @@ export const useBottomLeftResizer = () => {
   }, [groupedRect]);
 
   const bottomLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedRectProxy.rect.x += dx;
-    groupedRectProxy.rect.width -= dx;
-    groupedRectProxy.rect.height += dy;
+    groupedProxy.rect.x += dx;
+    groupedProxy.rect.width -= dx;
+    groupedProxy.rect.height += dy;
   });
 
   return {
@@ -94,7 +94,7 @@ export const useBottomLeftResizer = () => {
 };
 
 export const useBottomRightResizer = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const bottomRight: CSSProperties = useMemo(() => {
@@ -114,8 +114,8 @@ export const useBottomRightResizer = () => {
   }, [groupedRect]);
 
   const bottomRightBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedRectProxy.rect.width += dx;
-    groupedRectProxy.rect.height += dy;
+    groupedProxy.rect.width += dx;
+    groupedProxy.rect.height += dy;
   });
 
   return {
@@ -125,12 +125,11 @@ export const useBottomRightResizer = () => {
 };
 
 export const useBodyResizer = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const body = useMemo(() => {
-    const style = {
-      ...groupedRect.style,
+    const style: CSSProperties = {
       width: calc(`${groupedRect.rect.width}px`).toString(),
       height: calc(`${groupedRect.rect.height}px`).toString(),
     };
@@ -141,8 +140,8 @@ export const useBodyResizer = () => {
     return style;
   }, [groupedRect]);
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedRectProxy.rect.x += dx;
-    groupedRectProxy.rect.y += dy;
+    groupedProxy.rect.x += dx;
+    groupedProxy.rect.y += dy;
   });
 
   return {

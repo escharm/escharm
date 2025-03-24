@@ -1,24 +1,26 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { createContext } from "react";
-import { proxy, useSnapshot } from "valtio";
+import { proxy, subscribe, useSnapshot } from "valtio";
 
 import {
   IFlatHierarchy,
   IFlatStructure,
-  IGroupedRect,
+  IGrouped,
   IHierarchy,
   IRect,
 } from "./types";
 
-interface IDataContext {
+interface IStoryContext {
+  mockData?: Record<string, unknown>;
+  filePath?: string;
   hierarchyProxy: IFlatHierarchy;
-  groupedRectProxy: IGroupedRect;
+  groupedProxy: IGrouped;
 }
 
-const createDefaultData = (defaultValue?: IFlatHierarchy): IDataContext => {
-  const hierarchyProxy = proxy<IFlatHierarchy>(defaultValue ?? {});
+const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
+  const hierarchyProxy = defaultValue ?? {};
 
-  const groupedRectProxy = proxy<IGroupedRect>({
+  const groupedProxy = {
     selectedHierarchyIds: [],
     selectedRects: {},
     rect: {
@@ -33,16 +35,16 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IDataContext => {
       width: 0,
       height: 0,
     },
-    style: {},
-  });
+  };
+
   return proxy({
     hierarchyProxy,
-    groupedRectProxy,
+    groupedProxy,
   });
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const DataContext = createContext<IDataContext>(createDefaultData());
+export const StoryContext = createContext<IStoryContext>(createDefaultData());
 
 interface IProps {
   defaultValue?: IFlatHierarchy;
@@ -51,12 +53,14 @@ interface IProps {
 
 const DataProvider = (props: IProps) => {
   const { children, defaultValue } = props;
-  const defaultValueRef = useRef<IDataContext>(createDefaultData(defaultValue));
+  const defaultValueRef = useRef<IStoryContext>(
+    createDefaultData(defaultValue),
+  );
 
   return (
-    <DataContext.Provider value={defaultValueRef.current}>
+    <StoryContext.Provider value={defaultValueRef.current}>
       {children}
-    </DataContext.Provider>
+    </StoryContext.Provider>
   );
 };
 
@@ -64,13 +68,13 @@ export default DataProvider;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useGroupedRect = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy: groupedRectProxy } = useContext(StoryContext);
   return useSnapshot(groupedRectProxy);
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useSelectedHierarchyIds = () => {
-  const { groupedRectProxy } = useContext(DataContext);
+  const { groupedProxy: groupedRectProxy } = useContext(StoryContext);
   return useSnapshot(groupedRectProxy).selectedHierarchyIds;
 };
 
@@ -85,18 +89,19 @@ export const find = <T,>(
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useHierarchy(id: string | undefined): Partial<IHierarchy> {
-  const { hierarchyProxy } = useContext(DataContext);
+  const { hierarchyProxy } = useContext(StoryContext);
 
   return useSnapshot(find(hierarchyProxy, id));
 }
 
 export const useFlatHierarchy = () => {
-  const { hierarchyProxy } = useContext(DataContext);
+  const { hierarchyProxy } = useContext(StoryContext);
   return useSnapshot(hierarchyProxy);
 };
 
 export const useSelectHierarchy = () => {
-  const { groupedRectProxy, hierarchyProxy } = useContext(DataContext);
+  const { groupedProxy: groupedRectProxy, hierarchyProxy } =
+    useContext(StoryContext);
 
   const selectedHierarchy = useCallback(
     (hierarchyId: string) => {
@@ -148,7 +153,8 @@ export const useSelectHierarchy = () => {
 };
 
 export const useSetSelectedHierarchyId = () => {
-  const { groupedRectProxy, hierarchyProxy } = useContext(DataContext);
+  const { groupedProxy: groupedRectProxy, hierarchyProxy } =
+    useContext(StoryContext);
 
   const toggleSelect = useCallback(
     (hierarchyId: string) => {
@@ -214,4 +220,43 @@ export const getHierarchyRect = (
 
   const rect = element.getBoundingClientRect();
   return rect;
+};
+
+export const useSyncHierarchy = () => {
+  const storyContext = useContext(StoryContext);
+
+  useEffect(() => {
+    if (import.meta.hot) {
+      import.meta.hot.send("INIT_STORY_CONTEXT", () => {});
+    }
+  }, []);
+
+  const onInitStoryContext = useCallback(
+    (newStoryContext: IStoryContext) => {
+      (Object.keys(newStoryContext) as Array<keyof IStoryContext>).forEach(
+        (key) => {
+          const value = newStoryContext[key];
+          (storyContext[key] as typeof value) = value;
+        },
+      );
+    },
+    [storyContext],
+  );
+
+  useEffect(() => {
+    if (import.meta.hot) {
+      import.meta.hot.on("INIT_STORY_CONTEXT", onInitStoryContext);
+      return () => {
+        import.meta.hot?.off("INIT_STORY_CONTEXT", onInitStoryContext);
+      };
+    }
+  }, [onInitStoryContext]);
+
+  useEffect(() => {
+    subscribe(storyContext, () => {
+      if (import.meta.hot) {
+        import.meta.hot.send("PUSH_STORY_CONTEXT", { value: storyContext });
+      }
+    });
+  }, [storyContext]);
 };

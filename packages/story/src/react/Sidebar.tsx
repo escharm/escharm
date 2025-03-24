@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useSnapshot } from "valtio";
 
-import { DataContext } from "./DataProvider";
+import { StoryContext } from "./DataProvider";
 import { useSelectedHierarchyIds } from "./DataProvider";
 import { IFlatHierarchy, IHierarchy } from "./types";
 
@@ -37,7 +37,7 @@ const HierarchyItem = (props: IProps) => {
 };
 
 const Sidebar: React.FC = () => {
-  const { hierarchyProxy } = useContext(DataContext);
+  const { hierarchyProxy } = useContext(StoryContext);
   const hierarchy = useSnapshot(hierarchyProxy);
   const rootItems = Object.values(hierarchy).filter(
     (item) => item?.parentId === null,
