@@ -1,9 +1,6 @@
 import React from "react";
 
-import {
-  useSelectedHierarchyIds,
-  useSetSelectedHierarchyId,
-} from "./StoryProvider";
+import { useSetSelectedHierarchyId } from "./hierarchy";
 
 interface CaptureProps {
   children: React.ReactNode;

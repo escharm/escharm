@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IHierarchy } from "../types";
+import { useSelectedHierarchyIds } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
-import { useSelectedHierarchyIds } from "./StoryProvider";
 
 interface IProps {
   item: IHierarchy;
@@ -38,12 +38,12 @@ const HierarchyItem = (props: IProps) => {
 
 const Sidebar: React.FC = () => {
   const { hierarchyProxy } = useContext(StoryContext);
-  const hierarchy = useSnapshot(hierarchyProxy);
-  const rootItems = Object.values(hierarchy).filter(
+  const hierarchies = useSnapshot(hierarchyProxy);
+  const rootItems = Object.values(hierarchies).filter(
     (item) => item?.parentId === null,
   ) as IHierarchy[];
 
-  Object.values(hierarchy).filter((item) => {
+  Object.values(hierarchies).filter((item) => {
     console.log("test test", JSON.stringify(item, null, 2));
     return item?.parentId === null;
   });
@@ -64,7 +64,7 @@ const Sidebar: React.FC = () => {
     >
       <h3 style={{ margin: "0 0 16px 0" }}>层级目录</h3>
       {rootItems.map((item) => (
-        <HierarchyItem key={item.id} item={item} hierarchy={hierarchy} />
+        <HierarchyItem key={item.id} item={item} hierarchy={hierarchies} />
       ))}
     </div>
   );

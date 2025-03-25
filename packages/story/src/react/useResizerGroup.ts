@@ -2,10 +2,11 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import { StoryContext, useGroupedRect } from "./StoryProvider";
+import { useGroupedRect } from "./hierarchy";
+import { StoryContext } from "./StoryProvider";
 
 export const useTopLeftResizer = () => {
-  const { groupedProxy } = useContext(StoryContext);
+  const { groupProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const topLeft: CSSProperties = useMemo(() => {
@@ -21,10 +22,10 @@ export const useTopLeftResizer = () => {
   }, [groupedRect]);
 
   const topLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedProxy.rect.x += dx;
-    groupedProxy.rect.width -= dx;
-    groupedProxy.rect.y += dy;
-    groupedProxy.rect.height -= dy;
+    groupProxy.rect.x += dx;
+    groupProxy.rect.width -= dx;
+    groupProxy.rect.y += dy;
+    groupProxy.rect.height -= dy;
   });
 
   return {
@@ -34,7 +35,7 @@ export const useTopLeftResizer = () => {
 };
 
 export const useTopRightResizer = () => {
-  const { groupedProxy } = useContext(StoryContext);
+  const { groupProxy: groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const topRight: CSSProperties = useMemo(() => {
@@ -64,7 +65,7 @@ export const useTopRightResizer = () => {
 };
 
 export const useBottomLeftResizer = () => {
-  const { groupedProxy } = useContext(StoryContext);
+  const { groupProxy: groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const bottomLeft: CSSProperties = useMemo(() => {
@@ -94,7 +95,7 @@ export const useBottomLeftResizer = () => {
 };
 
 export const useBottomRightResizer = () => {
-  const { groupedProxy } = useContext(StoryContext);
+  const { groupProxy: groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const bottomRight: CSSProperties = useMemo(() => {
@@ -125,7 +126,7 @@ export const useBottomRightResizer = () => {
 };
 
 export const useBodyResizer = () => {
-  const { groupedProxy } = useContext(StoryContext);
+  const { groupProxy: groupedProxy } = useContext(StoryContext);
   const groupedRect = useGroupedRect();
 
   const body = useMemo(() => {
