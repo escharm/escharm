@@ -12,11 +12,26 @@ Story 是一个类似于 Vite 的开发工具，专注于以下核心功能：
 
 ### 阶段一：基础架构搭建
 
-- [ x ] 基于 fastify 实现 HTTP 服务器
-- [ x ] 使用 vite 启动 HTTP 服务器
-- [ x ] 配置开发环境（TypeScript、ESLint、Prettier 等）
+- [x] 基于 fastify 实现 HTTP 服务器
+- [x] 使用 vite 启动 HTTP 服务器
+- [x] 配置开发环境（TypeScript、ESLint、Prettier 等）
 
 ### 阶段二：开发服务器实现
 
-- [ x ] 支持静态资源服务
-- [ x ] 实现动态组件加载
+- [x] 支持静态资源服务
+- [x] 实现动态组件加载
+
+### 阶段三：story 基础
+
+- [x] 实现侧边栏
+- [x] 点击交互
+- [x] 拖拽交互
+- [x] 双击交互
+
+### 阶段四：story 动态加载数据
+
+- [] 添加 stories 侧边栏
+    - 无参数时，展开状态
+    - 有参数时，收起状态
+- [] 点击 stories 侧边栏具体项，跳转到 story
+- [] 使用 server 能力加载 story 数据
