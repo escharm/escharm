@@ -23,9 +23,9 @@ export default defineConfig({
         const componentPath = searchParams.get("path");
 
         if (componentPath) {
-          return `/src/hello/fixtures${componentPath.replace("/src", "")}.json`;
+          return `/src/stories${componentPath.replace("/src", "")}.json`;
         }
-        return `/src/hello/fixtures${componentPath}.json`;
+        return `/src/stories${componentPath}.json`;
       },
     }),
   ],

@@ -10,10 +10,10 @@ const homeTemplate = (
 ) => {
   return `
     import { createRoot } from 'react-dom/client';
-    import StoryProvider from '/src/react/StoryProvider';
-    import Sidebar from '/src/react/Sidebar';
-    import GroupResizer from '/src/react/GroupResizer';
-    import Capture from '/src/react/Capture';
+    import StoryProvider from '/src/components/StoryProvider';
+    import Sidebar from '/src/components/Sidebar';
+    import GroupResizer from '/src/components/GroupResizer';
+    import Capture from '/src/components/Capture';
     import Component from '${componentPath}';
 
     const hierarchy = ${JSON.stringify(hierarchy, null, 2)};
