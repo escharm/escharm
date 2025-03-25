@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { IFlatHierarchy } from "../types";
 import homeTemplate from "./homeTemplate";
-import { IFlatHierarchy } from "./types";
 
 describe("homeTemplate", () => {
   const mockHierarchy: IFlatHierarchy = {};

@@ -1,7 +1,7 @@
 import { parseSync, traverse } from "@babel/core";
 import * as t from "@babel/types";
 
-import { IFlatHierarchy, IHierarchy } from "./types";
+import { IFlatHierarchy, IHierarchy } from "../types";
 
 function createHierarchy(
   node: t.JSXElement,

@@ -1,4 +1,4 @@
-import { IFlatHierarchy } from "./types";
+import { IFlatHierarchy } from "../types";
 
 const homeTemplate = (
   componentPath: string,

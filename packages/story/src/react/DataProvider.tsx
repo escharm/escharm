@@ -8,7 +8,7 @@ import {
   IGrouped,
   IHierarchy,
   IRect,
-} from "./types";
+} from "../types";
 
 interface IStoryContext {
   mockData?: Record<string, unknown>;
@@ -29,11 +29,13 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
       width: 0,
       height: 0,
     },
-    offfsetRect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+    manualData: {
+      offfsetRect: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      },
     },
   };
 
