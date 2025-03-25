@@ -5,7 +5,7 @@ import { proxy, subscribe, useSnapshot } from "valtio";
 import {
   IFlatHierarchy,
   IFlatStructure,
-  IGrouped,
+  IGroup,
   IHierarchy,
   IRect,
 } from "../types";
@@ -14,7 +14,7 @@ interface IStoryContext {
   mockData?: Record<string, unknown>;
   filePath?: string;
   hierarchyProxy: IFlatHierarchy;
-  groupedProxy: IGrouped;
+  groupedProxy: IGroup;
 }
 
 const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {

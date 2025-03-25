@@ -2,10 +2,10 @@ import { IFlatHierarchy } from "../types";
 
 const homeTemplate = (
   componentPath: string,
-  mockData: {
+  story: {
     name: string;
     data: Record<string, unknown>;
-  }[],
+  },
   hierarchy: IFlatHierarchy,
 ) => {
   return `
@@ -17,15 +17,14 @@ const homeTemplate = (
     import Component from '${componentPath}';
 
     const hierarchy = ${JSON.stringify(hierarchy, null, 2)};
+    const storyData = ${JSON.stringify(story.data, null, 2)};
     
     const root = createRoot(document.getElementById('root'));
     root.render(
       <DataProvider defaultValue={hierarchy}>
         <Sidebar />
         <Capture>
-          <Component ${Object.entries(mockData[0].data)
-          .map(([key, value]) => `${key}={${JSON.stringify(value)}}`)
-          .join(" ")} />
+          <Component {...storyData} />
         </Capture>
         <GroupResizer />
       </DataProvider>

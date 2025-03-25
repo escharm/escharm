@@ -20,7 +20,7 @@ export interface IHierarchy {
 
 export interface IFlatHierarchy extends IFlatStructure<IHierarchy> {}
 
-export interface IGrouped {
+export interface IGroup {
   selectedHierarchyIds: string[];
   selectedRects: IFlatStructure<IRect>;
   rect: IRect;
@@ -29,12 +29,14 @@ export interface IGrouped {
   };
 }
 
+export interface IStory {
+  name: string;
+  data: Record<string, unknown>;
+}
+
 export interface IStoryData {
-  stories: {
-    name: string;
-    data: Record<string, unknown>;
-    grouped: IGrouped;
-  }[];
+  stories: IStory[];
+  groups: Record<string, IGroup | undefined>;
   hierarchies: IFlatHierarchy;
 }
 
@@ -45,10 +47,7 @@ export interface IPluginParams {
   fixturesPath?: (path: string) => string;
   homeTemplate?: (
     componentPath: string,
-    mockData: {
-      name: string;
-      data: Record<string, unknown>;
-    }[],
+    story: IStory,
     hierarchy: IFlatHierarchy,
   ) => string;
 }

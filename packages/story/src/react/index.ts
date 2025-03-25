@@ -41,7 +41,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
 
         const mockFilePath = path.join(process.cwd(), fixturesPath);
 
-        let mockData: {
+        let story: {
           name: string;
           data: Record<string, unknown>;
         }[] = [];
@@ -63,13 +63,13 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
 
         if (fs.existsSync(mockFilePath)) {
           try {
-            mockData = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
+            story = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
           } catch (err) {
             console.error("Failed to read mock data:", err);
           }
         } else {
           const props = getProps(rawCode);
-          mockData = [
+          story = [
             {
               name: "autoCreate",
               data:
@@ -86,7 +86,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             fs.mkdirSync(path.dirname(mockFilePath), { recursive: true });
             fs.writeFileSync(
               mockFilePath,
-              JSON.stringify(mockData, null, 2),
+              JSON.stringify(story, null, 2),
               "utf-8",
             );
           } catch (err) {
@@ -95,8 +95,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
 
         const code = params?.homeTemplate
-          ? params.homeTemplate(componentPath, mockData, hierarchy)
-          : defaultHomeTemplate(componentPath, mockData, hierarchy);
+          ? params.homeTemplate(componentPath, story[0], hierarchy)
+          : defaultHomeTemplate(componentPath, story[0], hierarchy);
 
         let transformed;
         try {
