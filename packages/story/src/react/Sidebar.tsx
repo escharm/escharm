@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IHierarchy } from "../types";
-import { StoryContext } from "./DataProvider";
-import { useSelectedHierarchyIds } from "./DataProvider";
+import { StoryContext } from "./StoryProvider";
+import { useSelectedHierarchyIds } from "./StoryProvider";
 
 interface IProps {
   item: IHierarchy;

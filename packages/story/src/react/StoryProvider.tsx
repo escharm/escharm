@@ -53,7 +53,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const DataProvider = (props: IProps) => {
+const StoryProvider = (props: IProps) => {
   const { children, defaultValue } = props;
   const defaultValueRef = useRef<IStoryContext>(
     createDefaultData(defaultValue),
@@ -66,7 +66,7 @@ const DataProvider = (props: IProps) => {
   );
 };
 
-export default DataProvider;
+export default StoryProvider;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useGroupedRect = () => {

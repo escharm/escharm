@@ -2,7 +2,7 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import { StoryContext, useGroupedRect } from "./DataProvider";
+import { StoryContext, useGroupedRect } from "./StoryProvider";
 
 export const useTopLeftResizer = () => {
   const { groupedProxy } = useContext(StoryContext);

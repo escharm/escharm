@@ -20,7 +20,7 @@ describe("homeTemplate", () => {
     const result = homeTemplate(componentPath, story, mockHierarchy);
     expect(result.trim()).toMatchInlineSnapshot(`
       "import { createRoot } from 'react-dom/client';
-          import DataProvider from '/src/react/DataProvider';
+          import StoryProvider from '/src/react/StoryProvider';
           import Sidebar from '/src/react/Sidebar';
           import GroupResizer from '/src/react/GroupResizer';
           import Capture from '/src/react/Capture';
@@ -35,13 +35,13 @@ describe("homeTemplate", () => {
           
           const root = createRoot(document.getElementById('root'));
           root.render(
-            <DataProvider defaultValue={hierarchy}>
+            <StoryProvider defaultValue={hierarchy}>
               <Sidebar />
               <Capture>
                 <Component {...storyData} />
               </Capture>
               <GroupResizer />
-            </DataProvider>
+            </StoryProvider>
           )"
     `);
   });
@@ -56,7 +56,7 @@ describe("homeTemplate", () => {
     const result = homeTemplate(componentPath, story, mockHierarchy);
     expect(result.trim()).toMatchInlineSnapshot(`
       "import { createRoot } from 'react-dom/client';
-          import DataProvider from '/src/react/DataProvider';
+          import StoryProvider from '/src/react/StoryProvider';
           import Sidebar from '/src/react/Sidebar';
           import GroupResizer from '/src/react/GroupResizer';
           import Capture from '/src/react/Capture';
@@ -67,13 +67,13 @@ describe("homeTemplate", () => {
           
           const root = createRoot(document.getElementById('root'));
           root.render(
-            <DataProvider defaultValue={hierarchy}>
+            <StoryProvider defaultValue={hierarchy}>
               <Sidebar />
               <Capture>
                 <Component {...storyData} />
               </Capture>
               <GroupResizer />
-            </DataProvider>
+            </StoryProvider>
           )"
     `);
   });
@@ -90,7 +90,7 @@ describe("homeTemplate", () => {
     const result = homeTemplate(componentPath, story, mockHierarchy);
     expect(result.trim()).toMatchInlineSnapshot(`
       "import { createRoot } from 'react-dom/client';
-          import DataProvider from '/src/react/DataProvider';
+          import StoryProvider from '/src/react/StoryProvider';
           import Sidebar from '/src/react/Sidebar';
           import GroupResizer from '/src/react/GroupResizer';
           import Capture from '/src/react/Capture';
@@ -103,13 +103,13 @@ describe("homeTemplate", () => {
           
           const root = createRoot(document.getElementById('root'));
           root.render(
-            <DataProvider defaultValue={hierarchy}>
+            <StoryProvider defaultValue={hierarchy}>
               <Sidebar />
               <Capture>
                 <Component {...storyData} />
               </Capture>
               <GroupResizer />
-            </DataProvider>
+            </StoryProvider>
           )"
     `);
   });

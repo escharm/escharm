@@ -10,7 +10,7 @@ const homeTemplate = (
 ) => {
   return `
     import { createRoot } from 'react-dom/client';
-    import DataProvider from '/src/react/DataProvider';
+    import StoryProvider from '/src/react/StoryProvider';
     import Sidebar from '/src/react/Sidebar';
     import GroupResizer from '/src/react/GroupResizer';
     import Capture from '/src/react/Capture';
@@ -21,13 +21,13 @@ const homeTemplate = (
     
     const root = createRoot(document.getElementById('root'));
     root.render(
-      <DataProvider defaultValue={hierarchy}>
+      <StoryProvider defaultValue={hierarchy}>
         <Sidebar />
         <Capture>
           <Component {...storyData} />
         </Capture>
         <GroupResizer />
-      </DataProvider>
+      </StoryProvider>
     )`;
 };
 

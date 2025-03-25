@@ -3,7 +3,7 @@ import React from "react";
 import {
   useSelectedHierarchyIds,
   useSetSelectedHierarchyId,
-} from "./DataProvider";
+} from "./StoryProvider";
 
 interface CaptureProps {
   children: React.ReactNode;

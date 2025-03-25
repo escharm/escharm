@@ -4,7 +4,7 @@ import {
   useFlatHierarchy,
   useSelectedHierarchyIds,
   useSetSelectedHierarchyId,
-} from "./DataProvider";
+} from "./StoryProvider";
 import { useResizerGroup } from "./useResizerGroup";
 
 const GroupResizer = () => {
