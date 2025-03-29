@@ -293,5 +293,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
       });
     },
+    handleHotUpdate() {
+      return [];
+    },
   } satisfies PluginOption;
 };
