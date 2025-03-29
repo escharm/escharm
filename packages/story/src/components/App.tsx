@@ -1,3 +1,5 @@
+import "./App.css";
+
 import Capture from "./Capture";
 import ComponentTemplate from "./ComponentTemplate";
 import GroupResizer from "./GroupResizer";
