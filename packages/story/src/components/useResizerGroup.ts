@@ -6,8 +6,8 @@ import { useGroup } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
 
 export const useTopLeftResizer = () => {
-  const { group: groupProxy } = useContext(StoryContext);
-  const groupedRect = useGroup();
+  const storyProxy = useContext(StoryContext);
+  const group = useGroup();
 
   const topLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -15,17 +15,17 @@ export const useTopLeftResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x - 2}px`).toString();
-    style.top = calc(`${groupedRect.rect.y - 2}px`).toString();
+    style.left = calc(`${group.rect.x - 2}px`).toString();
+    style.top = calc(`${group.rect.y - 2}px`).toString();
 
     return style;
-  }, [groupedRect]);
+  }, [group]);
 
   const topLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    groupProxy.rect.x += dx;
-    groupProxy.rect.width -= dx;
-    groupProxy.rect.y += dy;
-    groupProxy.rect.height -= dy;
+    storyProxy.group.rect.x += dx;
+    storyProxy.group.rect.width -= dx;
+    storyProxy.group.rect.y += dy;
+    storyProxy.group.rect.height -= dy;
   });
 
   return {
@@ -35,8 +35,8 @@ export const useTopLeftResizer = () => {
 };
 
 export const useTopRightResizer = () => {
-  const { group: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroup();
+  const storyProxy = useContext(StoryContext);
+  const group = useGroup();
 
   const topRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -44,18 +44,18 @@ export const useTopRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x - 2}px`)
-      .add(`${groupedRect.rect.width}px`)
+    style.left = calc(`${group.rect.x - 2}px`)
+      .add(`${group.rect.width}px`)
       .toString();
-    style.top = calc(`${groupedRect.rect.y - 2}px`).toString();
+    style.top = calc(`${group.rect.y - 2}px`).toString();
 
     return style;
-  }, [groupedRect]);
+  }, [group]);
 
   const topRightBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedProxy.rect.width += dx;
-    groupedProxy.rect.y += dy;
-    groupedProxy.rect.height -= dy;
+    storyProxy.group.rect.width += dx;
+    storyProxy.group.rect.y += dy;
+    storyProxy.group.rect.height -= dy;
   });
 
   return {
@@ -65,8 +65,8 @@ export const useTopRightResizer = () => {
 };
 
 export const useBottomLeftResizer = () => {
-  const { group: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroup();
+  const storyProxy = useContext(StoryContext);
+  const group = useGroup();
 
   const bottomLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -74,18 +74,18 @@ export const useBottomLeftResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x - 2}px`).toString();
-    style.top = calc(`${groupedRect.rect.y - 2}px`)
-      .add(`${groupedRect.rect.height}px`)
+    style.left = calc(`${group.rect.x - 2}px`).toString();
+    style.top = calc(`${group.rect.y - 2}px`)
+      .add(`${group.rect.height}px`)
       .toString();
 
     return style;
-  }, [groupedRect]);
+  }, [group]);
 
   const bottomLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedProxy.rect.x += dx;
-    groupedProxy.rect.width -= dx;
-    groupedProxy.rect.height += dy;
+    storyProxy.group.rect.x += dx;
+    storyProxy.group.rect.width -= dx;
+    storyProxy.group.rect.height += dy;
   });
 
   return {
@@ -95,8 +95,8 @@ export const useBottomLeftResizer = () => {
 };
 
 export const useBottomRightResizer = () => {
-  const { group: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroup();
+  const storyProxy = useContext(StoryContext);
+  const group = useGroup();
 
   const bottomRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -104,19 +104,19 @@ export const useBottomRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${groupedRect.rect.x - 2}px`)
-      .add(`${groupedRect.rect.width}px`)
+    style.left = calc(`${group.rect.x - 2}px`)
+      .add(`${group.rect.width}px`)
       .toString();
-    style.top = calc(`${groupedRect.rect.y - 2}px`)
-      .add(`${groupedRect.rect.height}px`)
+    style.top = calc(`${group.rect.y - 2}px`)
+      .add(`${group.rect.height}px`)
       .toString();
 
     return style;
-  }, [groupedRect]);
+  }, [group]);
 
   const bottomRightBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedProxy.rect.width += dx;
-    groupedProxy.rect.height += dy;
+    storyProxy.group.rect.width += dx;
+    storyProxy.group.rect.height += dy;
   });
 
   return {
@@ -126,23 +126,23 @@ export const useBottomRightResizer = () => {
 };
 
 export const useBodyResizer = () => {
-  const { group: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroup();
+  const storyProxy = useContext(StoryContext);
+  const group = useGroup();
 
   const body = useMemo(() => {
     const style: CSSProperties = {
-      width: calc(`${groupedRect.rect.width}px`).toString(),
-      height: calc(`${groupedRect.rect.height}px`).toString(),
+      width: calc(`${group.rect.width}px`).toString(),
+      height: calc(`${group.rect.height}px`).toString(),
     };
 
-    style.left = calc(`${groupedRect.rect.x}px`).toString();
-    style.top = calc(`${groupedRect.rect.y}px`).toString();
+    style.left = calc(`${group.rect.x}px`).toString();
+    style.top = calc(`${group.rect.y}px`).toString();
 
     return style;
-  }, [groupedRect]);
+  }, [group]);
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
-    groupedProxy.rect.x += dx;
-    groupedProxy.rect.y += dy;
+    storyProxy.group.rect.x += dx;
+    storyProxy.group.rect.y += dy;
   });
 
   return {
