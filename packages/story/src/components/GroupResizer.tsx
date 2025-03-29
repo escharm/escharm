@@ -98,6 +98,7 @@ const GroupResizer = () => {
           backgroundColor: "blue",
           opacity: 0.5,
           cursor: "move",
+          touchAction: "none",
           ...body,
         }}
       />
