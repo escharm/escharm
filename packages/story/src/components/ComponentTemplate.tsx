@@ -1,12 +1,8 @@
 import React from "react";
 
-interface IProps {
-  componentUrl: string;
-}
-
-const ComponentTemplate = (props: IProps) => {
-  const { componentUrl } = props;
-  const Component = React.lazy(() => import(componentUrl));
+const ComponentTemplate = () => {
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const Component = React.lazy(() => import(urlSearchParams.get("path") ?? ""));
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>

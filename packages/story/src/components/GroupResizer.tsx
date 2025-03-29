@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect } from "react";
 
 import {
-  useFlatHierarchy,
+  useHierarchies,
   useSelectedHierarchyIds,
   useSetSelectedHierarchyId,
 } from "./hierarchy";
@@ -22,7 +22,7 @@ const GroupResizer = () => {
   } = useResizerGroup();
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const setSelectedHierarchyId = useSetSelectedHierarchyId();
-  const flatHierarchy = useFlatHierarchy();
+  const flatHierarchy = useHierarchies();
 
   const handleDoubleClick = useCallback(
     (e: React.MouseEvent) => {

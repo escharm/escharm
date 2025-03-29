@@ -2,12 +2,12 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import { useGroupedRect } from "./hierarchy";
+import { useGroup } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
 
 export const useTopLeftResizer = () => {
-  const { groupProxy } = useContext(StoryContext);
-  const groupedRect = useGroupedRect();
+  const { group: groupProxy } = useContext(StoryContext);
+  const groupedRect = useGroup();
 
   const topLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -35,8 +35,8 @@ export const useTopLeftResizer = () => {
 };
 
 export const useTopRightResizer = () => {
-  const { groupProxy: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroupedRect();
+  const { group: groupedProxy } = useContext(StoryContext);
+  const groupedRect = useGroup();
 
   const topRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -65,8 +65,8 @@ export const useTopRightResizer = () => {
 };
 
 export const useBottomLeftResizer = () => {
-  const { groupProxy: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroupedRect();
+  const { group: groupedProxy } = useContext(StoryContext);
+  const groupedRect = useGroup();
 
   const bottomLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -95,8 +95,8 @@ export const useBottomLeftResizer = () => {
 };
 
 export const useBottomRightResizer = () => {
-  const { groupProxy: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroupedRect();
+  const { group: groupedProxy } = useContext(StoryContext);
+  const groupedRect = useGroup();
 
   const bottomRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -126,8 +126,8 @@ export const useBottomRightResizer = () => {
 };
 
 export const useBodyResizer = () => {
-  const { groupProxy: groupedProxy } = useContext(StoryContext);
-  const groupedRect = useGroupedRect();
+  const { group: groupedProxy } = useContext(StoryContext);
+  const groupedRect = useGroup();
 
   const body = useMemo(() => {
     const style: CSSProperties = {

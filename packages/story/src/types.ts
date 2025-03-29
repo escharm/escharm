@@ -32,12 +32,12 @@ export interface IGroup {
 export interface IStory {
   name: string;
   data: Record<string, unknown>;
+  group: IGroup;
 }
 
-export interface IStoryData {
-  stories: IStory[];
-  groups: Record<string, IGroup | undefined>;
+export interface IFixture {
   hierarchies: IFlatHierarchy;
+  stories: Record<string, IStory | undefined>;
 }
 
 export interface IPluginParams {
@@ -45,9 +45,9 @@ export interface IPluginParams {
   previewPath?: { prefix: string };
   storyPath?: { prefix: string; test: RegExp };
   fixturesPath?: (path: string) => string;
-  homeTemplate?: (
-    componentPath: string,
-    story: IStory,
-    hierarchy: IFlatHierarchy,
-  ) => string;
+  homeTemplate?: () => string;
 }
+
+export type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];

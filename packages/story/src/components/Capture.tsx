@@ -14,7 +14,6 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
     const target = e.target as HTMLElement;
 
     if (target.dataset.id) {
-      console.log("test test", target.dataset.id);
       setSelectedHierarchyId(target.dataset.id);
     } else {
       console.error("target.dataset.id is undefined");

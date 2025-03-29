@@ -37,14 +37,14 @@ const HierarchyItem = (props: IProps) => {
 };
 
 const Sidebar: React.FC = () => {
-  const { hierarchyProxy } = useContext(StoryContext);
-  const hierarchies = useSnapshot(hierarchyProxy);
+  const storyProxy = useContext(StoryContext);
+  const story = useSnapshot(storyProxy);
+  const hierarchies = story.hierarchies;
   const rootItems = Object.values(hierarchies).filter(
     (item) => item?.parentId === null,
   ) as IHierarchy[];
 
   Object.values(hierarchies).filter((item) => {
-    console.log("test test", JSON.stringify(item, null, 2));
     return item?.parentId === null;
   });
 

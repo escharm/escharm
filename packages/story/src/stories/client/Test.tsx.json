@@ -1,8 +1,66 @@
-[
-  {
-    "name": "autoCreate",
-    "data": {
-      "a": "TSStringKeyword"
+{
+  "stories": {
+    "autoCreate": {
+      "name": "autoCreate",
+      "data": {
+        "a": "TSStringKeyword"
+      },
+      "group": {
+        "selectedHierarchyIds": [],
+        "selectedRects": {},
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "manualData": {
+          "offfsetRect": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          }
+        }
+      }
+    }
+  },
+  "hierarchies": {
+    "Z-dDqMJMPX5qFrRSvmja7": {
+      "id": "Z-dDqMJMPX5qFrRSvmja7",
+      "name": "div",
+      "childIds": [
+        "3k1u2ohQLaMkRAfl6nRSa",
+        "SpAxCt61iEVAUiiaEHn16",
+        "OkUfGQ3ePnt5namfPf4Sv"
+      ],
+      "parentId": null
+    },
+    "3k1u2ohQLaMkRAfl6nRSa": {
+      "id": "3k1u2ohQLaMkRAfl6nRSa",
+      "name": "p",
+      "childIds": [],
+      "parentId": "Z-dDqMJMPX5qFrRSvmja7"
+    },
+    "SpAxCt61iEVAUiiaEHn16": {
+      "id": "SpAxCt61iEVAUiiaEHn16",
+      "name": "button",
+      "childIds": [],
+      "parentId": "Z-dDqMJMPX5qFrRSvmja7"
+    },
+    "OkUfGQ3ePnt5namfPf4Sv": {
+      "id": "OkUfGQ3ePnt5namfPf4Sv",
+      "name": "div",
+      "childIds": [
+        "tipv7O_5eLy789VGv7CXN"
+      ],
+      "parentId": "Z-dDqMJMPX5qFrRSvmja7"
+    },
+    "tipv7O_5eLy789VGv7CXN": {
+      "id": "tipv7O_5eLy789VGv7CXN",
+      "name": "span",
+      "childIds": [],
+      "parentId": "OkUfGQ3ePnt5namfPf4Sv"
     }
   }
-]
+}

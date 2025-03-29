@@ -16,16 +16,7 @@ export default defineConfig({
         test: new RegExp(`^/story`),
       },
       fixturesPath(path) {
-        const queryStringMatch = path.match(/\?(.+)$/);
-        const queryString = queryStringMatch?.[1];
-
-        const searchParams = new URLSearchParams(queryString);
-        const componentPath = searchParams.get("path");
-
-        if (componentPath) {
-          return `/src/stories${componentPath.replace("/src", "")}.json`;
-        }
-        return `/src/stories${componentPath}.json`;
+        return `${path.replace("/src", "/src/stories")}.json`;
       },
     }),
   ],

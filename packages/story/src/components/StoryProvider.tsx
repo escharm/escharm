@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
@@ -11,16 +11,15 @@ import {
 } from "../types";
 
 export interface IStoryContext {
-  mockData?: Record<string, unknown>;
-  filePath?: string;
-  hierarchyProxy: IFlatHierarchy;
-  groupProxy: IGroup;
+  data?: Record<string, unknown>;
+  hierarchies: IFlatHierarchy;
+  group: IGroup;
 }
 
 const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
-  const hierarchyProxy = defaultValue ?? {};
+  const hierarchies = defaultValue ?? {};
 
-  const groupProxy = {
+  const group = {
     selectedHierarchyIds: [],
     selectedRects: {},
     rect: {
@@ -40,8 +39,8 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
   };
 
   return proxy({
-    hierarchyProxy,
-    groupProxy,
+    hierarchies,
+    group,
   });
 };
 
@@ -58,6 +57,35 @@ const StoryProvider = (props: IProps) => {
   const defaultValueRef = useRef<IStoryContext>(
     createDefaultData(defaultValue),
   );
+
+  useEffect(() => {}, []);
+
+  const onSetStoryContext = useCallback(
+    (newStoryContext: IStoryContext) => {
+      (Object.keys(newStoryContext) as Array<keyof IStoryContext>).forEach(
+        (key) => {
+          const value = newStoryContext[key];
+          (defaultValueRef.current[key] as typeof value) = value;
+        },
+      );
+    },
+    [defaultValueRef],
+  );
+
+  useEffect(() => {
+    import.meta.hot?.send("LOAD_STORY_CONTEXT", {
+      search: window.location.search,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (import.meta.hot) {
+      import.meta.hot.on("SET_STORY_CONTEXT", onSetStoryContext);
+      return () => {
+        import.meta.hot?.off("SET_STORY_CONTEXT", onSetStoryContext);
+      };
+    }
+  }, [onSetStoryContext]);
 
   return (
     <StoryContext.Provider value={defaultValueRef.current}>

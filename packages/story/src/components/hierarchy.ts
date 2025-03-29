@@ -1,17 +1,22 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import { proxy, subscribe, useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IFlatStructure, IHierarchy, IRect } from "../types";
 import { IStoryContext, StoryContext } from "./StoryProvider";
 
-export const useGroupedRect = () => {
-  const { groupProxy: groupedRectProxy } = useContext(StoryContext);
-  return useSnapshot(groupedRectProxy);
+export const useStory = () => {
+  const storyProxy = useContext(StoryContext);
+  return useSnapshot(storyProxy);
+};
+
+export const useGroup = () => {
+  const story = useStory();
+  return story.group;
 };
 
 export const useSelectedHierarchyIds = () => {
-  const { groupProxy: groupedRectProxy } = useContext(StoryContext);
-  return useSnapshot(groupedRectProxy).selectedHierarchyIds;
+  const story = useStory();
+  return story.group.selectedHierarchyIds;
 };
 
 export const find = <T>(
@@ -22,39 +27,41 @@ export const find = <T>(
   return id ? (hierarchyProxy[id] ?? defaultProxy) : defaultProxy;
 };
 
-export function useHierarchy(id: string | undefined): Partial<IHierarchy> {
-  const { hierarchyProxy } = useContext(StoryContext);
-
-  return useSnapshot(find(hierarchyProxy, id));
-}
-
-export const useFlatHierarchy = () => {
-  const { hierarchyProxy } = useContext(StoryContext);
-  return useSnapshot(hierarchyProxy);
+export const useHierarchies = () => {
+  const story = useStory();
+  return story.hierarchies;
 };
 
+export function useHierarchy(id: string | undefined): Partial<IHierarchy> {
+  const hierarchies = useHierarchies();
+  return useMemo(() => {
+    if (!id) {
+      return {};
+    }
+    return hierarchies[id] ?? {};
+  }, [hierarchies, id]);
+}
+
 export const useSelectHierarchy = () => {
-  const { groupProxy: groupedRectProxy, hierarchyProxy } =
-    useContext(StoryContext);
+  const storyProxy = useContext(StoryContext);
 
   const selectedHierarchy = useCallback(
     (hierarchyId: string) => {
-      if (groupedRectProxy.selectedHierarchyIds.includes(hierarchyId)) {
-        groupedRectProxy.selectedHierarchyIds.splice(0);
+      if (storyProxy.group.selectedHierarchyIds.includes(hierarchyId)) {
+        storyProxy.group.selectedHierarchyIds.splice(0);
       } else {
-        groupedRectProxy.selectedHierarchyIds.splice(
+        storyProxy.group.selectedHierarchyIds.splice(
           0,
-          groupedRectProxy.selectedHierarchyIds.length,
+          storyProxy.group.selectedHierarchyIds.length,
           hierarchyId,
         );
       }
 
       const rects: IRect[] = [];
-
-      groupedRectProxy.selectedHierarchyIds.forEach((id) => {
-        const rect = getHierarchyRect(id, hierarchyProxy);
+      storyProxy.group.selectedHierarchyIds.forEach((id) => {
+        const rect = getHierarchyRect(id, storyProxy.hierarchies);
         rects.push(rect);
-        groupedRectProxy.selectedRects[id] = rect;
+        storyProxy.group.selectedRects[id] = rect;
       });
 
       if (rects.length > 0) {
@@ -70,33 +77,32 @@ export const useSelectHierarchy = () => {
           maxY = Math.max(maxY, rect.y + rect.height);
         });
 
-        groupedRectProxy.rect.x = minX;
-        groupedRectProxy.rect.y = minY;
-        groupedRectProxy.rect.width = maxX - minX;
-        groupedRectProxy.rect.height = maxY - minY;
+        storyProxy.group.rect.x = minX;
+        storyProxy.group.rect.y = minY;
+        storyProxy.group.rect.width = maxX - minX;
+        storyProxy.group.rect.height = maxY - minY;
       } else {
-        groupedRectProxy.rect.x = 0;
-        groupedRectProxy.rect.y = 0;
-        groupedRectProxy.rect.width = 0;
-        groupedRectProxy.rect.height = 0;
+        storyProxy.group.rect.x = 0;
+        storyProxy.group.rect.y = 0;
+        storyProxy.group.rect.width = 0;
+        storyProxy.group.rect.height = 0;
       }
     },
-    [groupedRectProxy, hierarchyProxy],
+    [storyProxy],
   );
   return selectedHierarchy;
 };
 
 export const useSetSelectedHierarchyId = () => {
-  const { groupProxy: groupedRectProxy, hierarchyProxy } =
-    useContext(StoryContext);
+  const storyProxy = useContext(StoryContext);
 
   const toggleSelect = useCallback(
     (hierarchyId: string) => {
-      groupedRectProxy.selectedHierarchyIds = [hierarchyId];
+      storyProxy.group.selectedHierarchyIds = [hierarchyId];
       const rects: IRect[] = [];
-      const rect = getHierarchyRect(hierarchyId, hierarchyProxy);
+      const rect = getHierarchyRect(hierarchyId, storyProxy.hierarchies);
       rects.push(rect);
-      groupedRectProxy.selectedRects[hierarchyId] = rect;
+      storyProxy.group.selectedRects[hierarchyId] = rect;
 
       if (rects.length > 0) {
         let minX = Infinity;
@@ -111,18 +117,18 @@ export const useSetSelectedHierarchyId = () => {
           maxY = Math.max(maxY, rect.y + rect.height);
         });
 
-        groupedRectProxy.rect.x = minX;
-        groupedRectProxy.rect.y = minY;
-        groupedRectProxy.rect.width = maxX - minX;
-        groupedRectProxy.rect.height = maxY - minY;
+        storyProxy.group.rect.x = minX;
+        storyProxy.group.rect.y = minY;
+        storyProxy.group.rect.width = maxX - minX;
+        storyProxy.group.rect.height = maxY - minY;
       } else {
-        groupedRectProxy.rect.x = 0;
-        groupedRectProxy.rect.y = 0;
-        groupedRectProxy.rect.width = 0;
-        groupedRectProxy.rect.height = 0;
+        storyProxy.group.rect.x = 0;
+        storyProxy.group.rect.y = 0;
+        storyProxy.group.rect.width = 0;
+        storyProxy.group.rect.height = 0;
       }
     },
-    [groupedRectProxy, hierarchyProxy],
+    [storyProxy],
   );
 
   return toggleSelect;
@@ -161,7 +167,7 @@ export const useSyncHierarchy = () => {
 
   useEffect(() => {
     if (import.meta.hot) {
-      import.meta.hot.send("INIT_STORY_CONTEXT", () => {});
+      import.meta.hot.send("LOAD_STORY", () => {});
     }
   }, []);
 
@@ -179,9 +185,9 @@ export const useSyncHierarchy = () => {
 
   useEffect(() => {
     if (import.meta.hot) {
-      import.meta.hot.on("INIT_STORY_CONTEXT", onInitStoryContext);
+      import.meta.hot.on("LOAD_STORY", onInitStoryContext);
       return () => {
-        import.meta.hot?.off("INIT_STORY_CONTEXT", onInitStoryContext);
+        import.meta.hot?.off("LOAD_STORY", onInitStoryContext);
       };
     }
   }, [onInitStoryContext]);

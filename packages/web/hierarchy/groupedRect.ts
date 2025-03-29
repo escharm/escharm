@@ -336,8 +336,6 @@ export function useResizerStyle() {
     return style;
   }, [groupedRect]);
 
-  console.log("test test", style, groupedRect);
-
   return style;
 }
 
@@ -370,12 +368,12 @@ export const useSelectHierarchy = () => {
         groupedRectProxy.selectedHierarchyIds.splice(
           0,
           groupedRectProxy.selectedHierarchyIds.length,
-          hierarchyId
+          hierarchyId,
         );
       }
 
       const rects = groupedRectProxy.selectedHierarchyIds.map((id) =>
-        getHierarchyRect(id, hierarchyProxy)
+        getHierarchyRect(id, hierarchyProxy),
       );
 
       rects.forEach((rect) => {
@@ -406,7 +404,7 @@ export const useSelectHierarchy = () => {
         groupedRectProxy.height = 0;
       }
     },
-    [groupedRectProxy, hierarchyProxy]
+    [groupedRectProxy, hierarchyProxy],
   );
   return selectedHierarchy;
 };
@@ -424,7 +422,7 @@ export const useToggleSelect = () => {
       }
 
       const rects = groupedRectProxy.selectedHierarchyIds.map((id) =>
-        getHierarchyRect(id, hierarchyProxy)
+        getHierarchyRect(id, hierarchyProxy),
       );
 
       rects.forEach((rect) => {
@@ -455,7 +453,7 @@ export const useToggleSelect = () => {
         groupedRectProxy.height = 0;
       }
     },
-    [groupedRectProxy, hierarchyProxy]
+    [groupedRectProxy, hierarchyProxy],
   );
 
   return toggleSelect;
@@ -463,7 +461,7 @@ export const useToggleSelect = () => {
 
 export const getHierarchyRect = (
   hierarchyId: string,
-  hierarchyProxy: IFlatHierarchy
+  hierarchyProxy: IFlatHierarchy,
 ): Pick<
   IHierarchy,
   "anchor" | "relativeX" | "relativeY" | "width" | "height" | "id"
@@ -501,7 +499,7 @@ export const getHierarchyRect = (
     // Handle iframe transitions
     if (i < path.length - 1 && currentHierarchy.type === HierarchyType.Page) {
       const iframe = currentDocument.getElementById(
-        currentHierarchy.id
+        currentHierarchy.id,
       ) as HTMLIFrameElement | null;
       if (!iframe || !iframe.contentWindow) break;
 

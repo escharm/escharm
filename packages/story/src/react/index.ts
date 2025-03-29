@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
-import { IPluginParams } from "../types";
+import { IFixture, IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
 import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";
@@ -37,14 +37,10 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
 
         const fixturesPath =
-          params?.fixturesPath?.(source) ?? getFixturesPath(source);
+          params?.fixturesPath?.(componentPath) ??
+          getFixturesPath(componentPath);
 
         const mockFilePath = path.join(process.cwd(), fixturesPath);
-
-        let story: {
-          name: string;
-          data: Record<string, unknown>;
-        }[] = [];
 
         const rawCode = fs.readFileSync(
           path.join(process.cwd(), componentPath),
@@ -61,32 +57,53 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         // 获取层级数据
         const hierarchy = parseToHierarchy(processedCode);
 
+        let fixture: IFixture = {
+          stories: {},
+          hierarchies: hierarchy,
+        };
+
         if (fs.existsSync(mockFilePath)) {
           try {
-            story = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
+            fixture = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
           } catch (err) {
             console.error("Failed to read mock data:", err);
           }
         } else {
           const props = getProps(rawCode);
-          story = [
-            {
-              name: "autoCreate",
-              data:
-                props?.reduce(
-                  (acc, prop) => {
-                    acc[prop.key] = prop.type;
-                    return acc;
-                  },
-                  {} as Record<string, unknown>,
-                ) || {},
+          fixture.stories.autoCreate = {
+            name: "autoCreate",
+            data:
+              props?.reduce(
+                (acc, prop) => {
+                  acc[prop.key] = prop.type;
+                  return acc;
+                },
+                {} as Record<string, unknown>,
+              ) || {},
+            group: {
+              selectedHierarchyIds: [],
+              selectedRects: {},
+              rect: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0,
+              },
+              manualData: {
+                offfsetRect: {
+                  x: 0,
+                  y: 0,
+                  width: 0,
+                  height: 0,
+                },
+              },
             },
-          ];
+          };
           try {
             fs.mkdirSync(path.dirname(mockFilePath), { recursive: true });
             fs.writeFileSync(
               mockFilePath,
-              JSON.stringify(story, null, 2),
+              JSON.stringify(fixture, null, 2),
               "utf-8",
             );
           } catch (err) {
@@ -95,12 +112,13 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
 
         const code = params?.homeTemplate
-          ? params.homeTemplate(componentPath, story[0], hierarchy)
-          : defaultHomeTemplate(componentPath, story[0], hierarchy);
+          ? params.homeTemplate()
+          : defaultHomeTemplate();
 
         let transformed;
         try {
           transformed = await transformWithEsbuild(code, source, {
+            loader: "tsx",
             jsx: "automatic",
             jsxDev: true,
           });
@@ -242,13 +260,38 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
       });
 
-      server.ws.on("hello", (data) => {
-        console.log("hello", data);
+      server.ws.on("LOAD_STORY_CONTEXT", (data) => {
+        const searchParams = new URLSearchParams(data.search);
+        const componentPath = searchParams.get("path");
+        const name = searchParams.get("name");
+        if (componentPath && name) {
+          const fixturesPath = path.join(
+            process.cwd(),
+            params?.fixturesPath?.(componentPath) ??
+              getFixturesPath(componentPath),
+          );
+
+          try {
+            const fixture = JSON.parse(
+              fs.readFileSync(fixturesPath, "utf-8"),
+            ) as IFixture;
+
+            const story = fixture.stories[name];
+            if (story) {
+              const storyContext = {
+                ...story,
+                hierarchies: fixture.hierarchies,
+              };
+              server.ws.send<"SET_STORY_CONTEXT">(
+                "SET_STORY_CONTEXT",
+                storyContext,
+              );
+            }
+          } catch (err) {
+            console.error("Failed to read mock data:", err);
+          }
+        }
       });
     },
-    // handleHotUpdate({ server }) {
-    //   server.ws.send({ type: "full-reload" });
-    //   return [];
-    // },
   } satisfies PluginOption;
 };
