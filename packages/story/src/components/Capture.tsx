@@ -28,6 +28,7 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        height: "100vh",
       }}
     >
       {children}
