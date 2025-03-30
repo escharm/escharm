@@ -2,18 +2,13 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
-import {
-  IFlatHierarchy,
-  IFlatStructure,
-  IGroup,
-  IHierarchy,
-  IRect,
-} from "../types";
+import { IFlatHierarchy, IGroup } from "../types";
 
 export interface IStoryContext {
   data?: Record<string, unknown>;
   hierarchies: IFlatHierarchy;
   group: IGroup;
+  storyNames: string[];
 }
 
 const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
@@ -29,7 +24,7 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
       height: 0,
     },
     manualData: {
-      offfsetRect: {
+      offsetRect: {
         x: 0,
         y: 0,
         width: 0,
@@ -41,6 +36,7 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
   return proxy({
     hierarchies,
     group,
+    storyNames: [],
   });
 };
 
@@ -61,7 +57,7 @@ const StoryProvider = (props: IProps) => {
   useEffect(() => {}, []);
 
   const onSetStoryContext = useCallback(
-    (newStoryContext: IStoryContext) => {
+    (newStoryContext: Partial<IStoryContext>) => {
       (Object.keys(newStoryContext) as Array<keyof IStoryContext>).forEach(
         (key) => {
           const value = newStoryContext[key];

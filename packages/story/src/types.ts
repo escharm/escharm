@@ -14,8 +14,8 @@ export interface IHierarchy {
   name: string;
   childIds: string[];
   parentId: string | null;
-  rect?: IRect;
-  offfsetRect?: IRect;
+  rect: IRect;
+  offsetRect: IRect;
 }
 
 export interface IFlatHierarchy extends IFlatStructure<IHierarchy> {}
@@ -25,7 +25,7 @@ export interface IGroup {
   selectedRects: IFlatStructure<IRect>;
   rect: IRect;
   manualData: {
-    offfsetRect: IRect;
+    offsetRect: IRect;
   };
 }
 

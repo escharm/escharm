@@ -108,6 +108,7 @@ const GroupResizer = () => {
           position: "absolute",
           backgroundColor: "black",
           cursor: "nwse-resize", // 左上角
+          touchAction: "none",
           ...topLeft,
         }}
         className="top-left absolute bg-black"
@@ -118,6 +119,7 @@ const GroupResizer = () => {
           position: "absolute",
           backgroundColor: "black",
           cursor: "nesw-resize", // 右上角
+          touchAction: "none",
           ...topRight,
         }}
         className="top-right absolute bg-black"
@@ -128,6 +130,7 @@ const GroupResizer = () => {
           position: "absolute",
           backgroundColor: "black",
           cursor: "nesw-resize", // 左下角
+          touchAction: "none",
           ...bottomLeft,
         }}
         className="bottom-left absolute bg-black"
@@ -138,6 +141,7 @@ const GroupResizer = () => {
           position: "absolute",
           backgroundColor: "black",
           cursor: "nwse-resize", // 右下角
+          touchAction: "none",
           ...bottomRight,
         }}
         className="bottom-right absolute bg-black"

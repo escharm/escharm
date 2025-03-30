@@ -8,7 +8,6 @@ declare module "valtio" {
 
 declare module "vite" {
   interface CustomEventMap {
-    SET_STORY_CONTEXT: IStoryContext;
+    SET_STORY_CONTEXT: Partial<IStoryContext>;
   }
 }
-

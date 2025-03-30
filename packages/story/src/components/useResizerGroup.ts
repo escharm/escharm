@@ -143,7 +143,27 @@ export const useBodyResizer = () => {
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
     storyProxy.group.rect.x += dx;
     storyProxy.group.rect.y += dy;
+    storyProxy.group.manualData.offsetRect.x += dx;
+    storyProxy.group.manualData.offsetRect.y += dy;
   });
+
+  // useEffect(()=>{
+  //   group.selectedHierarchyIds.forEach((hierarchyId)=>{
+  //     const element = document.querySelector(`[data-id="${hierarchyId}"]`);
+  //     const hierarchy = story.hierarchies[hierarchyId]
+  //     if (!element||!hierarchy) {
+  //       return;
+  //     }
+  //     // hierarchy.offsetRect
+  //   })
+  //   // story.hierarchies[""]?.offfsetRect
+  //   // group.selectedHierarchyIds
+  //   // group.manualData.offfsetRect
+  //   // const element = document.querySelector(`[data-id="${hierarchyId}"]`);
+  //   // if (!element) {
+
+  //   // }
+  // },[group.selectedHierarchyIds, story.hierarchies])
 
   return {
     body,

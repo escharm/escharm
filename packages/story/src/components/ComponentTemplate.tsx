@@ -11,7 +11,11 @@ const ComponentTemplate = () => {
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <Component {...story.data} />
+      {story.data != null ? (
+        <Component {...story.data} />
+      ) : (
+        <div>please select story</div>
+      )}
     </React.Suspense>
   );
 };

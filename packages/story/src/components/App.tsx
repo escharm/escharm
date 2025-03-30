@@ -5,11 +5,13 @@ import ComponentTemplate from "./ComponentTemplate";
 import GroupResizer from "./GroupResizer";
 import Sidebar from "./Sidebar";
 import StoryProvider from "./StoryProvider";
+import StorySelector from "./StorySelector";
 
 const App = () => {
   return (
     <StoryProvider>
       <Sidebar />
+      <StorySelector />
       <Capture>
         <ComponentTemplate />
       </Capture>

@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { useContext, useState } from "react";
 import { useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IHierarchy } from "../types";
@@ -43,17 +44,20 @@ const HierarchyItem = (props: IProps) => {
   );
 };
 
-const Sidebar: React.FC = () => {
+const Sidebar = () => {
   const storyProxy = useContext(StoryContext);
   const story = useSnapshot(storyProxy);
   const hierarchies = story.hierarchies;
   const rootItems = Object.values(hierarchies).filter(
     (item) => item?.parentId === null,
   ) as IHierarchy[];
+  const [isCollapsed, setIsCollapsed] = useState(
+    !new URLSearchParams(window.location.search).has("name"),
+  );
 
-  Object.values(hierarchies).filter((item) => {
-    return item?.parentId === null;
-  });
+  const toggleCollapse = () => {
+    setIsCollapsed((isCollapsed) => !isCollapsed);
+  };
 
   return (
     <div
@@ -67,12 +71,36 @@ const Sidebar: React.FC = () => {
         boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
         maxHeight: "80vh",
         overflowY: "auto",
+        transform: isCollapsed ? "translateX(-32px)" : "translateX(0)",
+        transition: "transform 0.2s ease",
       }}
     >
-      <h3 style={{ margin: "0 0 16px 0" }}>层级目录</h3>
-      {rootItems.map((item) => (
-        <HierarchyItem key={item.id} item={item} hierarchy={hierarchies} />
-      ))}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: isCollapsed ? "0" : "16px",
+          cursor: "pointer",
+        }}
+        onClick={toggleCollapse}
+      >
+        {<h3 style={{ margin: 0 }}>层级目录</h3>}
+        <span
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            transition: "transform 0.2s ease",
+            transform: isCollapsed ? "rotate(0deg)" : "rotate(180deg)",
+            margin: "8px",
+          }}
+        >
+          <ChevronDownIcon height={16} />
+        </span>
+      </div>
+      {!isCollapsed &&
+        rootItems.map((item) => (
+          <HierarchyItem key={item.id} item={item} hierarchy={hierarchies} />
+        ))}
     </div>
   );
 };

@@ -1,6 +1,9 @@
 import React from "react";
 
-import { useSetSelectedHierarchyId } from "./hierarchy";
+import {
+  useCleanSelectedHierarchy,
+  useSetSelectedHierarchyId,
+} from "./hierarchy";
 
 interface CaptureProps {
   children: React.ReactNode;
@@ -8,6 +11,7 @@ interface CaptureProps {
 
 const Capture: React.FC<CaptureProps> = ({ children }) => {
   const setSelectedHierarchyId = useSetSelectedHierarchyId();
+  const cleanSelectedHierarchy = useCleanSelectedHierarchy();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -16,7 +20,7 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
     if (target.dataset.id) {
       setSelectedHierarchyId(target.dataset.id);
     } else {
-      console.error("target.dataset.id is undefined");
+      cleanSelectedHierarchy();
     }
   };
 

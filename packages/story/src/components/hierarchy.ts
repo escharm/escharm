@@ -96,7 +96,7 @@ export const useSelectHierarchy = () => {
 export const useSetSelectedHierarchyId = () => {
   const storyProxy = useContext(StoryContext);
 
-  const toggleSelect = useCallback(
+  const setSelectedHierarchyId = useCallback(
     (hierarchyId: string) => {
       storyProxy.group.selectedHierarchyIds = [hierarchyId];
       const rects: IRect[] = [];
@@ -127,11 +127,15 @@ export const useSetSelectedHierarchyId = () => {
         storyProxy.group.rect.width = 0;
         storyProxy.group.rect.height = 0;
       }
+      storyProxy.group.manualData.offsetRect.x = 0;
+      storyProxy.group.manualData.offsetRect.y = 0;
+      storyProxy.group.manualData.offsetRect.width = 0;
+      storyProxy.group.manualData.offsetRect.height = 0;
     },
     [storyProxy],
   );
 
-  return toggleSelect;
+  return setSelectedHierarchyId;
 };
 
 export const getHierarchyRect = (
@@ -199,4 +203,38 @@ export const useSyncHierarchy = () => {
       }
     });
   }, [storyContext]);
+};
+
+export const useUpdateElements = () => {};
+
+export const useSelectedHierarchies = () => {
+  const selectedIds = useSelectedHierarchyIds();
+  const hierarchies = useHierarchies();
+
+  return useMemo(() => {
+    return selectedIds
+      .map((id) => hierarchies[id])
+      .filter(Boolean) as IHierarchy[];
+  }, [selectedIds, hierarchies]);
+};
+
+export const useCleanSelectedHierarchy = () => {
+  const storyProxy = useContext(StoryContext);
+
+  return useCallback(() => {
+    storyProxy.group.selectedHierarchyIds = [];
+    storyProxy.group.selectedRects = {};
+    storyProxy.group.rect = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+    storyProxy.group.manualData.offsetRect = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    };
+  }, [storyProxy]);
 };

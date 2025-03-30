@@ -90,7 +90,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
                 height: 0,
               },
               manualData: {
-                offfsetRect: {
+                offsetRect: {
                   x: 0,
                   y: 0,
                   width: 0,
@@ -264,7 +264,8 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         const searchParams = new URLSearchParams(data.search);
         const componentPath = searchParams.get("path");
         const name = searchParams.get("name");
-        if (componentPath && name) {
+
+        if (componentPath) {
           const fixturesPath = path.join(
             process.cwd(),
             params?.fixturesPath?.(componentPath) ??
@@ -276,17 +277,20 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
               fs.readFileSync(fixturesPath, "utf-8"),
             ) as IFixture;
 
-            const story = fixture.stories[name];
-            if (story) {
-              const storyContext = {
-                ...story,
-                hierarchies: fixture.hierarchies,
-              };
-              server.ws.send<"SET_STORY_CONTEXT">(
-                "SET_STORY_CONTEXT",
-                storyContext,
-              );
-            }
+            const story = !name ? null : fixture.stories[name];
+            const baseContext = {
+              hierarchies: fixture.hierarchies,
+              storyNames: Object.keys(fixture.stories),
+            };
+
+            const storyContext = story
+              ? { ...story, ...baseContext }
+              : baseContext;
+
+            server.ws.send<"SET_STORY_CONTEXT">(
+              "SET_STORY_CONTEXT",
+              storyContext,
+            );
           } catch (err) {
             console.error("Failed to read mock data:", err);
           }
