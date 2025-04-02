@@ -2,7 +2,8 @@ import React from "react";
 
 import {
   useCleanSelectedHierarchy,
-  useSetSelectedHierarchyId,
+  useSelectHierarchy,
+  useUpdateElements,
 } from "./hierarchy";
 
 interface CaptureProps {
@@ -10,7 +11,7 @@ interface CaptureProps {
 }
 
 const Capture: React.FC<CaptureProps> = ({ children }) => {
-  const setSelectedHierarchyId = useSetSelectedHierarchyId();
+  const selectedHierarchy = useSelectHierarchy();
   const cleanSelectedHierarchy = useCleanSelectedHierarchy();
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -18,11 +19,13 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
     const target = e.target as HTMLElement;
 
     if (target.dataset.id) {
-      setSelectedHierarchyId(target.dataset.id);
+      selectedHierarchy(target.dataset.id);
     } else {
       cleanSelectedHierarchy();
     }
   };
+
+  useUpdateElements();
 
   return (
     <div

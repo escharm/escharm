@@ -4,7 +4,7 @@ import { useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IHierarchy } from "../types";
 import { useSelectedHierarchyIds } from "./hierarchy";
-import { useSetSelectedHierarchyId } from "./hierarchy";
+import { useSelectHierarchy } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
 
 interface IProps {
@@ -16,13 +16,13 @@ const HierarchyItem = (props: IProps) => {
   const { item, hierarchy } = props;
   const selectedIds = useSelectedHierarchyIds();
   const isSelected = selectedIds.includes(item.id);
-  const setSelectedHierarchyId = useSetSelectedHierarchyId();
+  const selectHierarchy = useSelectHierarchy();
   const children = Object.values(hierarchy).filter(
     (child) => child?.parentId === item.id,
   ) as IHierarchy[];
 
   const handleClick = () => {
-    setSelectedHierarchyId(item.id);
+    selectHierarchy(item.id);
   };
 
   return (

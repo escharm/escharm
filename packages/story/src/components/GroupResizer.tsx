@@ -3,7 +3,7 @@ import { Fragment, useCallback, useEffect } from "react";
 import {
   useHierarchies,
   useSelectedHierarchyIds,
-  useSetSelectedHierarchyId,
+  useSelectHierarchy,
 } from "./hierarchy";
 import { useResizerGroup } from "./useResizerGroup";
 
@@ -21,7 +21,7 @@ const GroupResizer = () => {
     bottomRight,
   } = useResizerGroup();
   const selectedHierarchyIds = useSelectedHierarchyIds();
-  const setSelectedHierarchyId = useSetSelectedHierarchyId();
+  const selectHierarchy = useSelectHierarchy();
   const flatHierarchy = useHierarchies();
 
   const handleDoubleClick = useCallback(
@@ -69,12 +69,12 @@ const GroupResizer = () => {
       for (const id of childIds) {
         const foundId = findElementAtPoint(id, point);
         if (foundId) {
-          setSelectedHierarchyId(foundId);
+          selectHierarchy(foundId);
           return;
         }
       }
     },
-    [flatHierarchy, selectedHierarchyIds, setSelectedHierarchyId],
+    [flatHierarchy, selectedHierarchyIds, selectHierarchy],
   );
 
   useEffect(() => {

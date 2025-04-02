@@ -29,6 +29,12 @@ const eslintConfig = tseslint.config(
       "simple-import-sort/exports": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-empty-object-type": "off",
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        {
+          additionalHooks: "(useAnimationEffect)",
+        },
+      ],
     },
   },
 );

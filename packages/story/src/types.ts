@@ -14,7 +14,8 @@ export interface IHierarchy {
   name: string;
   childIds: string[];
   parentId: string | null;
-  rect: IRect;
+  originRect: IRect;
+  updateRect: IRect;
   offsetRect: IRect;
 }
 

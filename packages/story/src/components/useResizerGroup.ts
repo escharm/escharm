@@ -2,11 +2,12 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import { useGroup } from "./hierarchy";
+import { useGroup, useSelectedHierarchyIds } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
 
 export const useTopLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
+  const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
 
   const topLeft: CSSProperties = useMemo(() => {
@@ -26,6 +27,21 @@ export const useTopLeftResizer = () => {
     storyProxy.group.rect.width -= dx;
     storyProxy.group.rect.y += dy;
     storyProxy.group.rect.height -= dy;
+
+    storyProxy.group.manualData.offsetRect.x += dx;
+    storyProxy.group.manualData.offsetRect.width -= dx;
+    storyProxy.group.manualData.offsetRect.y += dy;
+    storyProxy.group.manualData.offsetRect.height -= dy;
+
+    selectedHierarchyIds.forEach((hierarchyId) => {
+      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      if (hierarchyProxy) {
+        hierarchyProxy.updateRect.x += dx;
+        hierarchyProxy.updateRect.width -= dx;
+        hierarchyProxy.updateRect.y += dy;
+        hierarchyProxy.updateRect.height -= dy;
+      }
+    });
   });
 
   return {
@@ -36,6 +52,7 @@ export const useTopLeftResizer = () => {
 
 export const useTopRightResizer = () => {
   const storyProxy = useContext(StoryContext);
+  const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
 
   const topRight: CSSProperties = useMemo(() => {
@@ -56,6 +73,19 @@ export const useTopRightResizer = () => {
     storyProxy.group.rect.width += dx;
     storyProxy.group.rect.y += dy;
     storyProxy.group.rect.height -= dy;
+
+    storyProxy.group.manualData.offsetRect.width += dx;
+    storyProxy.group.manualData.offsetRect.y += dy;
+    storyProxy.group.manualData.offsetRect.height -= dy;
+
+    selectedHierarchyIds.forEach((hierarchyId) => {
+      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      if (hierarchyProxy) {
+        hierarchyProxy.updateRect.width += dx;
+        hierarchyProxy.updateRect.y += dy;
+        hierarchyProxy.updateRect.height -= dy;
+      }
+    });
   });
 
   return {
@@ -66,6 +96,7 @@ export const useTopRightResizer = () => {
 
 export const useBottomLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
+  const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
 
   const bottomLeft: CSSProperties = useMemo(() => {
@@ -86,6 +117,19 @@ export const useBottomLeftResizer = () => {
     storyProxy.group.rect.x += dx;
     storyProxy.group.rect.width -= dx;
     storyProxy.group.rect.height += dy;
+
+    storyProxy.group.manualData.offsetRect.x += dx;
+    storyProxy.group.manualData.offsetRect.width -= dx;
+    storyProxy.group.manualData.offsetRect.height += dy;
+
+    selectedHierarchyIds.forEach((hierarchyId) => {
+      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      if (hierarchyProxy) {
+        hierarchyProxy.updateRect.x += dx;
+        hierarchyProxy.updateRect.width -= dx;
+        hierarchyProxy.updateRect.height += dy;
+      }
+    });
   });
 
   return {
@@ -96,6 +140,7 @@ export const useBottomLeftResizer = () => {
 
 export const useBottomRightResizer = () => {
   const storyProxy = useContext(StoryContext);
+  const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
 
   const bottomRight: CSSProperties = useMemo(() => {
@@ -117,6 +162,17 @@ export const useBottomRightResizer = () => {
   const bottomRightBind = useDrag(({ delta: [dx, dy] }) => {
     storyProxy.group.rect.width += dx;
     storyProxy.group.rect.height += dy;
+
+    storyProxy.group.manualData.offsetRect.width += dx;
+    storyProxy.group.manualData.offsetRect.height += dy;
+
+    selectedHierarchyIds.forEach((hierarchyId) => {
+      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      if (hierarchyProxy) {
+        hierarchyProxy.updateRect.width += dx;
+        hierarchyProxy.updateRect.height += dy;
+      }
+    });
   });
 
   return {
@@ -127,6 +183,7 @@ export const useBottomRightResizer = () => {
 
 export const useBodyResizer = () => {
   const storyProxy = useContext(StoryContext);
+  const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
 
   const body = useMemo(() => {
@@ -145,25 +202,15 @@ export const useBodyResizer = () => {
     storyProxy.group.rect.y += dy;
     storyProxy.group.manualData.offsetRect.x += dx;
     storyProxy.group.manualData.offsetRect.y += dy;
+
+    selectedHierarchyIds.forEach((hierarchyId) => {
+      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      if (hierarchyProxy) {
+        hierarchyProxy.updateRect.x += dx;
+        hierarchyProxy.updateRect.y += dy;
+      }
+    });
   });
-
-  // useEffect(()=>{
-  //   group.selectedHierarchyIds.forEach((hierarchyId)=>{
-  //     const element = document.querySelector(`[data-id="${hierarchyId}"]`);
-  //     const hierarchy = story.hierarchies[hierarchyId]
-  //     if (!element||!hierarchy) {
-  //       return;
-  //     }
-  //     // hierarchy.offsetRect
-  //   })
-  //   // story.hierarchies[""]?.offfsetRect
-  //   // group.selectedHierarchyIds
-  //   // group.manualData.offfsetRect
-  //   // const element = document.querySelector(`[data-id="${hierarchyId}"]`);
-  //   // if (!element) {
-
-  //   // }
-  // },[group.selectedHierarchyIds, story.hierarchies])
 
   return {
     body,
