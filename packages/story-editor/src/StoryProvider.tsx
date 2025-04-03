@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
-import { IFlatHierarchy, IGroup } from "../types";
+import { IFlatHierarchy, IGroup } from "./types";
 
 export interface IStoryContext {
   data?: Record<string, unknown>;

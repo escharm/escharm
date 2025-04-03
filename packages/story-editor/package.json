@@ -1,0 +1,13 @@
+{
+  "name": "@escharm/story-editor",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest",
+    "build": "rollup --config rollup.config.js --bundleConfigAsCjs",
+    "typings": "tsc -v && tsc -b -v",
+    "prepack": "rimraf dist && yarn typings && yarn build"
+  }
+}

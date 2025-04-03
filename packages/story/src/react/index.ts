@@ -1,8 +1,8 @@
+import { IFixture, IPluginParams } from "@escharm/story-editor";
 import fs from "fs";
 import path from "path";
 import { PluginOption, transformWithEsbuild } from "vite";
 
-import { IFixture, IPluginParams } from "../types";
 import { getFixturesPath } from "../utils";
 import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";

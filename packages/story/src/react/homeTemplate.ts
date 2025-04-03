@@ -3,7 +3,7 @@ const homeTemplate = () => {
     import React from "react";
     import { createRoot } from "react-dom/client";
 
-    import App from "/src/components/App";
+    import { App } from "@escharm/story-editor";
 
     const root = createRoot(document.getElementById("root")!);
 

@@ -1679,6 +1679,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@escharm/story-editor@workspace:^, @escharm/story-editor@workspace:packages/story-editor":
+  version: 0.0.0-use.local
+  resolution: "@escharm/story-editor@workspace:packages/story-editor"
+  languageName: unknown
+  linkType: soft
+
 "@escharm/story@workspace:^, @escharm/story@workspace:packages/story":
   version: 0.0.0-use.local
   resolution: "@escharm/story@workspace:packages/story"
@@ -1688,6 +1694,7 @@ __metadata:
     "@babel/plugin-syntax-typescript": "npm:^7.25.9"
     "@babel/preset-react": "npm:^7"
     "@babel/preset-typescript": "npm:^7"
+    "@escharm/story-editor": "workspace:^"
     "@eslint-recommended/eslint-config": "npm:^28.0.0"
     "@faker-js/faker": "npm:^9.6.0"
     "@heroicons/react": "npm:^2.2.0"

@@ -6,10 +6,16 @@
     "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
     "emitDeclarationOnly": true,
     "lib": ["esnext", "DOM"],
-    "paths": {},
+    "paths": {
+      "@escharm/story-editor/*": ["../../packages/story-editor/src/*"]
+    },
     "jsx": "react-jsx"
   },
   "include": ["src", "custom.d.ts"],
   "exclude": ["node_modules"],
-  "references": []
+  "references": [
+    {
+      "path": "../../packages/story-editor"
+    }
+  ]
 }

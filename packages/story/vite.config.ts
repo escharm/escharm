@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 
 import { reactStoryPlugin } from "./src/react";
@@ -21,6 +22,11 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: {},
+    alias: {
+      "@escharm/story-editor": path.resolve(
+        __dirname,
+        "../../packages/story-editor/src",
+      ),
+    },
   },
 });
