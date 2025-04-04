@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  useCleanSelectedHierarchy,
-  useSelectHierarchy,
-  useUpdateElements,
-} from "./hierarchy";
+import { useCleanSelectedHierarchy, useSelectHierarchy } from "./hierarchy";
 
 interface CaptureProps {
   children: React.ReactNode;
@@ -24,8 +20,6 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
       cleanSelectedHierarchy();
     }
   };
-
-  useUpdateElements();
 
   return (
     <div

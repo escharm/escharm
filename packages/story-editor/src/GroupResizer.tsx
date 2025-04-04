@@ -5,7 +5,7 @@ import {
   useSelectedHierarchyIds,
   useSelectHierarchy,
 } from "./hierarchy";
-import { useResizerGroup } from "./useResizerGroup";
+import { useResizerGroup, useUpdateElements } from "./useResizerGroup";
 
 const GroupResizer = () => {
   const {
@@ -77,11 +77,7 @@ const GroupResizer = () => {
     [flatHierarchy, selectedHierarchyIds, selectHierarchy],
   );
 
-  useEffect(() => {
-    if (import.meta.hot) {
-      import.meta.hot.send("hello", { name: "" });
-    }
-  }, []);
+  useUpdateElements();
 
   if (selectedHierarchyIds.length === 0) {
     return null;
