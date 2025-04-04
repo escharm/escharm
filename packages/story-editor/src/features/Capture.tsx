@@ -30,6 +30,10 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        padding: "24px",
+        backgroundSize: "20px 20px",
+        backgroundImage: "linear-gradient(to right, #f0f0f0 1px, transparent 1px), linear-gradient(to bottom, #f0f0f0 1px, transparent 1px)",
+        backgroundColor: "#fff",
       }}
     >
       {children}
