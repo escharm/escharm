@@ -6,6 +6,7 @@ import { IFlatHierarchy, IHierarchy } from "./types";
 import { useSelectedHierarchyIds } from "./hierarchy";
 import { useSelectHierarchy } from "./hierarchy";
 import { StoryContext } from "./StoryProvider";
+import { Panel } from "./components/Panel";
 
 interface IProps {
   item: IHierarchy;
@@ -51,57 +52,16 @@ const Sidebar = () => {
   const rootItems = Object.values(hierarchies).filter(
     (item) => item?.parentId === null,
   ) as IHierarchy[];
-  const [isCollapsed, setIsCollapsed] = useState(
-    !new URLSearchParams(window.location.search).has("name"),
+  const defaultCollapsed = !new URLSearchParams(window.location.search).has(
+    "name",
   );
 
-  const toggleCollapse = () => {
-    setIsCollapsed((isCollapsed) => !isCollapsed);
-  };
-
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "16px",
-        left: "16px",
-        backgroundColor: "white",
-        padding: "16px",
-        borderRadius: "8px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        maxHeight: "80vh",
-        overflowY: "auto",
-        transform: isCollapsed ? "translateX(-32px)" : "translateX(0)",
-        transition: "transform 0.2s ease",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: isCollapsed ? "0" : "16px",
-          cursor: "pointer",
-        }}
-        onClick={toggleCollapse}
-      >
-        {<h3 style={{ margin: 0 }}>层级目录</h3>}
-        <span
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            transition: "transform 0.2s ease",
-            transform: isCollapsed ? "rotate(0deg)" : "rotate(180deg)",
-            margin: "8px",
-          }}
-        >
-          <ChevronDownIcon height={16} />
-        </span>
-      </div>
-      {!isCollapsed &&
-        rootItems.map((item) => (
-          <HierarchyItem key={item.id} item={item} hierarchy={hierarchies} />
-        ))}
-    </div>
+    <Panel title="层级目录" position="left" defaultCollapsed={defaultCollapsed}>
+      {rootItems.map((item) => (
+        <HierarchyItem key={item.id} item={item} hierarchy={hierarchies} />
+      ))}
+    </Panel>
   );
 };
 
