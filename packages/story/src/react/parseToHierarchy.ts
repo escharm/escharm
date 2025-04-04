@@ -29,23 +29,29 @@ function createHierarchy(
     name: tagName,
     childIds: [],
     parentId,
-    originRect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+    originData: {
+      rect: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      }
     },
-    updateRect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+    updateData: {
+      rect: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      }
     },
-    offsetRect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
+    manualData: {
+      rect: {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      }
     },
   };
 }

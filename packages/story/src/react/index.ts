@@ -90,7 +90,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
                 height: 0,
               },
               manualData: {
-                offsetRect: {
+                rect: {
                   x: 0,
                   y: 0,
                   width: 0,

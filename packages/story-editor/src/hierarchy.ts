@@ -59,15 +59,15 @@ export const useSelectHierarchy = () => {
 
       // 同时更新 hierarchy 的 rect
       if (hierarchyProxy) {
-        hierarchyProxy.originRect.x = rect.x;
-        hierarchyProxy.originRect.y = rect.y;
-        hierarchyProxy.originRect.width = rect.width;
-        hierarchyProxy.originRect.height = rect.height;
+        hierarchyProxy.originData.rect.x = rect.x;
+        hierarchyProxy.originData.rect.y = rect.y;
+        hierarchyProxy.originData.rect.width = rect.width;
+        hierarchyProxy.originData.rect.height = rect.height;
 
-        hierarchyProxy.updateRect.x = rect.x;
-        hierarchyProxy.updateRect.y = rect.y;
-        hierarchyProxy.updateRect.width = rect.width;
-        hierarchyProxy.updateRect.height = rect.height;
+        hierarchyProxy.updateData.rect.x = rect.x;
+        hierarchyProxy.updateData.rect.y = rect.y;
+        hierarchyProxy.updateData.rect.width = rect.width;
+        hierarchyProxy.updateData.rect.height = rect.height;
       }
       if (rects.length > 0) {
         let minX = Infinity;
@@ -92,10 +92,10 @@ export const useSelectHierarchy = () => {
         storyProxy.group.rect.width = 0;
         storyProxy.group.rect.height = 0;
       }
-      storyProxy.group.manualData.offsetRect.x = 0;
-      storyProxy.group.manualData.offsetRect.y = 0;
-      storyProxy.group.manualData.offsetRect.width = 0;
-      storyProxy.group.manualData.offsetRect.height = 0;
+      storyProxy.group.manualData.rect.x = 0;
+      storyProxy.group.manualData.rect.y = 0;
+      storyProxy.group.manualData.rect.width = 0;
+      storyProxy.group.manualData.rect.height = 0;
     },
     [storyProxy],
   );
@@ -143,18 +143,20 @@ export const useUpdateElements = () => {
       if (element) {
         const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
         if (hierarchyProxy) {
-          hierarchyProxy.offsetRect.x = group.manualData.offsetRect.x;
-          hierarchyProxy.offsetRect.y = group.manualData.offsetRect.y;
-          hierarchyProxy.offsetRect.width = group.manualData.offsetRect.width;
-          hierarchyProxy.offsetRect.height = group.manualData.offsetRect.height;
+          hierarchyProxy.manualData.rect.x = group.manualData.rect.x;
+          hierarchyProxy.manualData.rect.y = group.manualData.rect.y;
+          hierarchyProxy.manualData.rect.width =
+            group.manualData.rect.width;
+          hierarchyProxy.manualData.rect.height =
+            group.manualData.rect.height;
         }
       }
     });
   }, [
-    group.manualData.offsetRect.height,
-    group.manualData.offsetRect.width,
-    group.manualData.offsetRect.x,
-    group.manualData.offsetRect.y,
+    group.manualData.rect.height,
+    group.manualData.rect.width,
+    group.manualData.rect.x,
+    group.manualData.rect.y,
     selectedHierarchyIds,
     storyProxy.hierarchies,
   ]);
@@ -167,10 +169,10 @@ export const useUpdateElements = () => {
       const element = document.querySelector(`[data-id="${hierarchy.id}"]`);
       if (element) {
         const style = (element as HTMLElement).style;
-        style.left = calc(`${hierarchy.updateRect.x}px`).toString();
-        style.top = calc(`${hierarchy.updateRect.y}px`).toString();
-        style.width = calc(`${hierarchy.updateRect.width}px`).toString();
-        style.height = calc(`${hierarchy.updateRect.height}px`).toString();
+        style.left = calc(`${hierarchy.updateData.rect.x}px`).toString();
+        style.top = calc(`${hierarchy.updateData.rect.y}px`).toString();
+        style.width = calc(`${hierarchy.updateData.rect.width}px`).toString();
+        style.height = calc(`${hierarchy.updateData.rect.height}px`).toString();
       }
       const updateRect = element?.getBoundingClientRect();
       if (updateRect) {
@@ -178,15 +180,15 @@ export const useUpdateElements = () => {
         const hierarchyProxy = storyProxy.hierarchies[hierarchy.id];
         if (
           hierarchyProxy &&
-          (updateRect.x !== hierarchy.updateRect.x ||
-            updateRect.y !== hierarchy.updateRect.y ||
-            updateRect.width !== hierarchy.updateRect.width ||
-            updateRect.height !== hierarchy.updateRect.height)
+          (updateRect.x !== hierarchy.updateData.rect.x ||
+            updateRect.y !== hierarchy.updateData.rect.y ||
+            updateRect.width !== hierarchy.updateData.rect.width ||
+            updateRect.height !== hierarchy.updateData.rect.height)
         ) {
-          hierarchyProxy.updateRect.x = updateRect.x;
-          hierarchyProxy.updateRect.y = updateRect.y;
-          hierarchyProxy.updateRect.width = updateRect.width;
-          hierarchyProxy.updateRect.height = updateRect.height;
+          hierarchyProxy.updateData.rect.x = updateRect.x;
+          hierarchyProxy.updateData.rect.y = updateRect.y;
+          hierarchyProxy.updateData.rect.width = updateRect.width;
+          hierarchyProxy.updateData.rect.height = updateRect.height;
         }
       }
     });
@@ -234,9 +236,9 @@ export const useCleanSelectedHierarchy = () => {
     storyProxy.group.rect.width = 0;
     storyProxy.group.rect.height = 0;
 
-    storyProxy.group.manualData.offsetRect.x = 0;
-    storyProxy.group.manualData.offsetRect.y = 0;
-    storyProxy.group.manualData.offsetRect.width = 0;
-    storyProxy.group.manualData.offsetRect.height = 0;
+    storyProxy.group.manualData.rect.x = 0;
+    storyProxy.group.manualData.rect.y = 0;
+    storyProxy.group.manualData.rect.width = 0;
+    storyProxy.group.manualData.rect.height = 0;
   }, [storyProxy]);
 };

@@ -28,18 +28,18 @@ export const useTopLeftResizer = () => {
     storyProxy.group.rect.y += dy;
     storyProxy.group.rect.height -= dy;
 
-    storyProxy.group.manualData.offsetRect.x += dx;
-    storyProxy.group.manualData.offsetRect.width -= dx;
-    storyProxy.group.manualData.offsetRect.y += dy;
-    storyProxy.group.manualData.offsetRect.height -= dy;
+    storyProxy.group.manualData.rect.x += dx;
+    storyProxy.group.manualData.rect.width -= dx;
+    storyProxy.group.manualData.rect.y += dy;
+    storyProxy.group.manualData.rect.height -= dy;
 
     selectedHierarchyIds.forEach((hierarchyId) => {
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
       if (hierarchyProxy) {
-        hierarchyProxy.updateRect.x += dx;
-        hierarchyProxy.updateRect.width -= dx;
-        hierarchyProxy.updateRect.y += dy;
-        hierarchyProxy.updateRect.height -= dy;
+        hierarchyProxy.updateData.rect.x += dx;
+        hierarchyProxy.updateData.rect.width -= dx;
+        hierarchyProxy.updateData.rect.y += dy;
+        hierarchyProxy.updateData.rect.height -= dy;
       }
     });
   });
@@ -74,16 +74,16 @@ export const useTopRightResizer = () => {
     storyProxy.group.rect.y += dy;
     storyProxy.group.rect.height -= dy;
 
-    storyProxy.group.manualData.offsetRect.width += dx;
-    storyProxy.group.manualData.offsetRect.y += dy;
-    storyProxy.group.manualData.offsetRect.height -= dy;
+    storyProxy.group.manualData.rect.width += dx;
+    storyProxy.group.manualData.rect.y += dy;
+    storyProxy.group.manualData.rect.height -= dy;
 
     selectedHierarchyIds.forEach((hierarchyId) => {
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
       if (hierarchyProxy) {
-        hierarchyProxy.updateRect.width += dx;
-        hierarchyProxy.updateRect.y += dy;
-        hierarchyProxy.updateRect.height -= dy;
+        hierarchyProxy.updateData.rect.width += dx;
+        hierarchyProxy.updateData.rect.y += dy;
+        hierarchyProxy.updateData.rect.height -= dy;
       }
     });
   });
@@ -118,16 +118,16 @@ export const useBottomLeftResizer = () => {
     storyProxy.group.rect.width -= dx;
     storyProxy.group.rect.height += dy;
 
-    storyProxy.group.manualData.offsetRect.x += dx;
-    storyProxy.group.manualData.offsetRect.width -= dx;
-    storyProxy.group.manualData.offsetRect.height += dy;
+    storyProxy.group.manualData.rect.x += dx;
+    storyProxy.group.manualData.rect.width -= dx;
+    storyProxy.group.manualData.rect.height += dy;
 
     selectedHierarchyIds.forEach((hierarchyId) => {
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
       if (hierarchyProxy) {
-        hierarchyProxy.updateRect.x += dx;
-        hierarchyProxy.updateRect.width -= dx;
-        hierarchyProxy.updateRect.height += dy;
+        hierarchyProxy.updateData.rect.x += dx;
+        hierarchyProxy.updateData.rect.width -= dx;
+        hierarchyProxy.updateData.rect.height += dy;
       }
     });
   });
@@ -163,14 +163,14 @@ export const useBottomRightResizer = () => {
     storyProxy.group.rect.width += dx;
     storyProxy.group.rect.height += dy;
 
-    storyProxy.group.manualData.offsetRect.width += dx;
-    storyProxy.group.manualData.offsetRect.height += dy;
+    storyProxy.group.manualData.rect.width += dx;
+    storyProxy.group.manualData.rect.height += dy;
 
     selectedHierarchyIds.forEach((hierarchyId) => {
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
       if (hierarchyProxy) {
-        hierarchyProxy.updateRect.width += dx;
-        hierarchyProxy.updateRect.height += dy;
+        hierarchyProxy.updateData.rect.width += dx;
+        hierarchyProxy.updateData.rect.height += dy;
       }
     });
   });
@@ -200,14 +200,14 @@ export const useBodyResizer = () => {
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
     storyProxy.group.rect.x += dx;
     storyProxy.group.rect.y += dy;
-    storyProxy.group.manualData.offsetRect.x += dx;
-    storyProxy.group.manualData.offsetRect.y += dy;
+    storyProxy.group.manualData.rect.x += dx;
+    storyProxy.group.manualData.rect.y += dy;
 
     selectedHierarchyIds.forEach((hierarchyId) => {
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
       if (hierarchyProxy) {
-        hierarchyProxy.updateRect.x += dx;
-        hierarchyProxy.updateRect.y += dy;
+        hierarchyProxy.updateData.rect.x += dx;
+        hierarchyProxy.updateData.rect.y += dy;
       }
     });
   });
