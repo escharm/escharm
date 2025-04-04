@@ -56,9 +56,19 @@ export const useSelectHierarchy = () => {
       storyProxy.group.selectedRects[hierarchyId] = rect;
 
       const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      const element = document.querySelector(`[data-id="${hierarchyId}"]`) as
+        | HTMLElement
+        | undefined;
 
-      // 同时更新 hierarchy 的 rect
-      if (hierarchyProxy) {
+      if (hierarchyProxy && element?.style) {
+        const computedStyle = element.style;
+        // 遍历所有计算样式并直接设置到originData.style
+        for (let i = 0; i < computedStyle.length; i++) {
+          const propertyName = computedStyle[i];
+          const propertyValue = computedStyle.getPropertyValue(propertyName);
+          hierarchyProxy.originData.style[propertyName] = propertyValue;
+        }
+
         hierarchyProxy.originData.rect.x = rect.x;
         hierarchyProxy.originData.rect.y = rect.y;
         hierarchyProxy.originData.rect.width = rect.width;

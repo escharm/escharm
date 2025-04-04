@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useStory } from "./hierarchy";
+import { useStory } from "../hierarchy";
 
 const ComponentTemplate = () => {
   const urlSearchParams = new URLSearchParams(window.location.search);

@@ -35,7 +35,8 @@ function createHierarchy(
         y: 0,
         width: 0,
         height: 0,
-      }
+      },
+      style: {},
     },
     updateData: {
       rect: {
@@ -43,7 +44,8 @@ function createHierarchy(
         y: 0,
         width: 0,
         height: 0,
-      }
+      },
+      style: {},
     },
     manualData: {
       rect: {
@@ -51,7 +53,8 @@ function createHierarchy(
         y: 0,
         width: 0,
         height: 0,
-      }
+      },
+      style: {},
     },
   };
 }

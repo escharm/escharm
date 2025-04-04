@@ -4,7 +4,7 @@ import {
   useHierarchies,
   useSelectedHierarchyIds,
   useSelectHierarchy,
-} from "./hierarchy";
+} from "../hierarchy";
 import { useResizerGroup, useUpdateElements } from "./useResizerGroup";
 
 const GroupResizer = () => {

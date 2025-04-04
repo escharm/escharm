@@ -6,10 +6,10 @@ import {
   useGroup,
   useSelectedHierarchies,
   useSelectedHierarchyIds,
-} from "./hierarchy";
-import { StoryContext } from "./StoryProvider";
-import { IRect } from "./types";
-import { useAnimationEffect } from "./useAnimationEffect";
+} from "../hierarchy";
+import { StoryContext } from "../StoryProvider";
+import { IRect } from "../types";
+import { useAnimationEffect } from "../useAnimationEffect";
 
 export const useTopLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
@@ -265,27 +265,26 @@ export const useResizerGroup = () => {
 
 export const useUpdateElements = () => {
   const selectedHierarchies = useSelectedHierarchies();
-  const selectedHierarchyIds = useSelectedHierarchyIds();
-  const group = useGroup();
   const storyProxy = useContext(StoryContext);
 
   useAnimationEffect(() => {
     const rects: IRect[] = [];
 
     selectedHierarchies.forEach((hierarchy) => {
-      console.log(JSON.stringify(hierarchy, null, 2));
-      const element = document.querySelector(`[data-id="${hierarchy.id}"]`);
+      const element = document.querySelector(`[data-id="${hierarchy.id}"]`) as
+        | HTMLElement
+        | undefined;
       if (element) {
-        const style = (element as HTMLElement).style;
+        const style = element.style;
         style.left = calc(`${hierarchy.updateData.rect.x}px`).toString();
         style.top = calc(`${hierarchy.updateData.rect.y}px`).toString();
         style.width = calc(`${hierarchy.updateData.rect.width}px`).toString();
         style.height = calc(`${hierarchy.updateData.rect.height}px`).toString();
       }
       const updateRect = element?.getBoundingClientRect();
+      const hierarchyProxy = storyProxy.hierarchies[hierarchy.id];
       if (updateRect) {
         rects.push(updateRect);
-        const hierarchyProxy = storyProxy.hierarchies[hierarchy.id];
         if (
           hierarchyProxy &&
           (updateRect.x !== hierarchy.updateData.rect.x ||
@@ -297,6 +296,13 @@ export const useUpdateElements = () => {
           hierarchyProxy.updateData.rect.y = updateRect.y;
           hierarchyProxy.updateData.rect.width = updateRect.width;
           hierarchyProxy.updateData.rect.height = updateRect.height;
+        }
+      }
+      if (hierarchyProxy && element?.style) {
+        for (let i = 0; i < element?.style.length; i++) {
+          const propertyName = element?.style[i];
+          const propertyValue = element?.style.getPropertyValue(propertyName);
+          hierarchyProxy.updateData.style[propertyName] = propertyValue;
         }
       }
     });

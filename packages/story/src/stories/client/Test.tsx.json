@@ -41,7 +41,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "updateData": {
         "rect": {
@@ -49,7 +50,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "manualData": {
         "rect": {
@@ -57,7 +59,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       }
     },
     "3k1u2ohQLaMkRAfl6nRSa": {
@@ -71,7 +74,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "updateData": {
         "rect": {
@@ -79,7 +83,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "manualData": {
         "rect": {
@@ -87,7 +92,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       }
     },
     "SpAxCt61iEVAUiiaEHn16": {
@@ -101,7 +107,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "updateData": {
         "rect": {
@@ -109,7 +116,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "manualData": {
         "rect": {
@@ -117,13 +125,16 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       }
     },
     "OkUfGQ3ePnt5namfPf4Sv": {
       "id": "OkUfGQ3ePnt5namfPf4Sv",
       "name": "div",
-      "childIds": ["tipv7O_5eLy789VGv7CXN"],
+      "childIds": [
+        "tipv7O_5eLy789VGv7CXN"
+      ],
       "parentId": "Z-dDqMJMPX5qFrRSvmja7",
       "originData": {
         "rect": {
@@ -131,7 +142,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "updateData": {
         "rect": {
@@ -139,7 +151,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "manualData": {
         "rect": {
@@ -147,7 +160,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       }
     },
     "tipv7O_5eLy789VGv7CXN": {
@@ -161,7 +175,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "updateData": {
         "rect": {
@@ -169,7 +184,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       },
       "manualData": {
         "rect": {
@@ -177,7 +193,8 @@
           "y": 0,
           "width": 0,
           "height": 0
-        }
+        },
+        "style": {}
       }
     }
   }

@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export interface IFlatStructure<T = unknown> {
   [id: string]: T | undefined;
 }
@@ -16,12 +18,15 @@ export interface IHierarchy {
   parentId: string | null;
   originData: {
     rect: IRect;
+    style: Record<string, string | undefined>;
   };
   updateData: {
     rect: IRect;
+    style: Record<string, string | undefined>;
   };
   manualData: {
     rect: IRect;
+    style: Record<string, string | undefined>;
   };
 }
 

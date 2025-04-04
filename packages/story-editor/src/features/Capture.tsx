@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useCleanSelectedHierarchy, useSelectHierarchy } from "./hierarchy";
+import { useCleanSelectedHierarchy, useSelectHierarchy } from "../hierarchy";
 
 interface CaptureProps {
   children: React.ReactNode;

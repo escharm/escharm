@@ -5,15 +5,13 @@ interface PanelProps {
   title: string;
   children: ReactNode;
   position: "left" | "right";
+  top?: number;
   defaultCollapsed?: boolean;
 }
 
-export const Panel = ({
-  title,
-  children,
-  position,
-  defaultCollapsed = false,
-}: PanelProps) => {
+export const Panel = (props: PanelProps) => {
+  const { top, title, children, position, defaultCollapsed = false } = props;
+
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
   const toggleCollapse = () => {
@@ -24,7 +22,7 @@ export const Panel = ({
     <div
       style={{
         position: "fixed",
-        top: "16px",
+        top: top ?? "16px",
         [position]: "16px",
         backgroundColor: "white",
         padding: "16px",
@@ -32,8 +30,8 @@ export const Panel = ({
         boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
         maxHeight: "80vh",
         overflowY: "auto",
-        transform: isCollapsed 
-          ? `translateX(${position === "left" ? "-32px" : "32px"})` 
+        transform: isCollapsed
+          ? `translateX(${position === "left" ? "-32px" : "32px"})`
           : "translateX(0)",
         transition: "transform 0.2s ease",
       }}
