@@ -16,14 +16,17 @@ export interface IHierarchy {
   name: string;
   childIds: string[];
   parentId: string | null;
+  // original rect,style data from HTMLElement
   originData: {
     rect: IRect;
     style: Record<string, string | undefined>;
   };
+  // updated rect,style data from HTMLElement
   updateData: {
     rect: IRect;
     style: Record<string, string | undefined>;
   };
+  // manual changed rect,style data
   manualData: {
     rect: IRect;
     style: Record<string, string | undefined>;

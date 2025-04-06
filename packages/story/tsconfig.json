@@ -9,7 +9,9 @@
     "paths": {
       "@escharm/story-editor/*": ["../../packages/story-editor/src/*"]
     },
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "isolatedModules": false
   },
   "include": ["src", "custom.d.ts"],
   "exclude": ["node_modules"],

@@ -1,3 +1,5 @@
+import SubTest from "./SubTest";
+
 interface IProps {
   a: string;
 }
@@ -9,10 +11,13 @@ const Test = (props: IProps) => {
       <p data-id="3k1u2ohQLaMkRAfl6nRSa" style={{ height: 50 }}>
         {a}
       </p>
-      <button data-id="SpAxCt61iEVAUiiaEHn16">Click me</button>
+      <button data-id="SpAxCt61iEVAUiiaEHn16" className="h-9 w-0.5">
+        Click me
+      </button>
       <div data-id="OkUfGQ3ePnt5namfPf4Sv">
         <span data-id="tipv7O_5eLy789VGv7CXN">Nested content</span>
       </div>
+      <SubTest />
     </div>
   );
 };

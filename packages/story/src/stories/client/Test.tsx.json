@@ -32,7 +32,8 @@
       "childIds": [
         "3k1u2ohQLaMkRAfl6nRSa",
         "SpAxCt61iEVAUiiaEHn16",
-        "OkUfGQ3ePnt5namfPf4Sv"
+        "OkUfGQ3ePnt5namfPf4Sv",
+        "SubTest"
       ],
       "parentId": null,
       "originData": {
@@ -169,6 +170,39 @@
       "name": "span",
       "childIds": [],
       "parentId": "OkUfGQ3ePnt5namfPf4Sv",
+      "originData": {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {}
+      },
+      "updateData": {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {}
+      },
+      "manualData": {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "style": {}
+      }
+    },
+    "SubTest": {
+      "id": "SubTest",
+      "name": "SubTest",
+      "childIds": [],
+      "parentId": "Z-dDqMJMPX5qFrRSvmja7",
       "originData": {
         "rect": {
           "x": 0,
