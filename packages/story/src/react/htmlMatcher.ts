@@ -9,6 +9,12 @@ export function addDataIdToHtmlTags(html: string): string {
         return match;
       }
       if (!attributes.includes("data-id")) {
+        // 判断是否是多行标签
+        if (match.includes("\n")) {
+          // 获取第一行的缩进
+          const indent = match.match(/\n(\s*)/)?.[1] || "  ";
+          return `<${tagName}\n${indent}data-id="${nanoid()}"${attributes}>`;
+        }
         return `<${tagName} data-id="${nanoid()}"${attributes}>`;
       }
       return match;
