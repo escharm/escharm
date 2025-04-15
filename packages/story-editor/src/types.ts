@@ -30,6 +30,7 @@ export interface IHierarchy {
   manualData: {
     rect: IRect;
     style: Record<string, string | undefined>;
+    className?: string;
   };
 }
 
@@ -61,4 +62,10 @@ export interface IPluginParams {
   storyPath?: { prefix: string; test: RegExp };
   fixturesPath?: (path: string) => string;
   homeTemplate?: () => string;
+  tailwindCSS?: string;
+}
+
+export interface ISaveHierarchyParams {
+  searchId: string;
+  hierarchy: IHierarchy;
 }

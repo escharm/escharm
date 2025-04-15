@@ -7,15 +7,18 @@ interface IProps {
 const Test = (props: IProps) => {
   const { a } = props;
   return (
-    <div data-id="Z-dDqMJMPX5qFrRSvmja7">
-      <p data-id="3k1u2ohQLaMkRAfl6nRSa" style={{ height: 50 }}>
+    <div data-id="fsPaj5-kNsf_7i8x5epBh">
+      <p data-id="STCk7M0uEPB1LaCSPa8-c"
+        className="h-10"
+        style={{ height: 100 }}
+        onClick={() => {}}
+        title="abcd"
+      >
         {a}
       </p>
-      <button data-id="SpAxCt61iEVAUiiaEHn16" className="h-9 w-0.5">
-        Click me
-      </button>
-      <div data-id="OkUfGQ3ePnt5namfPf4Sv">
-        <span data-id="tipv7O_5eLy789VGv7CXN">Nested content</span>
+      <button data-id="EroN_y3dPjT4zusNpJ4pn" className="h-20 w-10">Click me</button>
+      <div data-id="OQnnN0yu288qLrafAvL9F">
+        <span data-id="EA2dX2fKmd8PqOJn1PpJx">Nested content</span>
       </div>
       <SubTest />
     </div>

@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { defineConfig } from "vite";
 
@@ -5,6 +6,7 @@ import { reactStoryPlugin } from "./src/react";
 
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     reactStoryPlugin({
       staticPath: {
         prefix: "/static",
@@ -16,9 +18,10 @@ export default defineConfig({
         prefix: "/story",
         test: new RegExp(`^/story`),
       },
-      fixturesPath(path) {
-        return `${path.replace("/src", "/src/stories")}.json`;
+      fixturesPath(_path) {
+        return `${_path.replace("/src", "/src/stories")}.json`;
       },
+      tailwindCSS: path.resolve(__dirname, "./src/client/App.css"),
     }),
   ],
   resolve: {

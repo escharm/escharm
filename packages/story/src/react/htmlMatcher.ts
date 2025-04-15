@@ -21,3 +21,29 @@ export function addDataIdToHtmlTags(html: string): string {
     },
   );
 }
+
+export function updateHtmlTagClassNames(
+  html: string,
+  dataId: string,
+  className?: string,
+): string {
+  return html.replace(
+    new RegExp(`<([^<]*)(data-id=["']${dataId}["'])([^>]*)>`, "g"),
+    (match, tagName, attributesBefore, attributesAfter) => {
+      if (!className) {
+        return match
+          .replace(/\s*className="[^"]*"/, "")
+          .replace(/\s*className='[^']*'/, "");
+      }
+
+      const hasClass = /className=/.test(match);
+      if (hasClass) {
+        return match.replace(
+          /className=["'][^"']*["']/,
+          `className="${className}"`,
+        );
+      }
+      return match.replace(/(\s*\/?>)/, ` className="${className}"$1`);
+    },
+  );
+}

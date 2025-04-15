@@ -68,6 +68,8 @@ const StoryProvider = (props: IProps) => {
     [defaultValueRef],
   );
 
+  const onUpdateTWDevStyle = useCallback(() => {}, []);
+
   useEffect(() => {
     import.meta.hot?.send("LOAD_STORY_CONTEXT", {
       search: window.location.search,
@@ -82,6 +84,15 @@ const StoryProvider = (props: IProps) => {
       };
     }
   }, [onSetStoryContext]);
+
+  useEffect(() => {
+    if (import.meta.hot) {
+      import.meta.hot.on("UPDATE_TW_DEV_STYLE", onUpdateTWDevStyle);
+      return () => {
+        import.meta.hot?.off("UPDATE_TW_DEV_STYLE", onUpdateTWDevStyle);
+      };
+    }
+  });
 
   return (
     <StoryContext.Provider value={defaultValueRef.current}>

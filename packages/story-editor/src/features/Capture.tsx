@@ -20,7 +20,7 @@ const Capture: React.FC<CaptureProps> = ({ children }) => {
       cleanSelectedHierarchy();
     }
   };
-  
+
   return (
     <div
       id="escharm-story-capture"

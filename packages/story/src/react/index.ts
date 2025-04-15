@@ -83,11 +83,13 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
       preferRelative: true,
     });
     function customCssResolver(id: string, base: string) {
+      console.log("test test customCssResolver", id, base);
       return cssResolver(id, base, true, isSSR);
     }
 
     const jsResolver = config!.createResolver(config!.resolve);
     function customJsResolver(id: string, base: string) {
+      console.log("test test customJsResolver", id, base);
       return jsResolver(id, base, true, isSSR);
     }
     return new Root(id, config!.root, customCssResolver, customJsResolver);
@@ -205,7 +207,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         }
         return null;
       },
-      configureServer: (server) => {
+      configureServer(server) {
         server.middlewares.use(staticPathPrefix, async (req, res, next) => {
           const originalUrl = req.url || "";
           const urlWithoutPrefix = originalUrl.startsWith(staticPathPrefix)
@@ -367,8 +369,12 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             }
           }
         });
-
-        server.ws.on("SAVE_STORY_CONTEXT", saveHierarchyChange(roots));
+        if (params?.tailwindCSS) {
+          server.ws.on(
+            "SAVE_HIERARCHY_CHANGE",
+            saveHierarchyChange(params.tailwindCSS, roots),
+          );
+        }
       },
       handleHotUpdate() {
         return [];
@@ -386,38 +392,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
       async configResolved(_config) {
         config = _config;
         isSSR = config.build.ssr !== false && config.build.ssr !== undefined;
-      },
-    },
-    {
-      // Step 2 (serve mode): Generate CSS
-      name: "@tailwindcss/vite:generate:serve",
-      apply: "serve",
-      enforce: "pre",
-
-      async transform(src, id, options) {
-        console.log("test test transform", src, id, options);
-        if (!isPotentialCssRootFile(id)) return;
-
-        using I = new Instrumentation();
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        DEBUG && I.start("[@tailwindcss/vite] Generate CSS (serve)");
-
-        const root = roots.get(id);
-
-        const generated = await root.generate(
-          src,
-          (file) => this.addWatchFile(file),
-          I,
-        );
-        if (!generated) {
-          roots.delete(id);
-          return src;
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        DEBUG && I.end("[@tailwindcss/vite] Generate CSS (serve)");
-        // console.log("test test", generated);
-        return { code: generated };
       },
     },
   ] satisfies PluginOption;

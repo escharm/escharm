@@ -1,7 +1,5 @@
-import { IHierarchy } from "../types";
+import { ISaveHierarchyParams } from "../types";
 
-export const saveHierarchyChange = (hierarchy: IHierarchy) => {
-  import.meta.hot?.send("SAVE_HIERARCHY_CHANGE", {
-    hierarchy,
-  });
+export const saveHierarchyChange = (params: ISaveHierarchyParams) => {
+  import.meta.hot?.send("SAVE_HIERARCHY_CHANGE", params);
 };
