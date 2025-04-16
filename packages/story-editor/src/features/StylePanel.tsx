@@ -13,20 +13,23 @@ import { saveHierarchyChange } from "../utils/saveHierarchyChange";
 
 const StylePanel = () => {
   const selectedHierarchies = useSelectedHierarchies();
+  const selectedHierarchy = selectedHierarchies[0];
 
   return (
     <Panel title="样式面板" position="right" defaultCollapsed={false} top={100}>
-      <Button
-        onClick={() => {
-          console.log(window.location.search);
-          saveHierarchyChange({
-            searchId: window.location.search,
-            hierarchy: selectedHierarchies[0],
-          });
-        }}
-      >
-        保存
-      </Button>
+      {selectedHierarchy && (
+        <Button
+          onClick={() => {
+            console.log(window.location.search);
+            saveHierarchyChange({
+              searchId: window.location.search,
+              hierarchy: selectedHierarchies[0],
+            });
+          }}
+        >
+          保存
+        </Button>
+      )}
       {selectedHierarchies.length === 0 ? (
         <div>请选择一个元素</div>
       ) : selectedHierarchies.length === 1 ? (

@@ -2,14 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
-import { IFlatHierarchy, IGroup } from "./types";
-
-export interface IStoryContext {
-  data?: Record<string, unknown>;
-  hierarchies: IFlatHierarchy;
-  group: IGroup;
-  storyNames: string[];
-}
+import { IFlatHierarchy, IStoryContext, IUpdateTWStyleParams } from "./types";
 
 const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
   const hierarchies = defaultValue ?? {};
@@ -53,6 +46,7 @@ const StoryProvider = (props: IProps) => {
   const defaultValueRef = useRef<IStoryContext>(
     createDefaultData(defaultValue),
   );
+  const styleRef = useRef<HTMLStyleElement>(null);
 
   useEffect(() => {}, []);
 
@@ -68,7 +62,22 @@ const StoryProvider = (props: IProps) => {
     [defaultValueRef],
   );
 
-  const onUpdateTWDevStyle = useCallback(() => {}, []);
+  const onUpdateTWDevStyle = useCallback((params: IUpdateTWStyleParams) => {
+    console.log("test test", params);
+
+    if (!styleRef.current) {
+      styleRef.current = document.createElement("style");
+      styleRef.current.id = "escharm-story-tw-dev-style";
+      if (params.content) {
+        styleRef.current.innerHTML = params.content;
+      }
+      document.head.appendChild(styleRef.current);
+    } else {
+      if (params.content) {
+        styleRef.current.innerHTML = params.content;
+      }
+    }
+  }, []);
 
   useEffect(() => {
     import.meta.hot?.send("LOAD_STORY_CONTEXT", {

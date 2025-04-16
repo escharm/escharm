@@ -29,7 +29,7 @@ export function updateHtmlTagClassNames(
 ): string {
   return html.replace(
     new RegExp(`<([^<]*)(data-id=["']${dataId}["'])([^>]*)>`, "g"),
-    (match, tagName, attributesBefore, attributesAfter) => {
+    (match) => {
       if (!className) {
         return match
           .replace(/\s*className="[^"]*"/, "")

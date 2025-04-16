@@ -1,13 +1,17 @@
 import "valtio";
-import "vite";
 
-import { IStoryContext } from "./src/components/StoryProvider";
+import { IStoryContext } from "@escharm/story-editor";
 declare module "valtio" {
   function useSnapshot<T extends object>(p: T): T;
 }
 
-declare module "vite" {
+import "vite/types/customEvent.d.ts";
+
+declare module "vite/types/customEvent.d.ts" {
   interface CustomEventMap {
     SET_STORY_CONTEXT: Partial<IStoryContext>;
+    UPDATE_TW_DEV_STYLE: {
+      content: string | falsef;
+    };
   }
 }

@@ -69,3 +69,14 @@ export interface ISaveHierarchyParams {
   searchId: string;
   hierarchy: IHierarchy;
 }
+
+export interface IStoryContext {
+  data?: Record<string, unknown>;
+  hierarchies: IFlatHierarchy;
+  group: IGroup;
+  storyNames: string[];
+}
+
+export interface IUpdateTWStyleParams {
+  content: string | false;
+}

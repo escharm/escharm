@@ -1,16 +1,4 @@
-import fsPromise from "node:fs/promises";
-
 import { IFixture, IPluginParams } from "@escharm/story-editor";
-import {
-  compile,
-  env,
-  Features,
-  Instrumentation,
-  normalizePath,
-  optimize,
-} from "@tailwindcss/node";
-import { clearRequireCache } from "@tailwindcss/node/require-cache";
-import { Scanner } from "@tailwindcss/oxide";
 import fs from "fs";
 import path from "path";
 import {
@@ -30,29 +18,6 @@ import DefaultMap from "./TWDefaultMap";
 import Root from "./TWRoot";
 
 // tailwindcss
-
-const DEBUG = process.env.DEBUG;
-const SPECIAL_QUERY_RE = /[?&](?:worker|sharedworker|raw|url)\b/;
-const COMMON_JS_PROXY_RE = /\?commonjs-proxy/;
-const INLINE_STYLE_ID_RE = /[?&]index=\d+\.css$/;
-
-function getExtension(id: string) {
-  const [filename] = id.split("?", 2);
-  return path.extname(filename).slice(1);
-}
-
-function isPotentialCssRootFile(id: string) {
-  if (id.includes("/.vite/")) return;
-  const extension = getExtension(id);
-  const isCssFile =
-    (extension === "css" ||
-      id.includes("&lang.css") ||
-      id.match(INLINE_STYLE_ID_RE)) &&
-    // Don't intercept special static asset resources
-    !SPECIAL_QUERY_RE.test(id) &&
-    !COMMON_JS_PROXY_RE.test(id);
-  return isCssFile;
-}
 
 export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
   const defaultStaticPathPrefix = "/static";
@@ -360,10 +325,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
                 ? { ...story, ...baseContext }
                 : baseContext;
 
-              server.ws.send<"SET_STORY_CONTEXT">(
-                "SET_STORY_CONTEXT",
-                storyContext,
-              );
+              server.ws.send("SET_STORY_CONTEXT", storyContext);
             } catch (err) {
               console.error("Failed to read mock data:", err);
             }
@@ -372,7 +334,7 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
         if (params?.tailwindCSS) {
           server.ws.on(
             "SAVE_HIERARCHY_CHANGE",
-            saveHierarchyChange(params.tailwindCSS, roots),
+            saveHierarchyChange(server, params.tailwindCSS, roots),
           );
         }
       },
