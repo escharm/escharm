@@ -30,6 +30,7 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
     hierarchies,
     group,
     storyNames: [],
+    styledContainer: {},
   });
 };
 
@@ -63,8 +64,6 @@ const StoryProvider = (props: IProps) => {
   );
 
   const onUpdateTWDevStyle = useCallback((params: IUpdateTWStyleParams) => {
-    console.log("test test", params);
-
     if (!styleRef.current) {
       styleRef.current = document.createElement("style");
       styleRef.current.id = "escharm-story-tw-dev-style";

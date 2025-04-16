@@ -75,6 +75,11 @@ export interface IStoryContext {
   hierarchies: IFlatHierarchy;
   group: IGroup;
   storyNames: string[];
+  styledContainer: {
+    needed?: boolean;
+    height?: number;
+    width?: number;
+  };
 }
 
 export interface IUpdateTWStyleParams {

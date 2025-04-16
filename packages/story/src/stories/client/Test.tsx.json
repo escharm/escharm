@@ -22,7 +22,8 @@
             "height": 0
           }
         }
-      }
+      },
+      "styledContainer": {}
     }
   },
   "hierarchies": {
@@ -133,9 +134,7 @@
     "OQnnN0yu288qLrafAvL9F": {
       "id": "OQnnN0yu288qLrafAvL9F",
       "name": "div",
-      "childIds": [
-        "EA2dX2fKmd8PqOJn1PpJx"
-      ],
+      "childIds": ["EA2dX2fKmd8PqOJn1PpJx"],
       "parentId": "fsPaj5-kNsf_7i8x5epBh",
       "originData": {
         "rect": {

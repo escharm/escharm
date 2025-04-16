@@ -2,11 +2,11 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useContext, useState } from "react";
 import { useSnapshot } from "valtio";
 
-import { IFlatHierarchy, IHierarchy } from "../types";
-import { useSelectedHierarchyIds } from "../hierarchy";
-import { useSelectHierarchy } from "../hierarchy";
-import { StoryContext } from "../StoryProvider";
-import { Panel } from "../components/Panel";
+import { IFlatHierarchy, IHierarchy } from "../../types";
+import { useSelectedHierarchyIds } from "../../hierarchy";
+import { useSelectHierarchy } from "../../hierarchy";
+import { StoryContext } from "../../StoryProvider";
+import { Panel } from "../../components/Panel";
 
 interface IProps {
   item: IHierarchy;
@@ -45,7 +45,7 @@ const HierarchyItem = (props: IProps) => {
   );
 };
 
-const Sidebar = () => {
+const HierarchyPanel = () => {
   const storyProxy = useContext(StoryContext);
   const story = useSnapshot(storyProxy);
   const hierarchies = story.hierarchies;
@@ -65,4 +65,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default HierarchyPanel;

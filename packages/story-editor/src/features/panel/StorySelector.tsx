@@ -2,8 +2,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import React, { useContext, useState } from "react";
 import { useSnapshot } from "valtio";
 
-import { StoryContext } from "../StoryProvider";
-import { Panel } from "../components/Panel";
+import { StoryContext } from "../../StoryProvider";
+import { Panel } from "../../components/Panel";
 
 const StorySelector: React.FC = () => {
   const storyProxy = useContext(StoryContext);

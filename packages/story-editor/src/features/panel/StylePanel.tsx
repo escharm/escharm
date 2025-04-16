@@ -3,13 +3,13 @@ import {
   useHierarchies,
   useSelectedHierarchies,
   useSelectedHierarchyIds,
-} from "../hierarchy";
-import { Panel } from "../components/Panel";
-import { SingleElementStylePanel } from "./SingleElementStylePanel";
-import { MultiElementStylePanel } from "./MultiElementStylePanel";
-import { IHierarchy } from "../types";
-import Button from "../components/Button";
-import { saveHierarchyChange } from "../utils/saveHierarchyChange";
+} from "../../hierarchy";
+import { Panel } from "../../components/Panel";
+import { SingleElementStylePanel } from "../SingleElementStylePanel";
+import { MultiElementStylePanel } from "../MultiElementStylePanel";
+import { IHierarchy } from "../../types";
+import Button from "../../components/Button";
+import { saveHierarchyChange } from "../../utils/saveHierarchyChange";
 
 const StylePanel = () => {
   const selectedHierarchies = useSelectedHierarchies();

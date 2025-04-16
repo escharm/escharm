@@ -1,10 +1,8 @@
-import { calc } from "@vanilla-extract/css-utils";
-import { useCallback, useContext, useEffect, useMemo } from "react";
-import { proxy, subscribe, useSnapshot } from "valtio";
+import { useCallback, useContext, useMemo } from "react";
+import { proxy, useSnapshot } from "valtio";
 
 import { IFlatHierarchy, IFlatStructure, IHierarchy, IRect } from "./types";
-import { IStoryContext, StoryContext } from "./StoryProvider";
-import { useAnimationEffect } from "./useAnimationEffect";
+import { StoryContext } from "./StoryProvider";
 
 export const useStory = () => {
   const storyProxy = useContext(StoryContext);
