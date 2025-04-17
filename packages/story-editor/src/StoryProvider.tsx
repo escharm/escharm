@@ -63,10 +63,10 @@ const StoryProvider = (props: IProps) => {
     [defaultValueRef],
   );
 
-  const onUpdateTWDevStyle = useCallback((params: IUpdateTWStyleParams) => {
+  const onUpdateTWStyle = useCallback((params: IUpdateTWStyleParams) => {
     if (!styleRef.current) {
       styleRef.current = document.createElement("style");
-      styleRef.current.id = "escharm-story-tw-dev-style";
+      styleRef.current.id = "escharm-story-tw-style";
       if (params.content) {
         styleRef.current.innerHTML = params.content;
       }
@@ -95,9 +95,9 @@ const StoryProvider = (props: IProps) => {
 
   useEffect(() => {
     if (import.meta.hot) {
-      import.meta.hot.on("UPDATE_TW_DEV_STYLE", onUpdateTWDevStyle);
+      import.meta.hot.on("UPDATE_TW_STYLE", onUpdateTWStyle);
       return () => {
-        import.meta.hot?.off("UPDATE_TW_DEV_STYLE", onUpdateTWDevStyle);
+        import.meta.hot?.off("UPDATE_TW_STYLE", onUpdateTWStyle);
       };
     }
   });

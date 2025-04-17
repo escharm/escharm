@@ -1,12 +1,5 @@
-import { IHierarchy, ISaveHierarchyParams } from "@escharm/story-editor";
-import {
-  compile,
-  env,
-  Features,
-  Instrumentation,
-  normalizePath,
-  optimize,
-} from "@tailwindcss/node";
+import { ISaveHierarchyParams } from "@escharm/story-editor";
+import { Instrumentation } from "@tailwindcss/node";
 import fs from "fs";
 import path from "path";
 import { ViteDevServer } from "vite";
@@ -25,39 +18,33 @@ export const saveHierarchyChange =
     const { searchId, hierarchy } = params;
 
     try {
-      console.log("test test", searchId, hierarchy);
       const searchParams = new URLSearchParams(searchId);
       const componentPath = searchParams.get("path");
 
-      console.log(componentPath);
+      if (componentPath && hierarchy) {
+        const rawCode = fs.readFileSync(
+          path.join(process.cwd(), componentPath),
+          "utf-8",
+        );
 
-      if (!componentPath) {
-        return null;
+        const value = updateHtmlTagClassNames(
+          rawCode,
+          hierarchy.id,
+          hierarchy.manualData.className,
+        );
+
+        fs.writeFileSync(path.join(process.cwd(), componentPath), value);
       }
-
-      const rawCode = fs.readFileSync(
-        path.join(process.cwd(), componentPath),
-        "utf-8",
-      );
-
-      const value = updateHtmlTagClassNames(
-        rawCode,
-        hierarchy.id,
-        hierarchy.manualData.className,
-      );
-
-      fs.writeFileSync(path.join(process.cwd(), componentPath), value);
 
       // generate tailwind css
       using I = new Instrumentation();
       const src = fs.readFileSync(tailwindCSS, "utf-8");
       const root = roots.get(tailwindCSS);
       const generated = await root.generate(src, () => {}, I);
-      server.ws.send("UPDATE_TW_DEV_STYLE", {
+      server.ws.send("UPDATE_TW_STYLE", {
         content: generated,
       });
-      console.log("test test generated", generated);
     } catch (error) {
-      console.error("", error);
+      console.error(error);
     }
   };

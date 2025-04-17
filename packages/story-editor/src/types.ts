@@ -66,8 +66,8 @@ export interface IPluginParams {
 }
 
 export interface ISaveHierarchyParams {
-  searchId: string;
-  hierarchy: IHierarchy;
+  searchId?: string;
+  hierarchy?: IHierarchy;
 }
 
 export interface IStoryContext {

@@ -9,6 +9,6 @@ declare module "valtio" {
 declare module "vite/types/customEvent.d.ts" {
   interface CustomEventMap {
     SET_STORY_CONTEXT: Partial<IStoryContext>;
-    UPDATE_TW_DEV_STYLE: IUpdateTWStyleParams;
+    UPDATE_TW_STYLE: IUpdateTWStyleParams;
   }
 }
