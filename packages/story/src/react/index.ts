@@ -48,13 +48,11 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
       preferRelative: true,
     });
     function customCssResolver(id: string, base: string) {
-      console.log("test test customCssResolver", id, base);
       return cssResolver(id, base, true, isSSR);
     }
 
     const jsResolver = config!.createResolver(config!.resolve);
     function customJsResolver(id: string, base: string) {
-      console.log("test test customJsResolver", id, base);
       return jsResolver(id, base, true, isSSR);
     }
     return new Root(id, config!.root, customCssResolver, customJsResolver);
