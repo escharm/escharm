@@ -85,6 +85,10 @@ const StoryProvider = (props: IProps) => {
   }, []);
 
   useEffect(() => {
+    import.meta.hot?.send("INIT_TW_STYLE");
+  }, []);
+
+  useEffect(() => {
     if (import.meta.hot) {
       import.meta.hot.on("SET_STORY_CONTEXT", onSetStoryContext);
       return () => {

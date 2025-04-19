@@ -13,5 +13,6 @@ declare module "vite/types/customEvent.d.ts" {
     UPDATE_TW_STYLE: {
       content: string | falsef;
     };
+    INIT_TW_STYLE: void;
   }
 }

@@ -36,15 +36,36 @@ export const saveHierarchyChange =
         fs.writeFileSync(path.join(process.cwd(), componentPath), value);
       }
 
-      // generate tailwind css
-      using I = new Instrumentation();
-      const src = fs.readFileSync(tailwindCSS, "utf-8");
-      const root = roots.get(tailwindCSS);
-      const generated = await root.generate(src, () => {}, I);
+      const generated = await generateTWStyle(roots, tailwindCSS);
       server.ws.send("UPDATE_TW_STYLE", {
         content: generated,
       });
     } catch (error) {
       console.error(error);
     }
+  };
+
+export const generateTWStyle = async (
+  roots: DefaultMap<string, Root>,
+  tailwindCSS: string,
+) => {
+  using I = new Instrumentation();
+  const src = fs.readFileSync(tailwindCSS, "utf-8");
+  const root = roots.get(tailwindCSS);
+  const generated = await root.generate(src, () => {}, I);
+  return generated;
+};
+
+export const initTWSTyle =
+  (
+    server: ViteDevServer,
+    tailwindCSS: string,
+    roots: DefaultMap<string, Root>,
+  ) =>
+  async () => {
+    const generated = await generateTWStyle(roots, tailwindCSS);
+
+    server.ws.send("UPDATE_TW_STYLE", {
+      content: generated,
+    });
   };

@@ -9,11 +9,11 @@ import {
 } from "vite";
 
 import { getFixturesPath } from "../utils";
+import { initTWSTyle, saveHierarchyChange } from "./eventHandlers";
 import { getProps } from "./getProps";
 import defaultHomeTemplate from "./homeTemplate";
 import { addDataIdToHtmlTags } from "./htmlMatcher";
 import { parseToHierarchy } from "./parseToHierarchy";
-import { saveHierarchyChange } from "./saveHierarchyChange";
 import DefaultMap from "./TWDefaultMap";
 import Root from "./TWRoot";
 
@@ -335,6 +335,10 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
           server.ws.on(
             "SAVE_HIERARCHY_CHANGE",
             saveHierarchyChange(server, params.tailwindCSS, roots),
+          );
+          server.ws.on(
+            "INIT_TW_STYLE",
+            initTWSTyle(server, params.tailwindCSS, roots),
           );
         }
       },
