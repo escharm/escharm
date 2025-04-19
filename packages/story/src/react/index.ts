@@ -72,12 +72,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             return null;
           }
 
-          const fixturesPath =
-            params?.fixturesPath?.(componentPath) ??
-            getFixturesPath(componentPath);
-
-          const mockFilePath = path.join(process.cwd(), fixturesPath);
-
           const rawCode = fs.readFileSync(
             path.join(process.cwd(), componentPath),
             "utf-8",
@@ -89,63 +83,6 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             processedCode,
             "utf-8",
           );
-
-          // 获取层级数据
-          const hierarchy = parseToHierarchy(processedCode);
-
-          let fixture: IFixture = {
-            stories: {},
-            hierarchies: hierarchy,
-          };
-
-          if (fs.existsSync(mockFilePath)) {
-            try {
-              fixture = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
-            } catch (err) {
-              console.error("Failed to read mock data:", err);
-            }
-          } else {
-            const props = getProps(rawCode);
-            fixture.stories.autoCreate = {
-              name: "autoCreate",
-              data:
-                props?.reduce(
-                  (acc, prop) => {
-                    acc[prop.key] = prop.type;
-                    return acc;
-                  },
-                  {} as Record<string, unknown>,
-                ) || {},
-              group: {
-                selectedHierarchyIds: [],
-                selectedRects: {},
-                rect: {
-                  x: 0,
-                  y: 0,
-                  width: 0,
-                  height: 0,
-                },
-                manualData: {
-                  rect: {
-                    x: 0,
-                    y: 0,
-                    width: 0,
-                    height: 0,
-                  },
-                },
-              },
-            };
-            try {
-              fs.mkdirSync(path.dirname(mockFilePath), { recursive: true });
-              fs.writeFileSync(
-                mockFilePath,
-                JSON.stringify(fixture, null, 2),
-                "utf-8",
-              );
-            } catch (err) {
-              console.error("Failed to write mock data:", err);
-            }
-          }
 
           const code = params?.homeTemplate
             ? params.homeTemplate()
@@ -294,6 +231,67 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             res.writeHead(500);
             res.end("Internal Server Error");
           }
+        });
+
+        server.ws.on("CREATE_STORY", () => {
+          // const fixturesPath =
+          //   params?.fixturesPath?.(componentPath) ??
+          //   getFixturesPath(componentPath);
+          // const mockFilePath = path.join(process.cwd(), fixturesPath);
+          // // 获取层级数据
+          // const hierarchy = parseToHierarchy(processedCode);
+          // let fixture: IFixture = {
+          //   stories: {},
+          //   hierarchies: hierarchy,
+          // };
+          // if (fs.existsSync(mockFilePath)) {
+          //   try {
+          //     fixture = JSON.parse(fs.readFileSync(mockFilePath, "utf-8"));
+          //   } catch (err) {
+          //     console.error("Failed to read mock data:", err);
+          //   }
+          // } else {
+          //   const props = getProps(rawCode);
+          //   fixture.stories.autoCreate = {
+          //     name: "autoCreate",
+          //     data:
+          //       props?.reduce(
+          //         (acc, prop) => {
+          //           acc[prop.key] = prop.type;
+          //           return acc;
+          //         },
+          //         {} as Record<string, unknown>,
+          //       ) || {},
+          //     group: {
+          //       selectedHierarchyIds: [],
+          //       selectedRects: {},
+          //       rect: {
+          //         x: 0,
+          //         y: 0,
+          //         width: 0,
+          //         height: 0,
+          //       },
+          //       manualData: {
+          //         rect: {
+          //           x: 0,
+          //           y: 0,
+          //           width: 0,
+          //           height: 0,
+          //         },
+          //       },
+          //     },
+          //   };
+          //   try {
+          //     fs.mkdirSync(path.dirname(mockFilePath), { recursive: true });
+          //     fs.writeFileSync(
+          //       mockFilePath,
+          //       JSON.stringify(fixture, null, 2),
+          //       "utf-8",
+          //     );
+          //   } catch (err) {
+          //     console.error("Failed to write mock data:", err);
+          //   }
+          // }
         });
 
         server.ws.on("LOAD_STORY_CONTEXT", (data) => {

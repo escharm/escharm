@@ -4,8 +4,8 @@ import { proxy } from "valtio";
 
 import { IFlatHierarchy, IStoryContext, IUpdateTWStyleParams } from "./types";
 
-const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
-  const hierarchies = defaultValue ?? {};
+const createDefaultData = (): IStoryContext => {
+  const hierarchies = {};
 
   const group = {
     selectedHierarchyIds: [],
@@ -38,15 +38,12 @@ const createDefaultData = (defaultValue?: IFlatHierarchy): IStoryContext => {
 export const StoryContext = createContext<IStoryContext>(createDefaultData());
 
 interface IProps {
-  defaultValue?: IFlatHierarchy;
   children: React.ReactNode;
 }
 
 const StoryProvider = (props: IProps) => {
-  const { children, defaultValue } = props;
-  const defaultValueRef = useRef<IStoryContext>(
-    createDefaultData(defaultValue),
-  );
+  const { children } = props;
+  const defaultValueRef = useRef<IStoryContext>(createDefaultData());
   const styleRef = useRef<HTMLStyleElement>(null);
 
   useEffect(() => {}, []);
