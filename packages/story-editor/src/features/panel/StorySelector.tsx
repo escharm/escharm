@@ -1,5 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useSnapshot } from "valtio";
 
 import { StoryContext } from "../../StoryProvider";
