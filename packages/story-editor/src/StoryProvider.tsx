@@ -2,32 +2,20 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
-import { IStoryContext, IUpdateTWStyleParams } from "./types";
+import { IGroup, IStoryContext, IUpdateTWStyleParams } from "./types";
 
 const createDefaultData = (): IStoryContext => {
   const hierarchies = {};
-
-  const group = {
+  const resizers = {};
+  const group: IGroup = {
     selectedHierarchyIds: [],
     selectedRects: {},
-    rect: {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-    },
-    manualData: {
-      rect: {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      },
-    },
+    syncedRect: null,
   };
 
   return proxy({
     hierarchies,
+    resizers,
     group,
     storyNames: [],
     styledContainer: {},

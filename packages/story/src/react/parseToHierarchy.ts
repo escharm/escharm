@@ -1,11 +1,11 @@
 import { parseSync, traverse } from "@babel/core";
 import * as t from "@babel/types";
-import { IFlatParsedHierarchy, ParsedHierarchy } from "@escharm/story-editor";
+import { IFlatHierarchy, IHierarchy } from "@escharm/story-editor";
 
 function createHierarchy(
   node: t.JSXElement,
   parentId: string | null,
-): ParsedHierarchy {
+): IHierarchy {
   const tagName = t.isJSXIdentifier(node.openingElement.name)
     ? node.openingElement.name.name
     : "unknown";
@@ -32,7 +32,7 @@ function createHierarchy(
   };
 }
 
-export const parseToHierarchy = (code: string): IFlatParsedHierarchy => {
+export const parseToHierarchy = (code: string): IFlatHierarchy => {
   const ast = parseSync(code, {
     sourceType: "module",
     plugins: [["@babel/plugin-syntax-typescript", { isTSX: true }]],
@@ -40,7 +40,7 @@ export const parseToHierarchy = (code: string): IFlatParsedHierarchy => {
 
   if (!ast) return {};
 
-  const hierarchy: IFlatParsedHierarchy = {};
+  const hierarchy: IFlatHierarchy = {};
   let currentParentId: string | null = null;
 
   traverse(ast, {

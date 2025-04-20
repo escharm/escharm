@@ -25,6 +25,12 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": [
+        "warn",
+        {
+          additionalHooks: "(useAnimationEffect)",
+        },
+      ],
     },
   },
 );

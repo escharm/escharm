@@ -307,13 +307,20 @@ export const reactStoryPlugin = (params?: IPluginParams): PluginOption => {
             );
 
             try {
+              const rawCode = fs.readFileSync(
+                path.join(process.cwd(), componentPath),
+                "utf-8",
+              );
+              const hierarchies = parseToHierarchy(rawCode);
+
               const fixture = JSON.parse(
                 fs.readFileSync(fixturesPath, "utf-8"),
               ) as IFixture;
 
               const story = !name ? null : fixture.stories[name];
+
               const baseContext = {
-                hierarchies: fixture.hierarchies,
+                hierarchies: hierarchies,
                 storyNames: Object.keys(fixture.stories),
               };
 

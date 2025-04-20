@@ -4,8 +4,8 @@ import { CSSProperties, useContext, useMemo } from "react";
 
 import {
   useGroup,
-  useSelectedHierarchies,
   useSelectedHierarchyIds,
+  useSelectedResizers,
 } from "../hierarchy";
 import { StoryContext } from "../StoryProvider";
 import { IRect } from "../types";
@@ -15,42 +15,37 @@ export const useTopLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
-
+  const syncedRect = group.syncedRect;
   const topLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
       width: "5px",
       height: "5px",
     };
 
-    style.left = calc(`${group.rect.x - 2}px`).toString();
-    style.top = calc(`${group.rect.y - 2}px`).toString();
+    if (syncedRect) {
+      style.left = calc(`${syncedRect.x - 2}px`).toString();
+      style.top = calc(`${syncedRect.y - 2}px`).toString();
+    }
 
     return style;
-  }, [group]);
+  }, [syncedRect]);
 
   const topLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    storyProxy.group.rect.x += dx;
-    storyProxy.group.rect.width -= dx;
-    storyProxy.group.rect.y += dy;
-    storyProxy.group.rect.height -= dy;
-
-    storyProxy.group.manualData.rect.x += dx;
-    storyProxy.group.manualData.rect.width -= dx;
-    storyProxy.group.manualData.rect.y += dy;
-    storyProxy.group.manualData.rect.height -= dy;
-
     selectedHierarchyIds.forEach((hierarchyId) => {
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
-      if (hierarchyProxy) {
-        hierarchyProxy.updateData.rect.x += dx;
-        hierarchyProxy.updateData.rect.width -= dx;
-        hierarchyProxy.updateData.rect.y += dy;
-        hierarchyProxy.updateData.rect.height -= dy;
+      const resizerProxy = storyProxy.resizers[hierarchyId];
+      const manualRectProxy = resizerProxy?.manualRect;
+      const syncedRectProxy = resizerProxy?.syncedRect;
 
-        hierarchyProxy.manualData.rect.x += dx;
-        hierarchyProxy.manualData.rect.width -= dx;
-        hierarchyProxy.manualData.rect.y += dy;
-        hierarchyProxy.manualData.rect.height -= dy;
+      if (manualRectProxy && syncedRectProxy) {
+        syncedRectProxy.x += dx;
+        syncedRectProxy.width -= dx;
+        syncedRectProxy.y += dy;
+        syncedRectProxy.height -= dy;
+
+        manualRectProxy.x += dx;
+        manualRectProxy.width -= dx;
+        manualRectProxy.y += dy;
+        manualRectProxy.height -= dy;
       }
     });
   });
@@ -65,6 +60,7 @@ export const useTopRightResizer = () => {
   const storyProxy = useContext(StoryContext);
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
+  const syncedRect = group.syncedRect;
 
   const topRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -72,33 +68,30 @@ export const useTopRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${group.rect.x - 2}px`)
-      .add(`${group.rect.width}px`)
-      .toString();
-    style.top = calc(`${group.rect.y - 2}px`).toString();
+    if (syncedRect) {
+      style.left = calc(`${syncedRect.x - 2}px`)
+        .add(`${syncedRect.width}px`)
+        .toString();
+      style.top = calc(`${syncedRect.y - 2}px`).toString();
+    }
 
     return style;
-  }, [group]);
+  }, [syncedRect]);
 
   const topRightBind = useDrag(({ delta: [dx, dy] }) => {
-    storyProxy.group.rect.width += dx;
-    storyProxy.group.rect.y += dy;
-    storyProxy.group.rect.height -= dy;
-
-    storyProxy.group.manualData.rect.width += dx;
-    storyProxy.group.manualData.rect.y += dy;
-    storyProxy.group.manualData.rect.height -= dy;
-
     selectedHierarchyIds.forEach((hierarchyId) => {
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
-      if (hierarchyProxy) {
-        hierarchyProxy.updateData.rect.width += dx;
-        hierarchyProxy.updateData.rect.y += dy;
-        hierarchyProxy.updateData.rect.height -= dy;
+      const resizerProxy = storyProxy.resizers[hierarchyId];
+      const manualRectProxy = resizerProxy?.manualRect;
+      const syncedRectProxy = resizerProxy?.syncedRect;
 
-        hierarchyProxy.manualData.rect.width += dx;
-        hierarchyProxy.manualData.rect.y += dy;
-        hierarchyProxy.manualData.rect.height -= dy;
+      if (manualRectProxy && syncedRectProxy) {
+        syncedRectProxy.width += dx;
+        syncedRectProxy.y += dy;
+        syncedRectProxy.height -= dy;
+
+        manualRectProxy.width += dx;
+        manualRectProxy.y += dy;
+        manualRectProxy.height -= dy;
       }
     });
   });
@@ -113,6 +106,7 @@ export const useBottomLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
+  const syncedRect = group.syncedRect;
 
   const bottomLeft: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -120,32 +114,30 @@ export const useBottomLeftResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${group.rect.x - 2}px`).toString();
-    style.top = calc(`${group.rect.y - 2}px`)
-      .add(`${group.rect.height}px`)
-      .toString();
+    if (syncedRect) {
+      style.left = calc(`${syncedRect.x - 2}px`).toString();
+      style.top = calc(`${syncedRect.y - 2}px`)
+        .add(`${syncedRect.height}px`)
+        .toString();
+    }
 
     return style;
-  }, [group]);
+  }, [syncedRect]);
 
   const bottomLeftBind = useDrag(({ delta: [dx, dy] }) => {
-    storyProxy.group.rect.x += dx;
-    storyProxy.group.rect.width -= dx;
-    storyProxy.group.rect.height += dy;
-
-    storyProxy.group.manualData.rect.x += dx;
-    storyProxy.group.manualData.rect.width -= dx;
-    storyProxy.group.manualData.rect.height += dy;
-
     selectedHierarchyIds.forEach((hierarchyId) => {
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
-      if (hierarchyProxy) {
-        hierarchyProxy.updateData.rect.x += dx;
-        hierarchyProxy.updateData.rect.width -= dx;
-        hierarchyProxy.updateData.rect.height += dy;
+      const resizerProxy = storyProxy.resizers[hierarchyId];
+      const manualRectProxy = resizerProxy?.manualRect;
+      const syncedRectProxy = resizerProxy?.syncedRect;
 
-        hierarchyProxy.manualData.rect.x += dx;
-        hierarchyProxy.manualData.rect.height += dy;
+      if (manualRectProxy && syncedRectProxy) {
+        syncedRectProxy.x += dx;
+        syncedRectProxy.width -= dx;
+        syncedRectProxy.height += dy;
+
+        manualRectProxy.x += dx;
+        manualRectProxy.width -= dx;
+        manualRectProxy.height += dy;
       }
     });
   });
@@ -160,6 +152,7 @@ export const useBottomRightResizer = () => {
   const storyProxy = useContext(StoryContext);
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
+  const syncedRect = group.syncedRect;
 
   const bottomRight: CSSProperties = useMemo(() => {
     const style: CSSProperties = {
@@ -167,31 +160,30 @@ export const useBottomRightResizer = () => {
       height: "5px",
     };
 
-    style.left = calc(`${group.rect.x - 2}px`)
-      .add(`${group.rect.width}px`)
-      .toString();
-    style.top = calc(`${group.rect.y - 2}px`)
-      .add(`${group.rect.height}px`)
-      .toString();
+    if (syncedRect) {
+      style.left = calc(`${syncedRect.x - 2}px`)
+        .add(`${syncedRect.width}px`)
+        .toString();
+      style.top = calc(`${syncedRect.y - 2}px`)
+        .add(`${syncedRect.height}px`)
+        .toString();
+    }
 
     return style;
-  }, [group]);
+  }, [syncedRect]);
 
   const bottomRightBind = useDrag(({ delta: [dx, dy] }) => {
-    storyProxy.group.rect.width += dx;
-    storyProxy.group.rect.height += dy;
-
-    storyProxy.group.manualData.rect.width += dx;
-    storyProxy.group.manualData.rect.height += dy;
-
     selectedHierarchyIds.forEach((hierarchyId) => {
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
-      if (hierarchyProxy) {
-        hierarchyProxy.updateData.rect.width += dx;
-        hierarchyProxy.updateData.rect.height += dy;
+      const resizerProxy = storyProxy.resizers[hierarchyId];
+      const manualRectProxy = resizerProxy?.manualRect;
+      const syncedRectProxy = resizerProxy?.syncedRect;
 
-        hierarchyProxy.manualData.rect.width += dx;
-        hierarchyProxy.manualData.rect.height += dy;
+      if (manualRectProxy && syncedRectProxy) {
+        syncedRectProxy.width += dx;
+        syncedRectProxy.height += dy;
+
+        manualRectProxy.width += dx;
+        manualRectProxy.height += dy;
       }
     });
   });
@@ -206,32 +198,33 @@ export const useBodyResizer = () => {
   const storyProxy = useContext(StoryContext);
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const group = useGroup();
+  const syncedRect = group.syncedRect;
 
-  const body = useMemo(() => {
-    const style: CSSProperties = {
-      width: calc(`${group.rect.width}px`).toString(),
-      height: calc(`${group.rect.height}px`).toString(),
-    };
+  const body: CSSProperties = useMemo(() => {
+    const style: CSSProperties = {};
 
-    style.left = calc(`${group.rect.x}px`).toString();
-    style.top = calc(`${group.rect.y}px`).toString();
+    if (syncedRect) {
+      style.left = calc(`${syncedRect.x}px`).toString();
+      style.top = calc(`${syncedRect.y}px`).toString();
+      style.width = calc(`${syncedRect.width}px`).toString();
+      style.height = calc(`${syncedRect.height}px`).toString();
+    }
 
     return style;
-  }, [group]);
+  }, [syncedRect]);
+
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
-    storyProxy.group.rect.x += dx;
-    storyProxy.group.rect.y += dy;
-    storyProxy.group.manualData.rect.x += dx;
-    storyProxy.group.manualData.rect.y += dy;
-
     selectedHierarchyIds.forEach((hierarchyId) => {
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
-      if (hierarchyProxy) {
-        hierarchyProxy.updateData.rect.x += dx;
-        hierarchyProxy.updateData.rect.y += dy;
+      const resizerProxy = storyProxy.resizers[hierarchyId];
+      const manualRectProxy = resizerProxy?.manualRect;
+      const syncedRectProxy = resizerProxy?.syncedRect;
 
-        hierarchyProxy.manualData.rect.x += dx;
-        hierarchyProxy.manualData.rect.y += dy;
+      if (manualRectProxy && syncedRectProxy) {
+        syncedRectProxy.x += dx;
+        syncedRectProxy.y += dy;
+
+        manualRectProxy.x += dx;
+        manualRectProxy.y += dy;
       }
     });
   });
@@ -264,45 +257,46 @@ export const useResizerGroup = () => {
 };
 
 export const useUpdateElements = () => {
-  const selectedHierarchies = useSelectedHierarchies();
+  const selectedResizers = useSelectedResizers();
   const storyProxy = useContext(StoryContext);
 
   useAnimationEffect(() => {
     const rects: IRect[] = [];
 
-    selectedHierarchies.forEach((hierarchy) => {
-      const element = document.querySelector(`[data-id="${hierarchy.id}"]`) as
+    selectedResizers.forEach((resizer) => {
+      const element = document.querySelector(`[data-id="${resizer.id}"]`) as
         | HTMLElement
         | undefined;
-      if (element) {
+      if (element && resizer.syncedRect) {
         const style = element.style;
-        style.left = calc(`${hierarchy.updateData.rect.x}px`).toString();
-        style.top = calc(`${hierarchy.updateData.rect.y}px`).toString();
-        style.width = calc(`${hierarchy.updateData.rect.width}px`).toString();
-        style.height = calc(`${hierarchy.updateData.rect.height}px`).toString();
+        style.left = calc(`${resizer.syncedRect.x}px`).toString();
+        style.top = calc(`${resizer.syncedRect.y}px`).toString();
+        style.width = calc(`${resizer.syncedRect.width}px`).toString();
+        style.height = calc(`${resizer.syncedRect.height}px`).toString();
       }
       const updateRect = element?.getBoundingClientRect();
-      const hierarchyProxy = storyProxy.hierarchies[hierarchy.id];
+      const resizerProxy = storyProxy.resizers[resizer.id];
+      const syncedRectProxy = resizerProxy?.syncedRect;
       if (updateRect) {
         rects.push(updateRect);
         if (
-          hierarchyProxy &&
-          (updateRect.x !== hierarchy.updateData.rect.x ||
-            updateRect.y !== hierarchy.updateData.rect.y ||
-            updateRect.width !== hierarchy.updateData.rect.width ||
-            updateRect.height !== hierarchy.updateData.rect.height)
+          syncedRectProxy &&
+          (updateRect.x !== resizer.syncedRect?.x ||
+            updateRect.y !== resizer.syncedRect?.y ||
+            updateRect.width !== resizer.syncedRect?.width ||
+            updateRect.height !== resizer.syncedRect?.height)
         ) {
-          hierarchyProxy.updateData.rect.x = updateRect.x;
-          hierarchyProxy.updateData.rect.y = updateRect.y;
-          hierarchyProxy.updateData.rect.width = updateRect.width;
-          hierarchyProxy.updateData.rect.height = updateRect.height;
+          syncedRectProxy.x = updateRect.x;
+          syncedRectProxy.y = updateRect.y;
+          syncedRectProxy.width = updateRect.width;
+          syncedRectProxy.height = updateRect.height;
         }
       }
-      if (hierarchyProxy && element?.style) {
+      if (resizerProxy?.syncedStyle && element?.style) {
         for (let i = 0; i < element?.style.length; i++) {
           const propertyName = element?.style[i];
           const propertyValue = element?.style.getPropertyValue(propertyName);
-          hierarchyProxy.updateData.style[propertyName] = propertyValue;
+          resizerProxy.syncedStyle[propertyName] = propertyValue;
         }
       }
     });
@@ -320,10 +314,17 @@ export const useUpdateElements = () => {
         maxY = Math.max(maxY, rect.y + rect.height);
       });
 
-      storyProxy.group.rect.x = minX;
-      storyProxy.group.rect.y = minY;
-      storyProxy.group.rect.width = maxX - minX;
-      storyProxy.group.rect.height = maxY - minY;
+      if (storyProxy.group.syncedRect) {
+        storyProxy.group.syncedRect.x = minX;
+        storyProxy.group.syncedRect.y = minY;
+        storyProxy.group.syncedRect.width = maxX - minX;
+        storyProxy.group.syncedRect.height = maxY - minY;
+      }
     }
-  }, [selectedHierarchies, storyProxy.group.rect, storyProxy.hierarchies]);
+  }, [
+    selectedResizers,
+    storyProxy.group.syncedRect,
+    storyProxy.hierarchies,
+    storyProxy.resizers,
+  ]);
 };

@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export interface IFlatStructure<T = unknown> {
   [id: string]: T | undefined;
 }
@@ -14,50 +16,22 @@ export interface IHierarchy {
   name: string;
   childIds: string[];
   parentId: string | null;
-  // original rect,style data from HTMLElement
-  originData: {
-    rect: IRect;
-    style: Record<string, string | undefined>;
-  };
-  // updated rect,style data from HTMLElement
-  updateData: {
-    rect: IRect;
-    style: Record<string, string | undefined>;
-  };
-  // manual changed rect,style data
-  manualData: {
-    rect: IRect;
-    style: Record<string, string | undefined>;
-    className?: string;
-  };
 }
 
-export type ParsedHierarchy = Omit<
-  IHierarchy,
-  "manualData" | "updateData" | "originData"
->;
-
 export interface IFlatHierarchy extends IFlatStructure<IHierarchy> {}
-
-export interface IFlatParsedHierarchy extends IFlatStructure<ParsedHierarchy> {}
 
 export interface IGroup {
   selectedHierarchyIds: string[];
   selectedRects: IFlatStructure<IRect>;
-  rect: IRect;
-  manualData: {
-    rect: IRect;
-  };
+  syncedRect: IRect | null;
 }
 
 export interface IStory {
   name: string;
   data: Record<string, unknown>;
-  group: IGroup;
 }
 
 export interface IFixture {
-  hierarchies: IFlatHierarchy;
   stories: Record<string, IStory | undefined>;
 }
 
@@ -75,9 +49,18 @@ export interface ISaveHierarchyParams {
   hierarchy?: IHierarchy;
 }
 
+export interface IResizer {
+  id: string;
+  originRect?: IRect;
+  syncedRect?: IRect;
+  manualRect?: IRect;
+  syncedStyle?: Record<string, string>;
+}
+
 export interface IStoryContext {
   data?: Record<string, unknown>;
   hierarchies: IFlatHierarchy;
+  resizers: IFlatStructure<IResizer>;
   group: IGroup;
   storyNames: string[];
   styledContainer: {

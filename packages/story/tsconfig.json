@@ -1,24 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
-    "emitDeclarationOnly": true,
-    "lib": ["esnext", "DOM"],
-    "paths": {
-      "@escharm/story-editor/*": ["../../packages/story-editor/src/*"]
-    },
-    "jsx": "react-jsx",
-    "moduleResolution": "Bundler",
-    "isolatedModules": false
-  },
-  "include": ["src", "custom.d.ts"],
-  "exclude": ["node_modules"],
+  "files": [],
   "references": [
-    {
-      "path": "../../packages/story-editor"
-    },
+    { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }

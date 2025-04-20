@@ -1,7 +1,13 @@
 import { useCallback, useContext, useMemo } from "react";
 import { proxy, useSnapshot } from "valtio";
 
-import { IFlatHierarchy, IFlatStructure, IHierarchy, IRect } from "./types";
+import {
+  IFlatHierarchy,
+  IFlatStructure,
+  IHierarchy,
+  IRect,
+  IResizer,
+} from "./types";
 import { StoryContext } from "./StoryProvider";
 
 export const useStory = () => {
@@ -32,6 +38,11 @@ export const useHierarchies = () => {
   return story.hierarchies;
 };
 
+export const useResizers = () => {
+  const story = useStory();
+  return story.resizers;
+};
+
 export function useHierarchy(id: string | undefined): Partial<IHierarchy> {
   const hierarchies = useHierarchies();
   return useMemo(() => {
@@ -53,29 +64,47 @@ export const useSelectHierarchy = () => {
       rects.push(rect);
       storyProxy.group.selectedRects[hierarchyId] = rect;
 
-      const hierarchyProxy = storyProxy.hierarchies[hierarchyId];
+      const { x, y, width, height } = rect;
+      const resizerProxy = (storyProxy.resizers[hierarchyId] ??=
+        proxy<IResizer>({
+          id: hierarchyId,
+        }));
+
+      resizerProxy.originRect ??= proxy({
+        x,
+        y,
+        width,
+        height,
+      });
+
+      resizerProxy.syncedRect ??= proxy({
+        x,
+        y,
+        width,
+        height,
+      });
+
+      resizerProxy.manualRect ??= proxy({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+      });
+
+      resizerProxy.syncedStyle ??= proxy({});
+
       const element = document.querySelector(`[data-id="${hierarchyId}"]`) as
         | HTMLElement
         | undefined;
 
-      if (hierarchyProxy && element?.style) {
+      if (element?.style) {
         const computedStyle = element.style;
         // 遍历所有计算样式并直接设置到originData.style
         for (let i = 0; i < computedStyle.length; i++) {
           const propertyName = computedStyle[i];
           const propertyValue = computedStyle.getPropertyValue(propertyName);
-          hierarchyProxy.originData.style[propertyName] = propertyValue;
+          resizerProxy.syncedStyle[propertyName] = propertyValue;
         }
-
-        hierarchyProxy.originData.rect.x = rect.x;
-        hierarchyProxy.originData.rect.y = rect.y;
-        hierarchyProxy.originData.rect.width = rect.width;
-        hierarchyProxy.originData.rect.height = rect.height;
-
-        hierarchyProxy.updateData.rect.x = rect.x;
-        hierarchyProxy.updateData.rect.y = rect.y;
-        hierarchyProxy.updateData.rect.width = rect.width;
-        hierarchyProxy.updateData.rect.height = rect.height;
       }
       if (rects.length > 0) {
         let minX = Infinity;
@@ -90,20 +119,20 @@ export const useSelectHierarchy = () => {
           maxY = Math.max(maxY, rect.y + rect.height);
         });
 
-        storyProxy.group.rect.x = minX;
-        storyProxy.group.rect.y = minY;
-        storyProxy.group.rect.width = maxX - minX;
-        storyProxy.group.rect.height = maxY - minY;
-      } else {
-        storyProxy.group.rect.x = 0;
-        storyProxy.group.rect.y = 0;
-        storyProxy.group.rect.width = 0;
-        storyProxy.group.rect.height = 0;
+        if (storyProxy.group.syncedRect) {
+          storyProxy.group.syncedRect.x = minX;
+          storyProxy.group.syncedRect.y = minY;
+          storyProxy.group.syncedRect.width = maxX - minX;
+          storyProxy.group.syncedRect.height = maxY - minY;
+        } else {
+          storyProxy.group.syncedRect = {
+            x: minX,
+            y: minY,
+            width: maxX - minX,
+            height: maxY - minY,
+          };
+        }
       }
-      storyProxy.group.manualData.rect.x = 0;
-      storyProxy.group.manualData.rect.y = 0;
-      storyProxy.group.manualData.rect.width = 0;
-      storyProxy.group.manualData.rect.height = 0;
     },
     [storyProxy],
   );
@@ -150,20 +179,21 @@ export const useSelectedHierarchies = () => {
   }, [selectedIds, hierarchies]);
 };
 
+export const useSelectedResizers = () => {
+  const selectedIds = useSelectedHierarchyIds();
+  const resizers = useResizers();
+
+  return useMemo(() => {
+    return selectedIds.map((id) => resizers[id]).filter(Boolean) as IResizer[];
+  }, [selectedIds, resizers]);
+};
+
 export const useCleanSelectedHierarchy = () => {
   const storyProxy = useContext(StoryContext);
 
   return useCallback(() => {
     storyProxy.group.selectedHierarchyIds = [];
     storyProxy.group.selectedRects = {};
-    storyProxy.group.rect.x = 0;
-    storyProxy.group.rect.y = 0;
-    storyProxy.group.rect.width = 0;
-    storyProxy.group.rect.height = 0;
-
-    storyProxy.group.manualData.rect.x = 0;
-    storyProxy.group.manualData.rect.y = 0;
-    storyProxy.group.manualData.rect.width = 0;
-    storyProxy.group.manualData.rect.height = 0;
+    storyProxy.group.syncedRect = null;
   }, [storyProxy]);
 };

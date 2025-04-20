@@ -27,13 +27,13 @@ export const saveHierarchyChange =
           "utf-8",
         );
 
-        const value = updateHtmlTagClassNames(
-          rawCode,
-          hierarchy.id,
-          hierarchy.manualData.className,
-        );
+        // const value = updateHtmlTagClassNames(
+        //   rawCode,
+        //   hierarchy.id,
+        //   hierarchy.manualData.className,
+        // );
 
-        fs.writeFileSync(path.join(process.cwd(), componentPath), value);
+        // fs.writeFileSync(path.join(process.cwd(), componentPath), value);
       }
 
       const generated = await generateTWStyle(roots, tailwindCSS);

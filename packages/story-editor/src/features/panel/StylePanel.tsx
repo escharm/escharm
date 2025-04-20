@@ -27,7 +27,9 @@ const StylePanel = () => {
       {selectedHierarchies.length === 0 ? (
         <div>请选择一个元素</div>
       ) : selectedHierarchies.length === 1 ? (
-        <SingleElementStylePanel hierarchy={selectedHierarchies[0]} />
+        <SingleElementStylePanel
+          selectedHierarchyId={selectedHierarchies[0].id}
+        />
       ) : (
         <MultiElementStylePanel hierarchies={selectedHierarchies} />
       )}
