@@ -1,5 +1,8 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useMemo, useRef, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { nanoid } from "nanoid";
+
+import { panelProxy, useSelectedPanel } from "../store";
 
 interface PanelProps {
   title: string;
@@ -12,11 +15,18 @@ interface PanelProps {
 export const Panel = (props: PanelProps) => {
   const { top, title, children, position, defaultCollapsed = false } = props;
 
+  const panelIdRef = useRef(nanoid());
+  const selectedPanel = useSelectedPanel();
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
   const toggleCollapse = () => {
     setIsCollapsed((prev) => !prev);
+    panelProxy.selected = panelIdRef.current;
   };
+
+  const currentSelected = useMemo(() => {
+    return panelIdRef.current === selectedPanel;
+  }, [selectedPanel]);
 
   return (
     <div
@@ -34,6 +44,7 @@ export const Panel = (props: PanelProps) => {
           ? `translateX(${position === "left" ? "-32px" : "32px"})`
           : "translateX(0)",
         transition: "transform 0.2s ease",
+        zIndex: currentSelected ? 100 : "auto",
       }}
     >
       <div
