@@ -1,13 +1,7 @@
-import React, { useMemo } from "react";
-import {
-  useHierarchies,
-  useSelectedHierarchies,
-  useSelectedHierarchyIds,
-} from "../../hierarchy";
+import { useSelectedHierarchies } from "../../hierarchy";
 import { Panel } from "../../components/Panel";
 import { SingleElementStylePanel } from "../SingleElementStylePanel";
 import { MultiElementStylePanel } from "../MultiElementStylePanel";
-import { IHierarchy } from "../../types";
 import Button from "../../components/Button";
 import { saveHierarchyChange } from "../../utils/saveHierarchyChange";
 

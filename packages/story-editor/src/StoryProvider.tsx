@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { createContext } from "react";
 import { proxy } from "valtio";
 
-import { IFlatHierarchy, IStoryContext, IUpdateTWStyleParams } from "./types";
+import { IStoryContext, IUpdateTWStyleParams } from "./types";
 
 const createDefaultData = (): IStoryContext => {
   const hierarchies = {};

@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 export interface IFlatStructure<T = unknown> {
   [id: string]: T | undefined;
 }
