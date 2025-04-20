@@ -21,6 +21,19 @@ describe("parseToHierarchy", () => {
           </div>
         );
       };
+      
+      const ABC = (props: IProps) => {
+        const { a } = props;
+        return (
+          <div data-id="test">
+            <p data-id="test2">{a}</p>
+            <button data-id="test3">Click me</button>
+            <div data-id="test5">
+              <span data-id="test5">Nested content</span>
+            </div>
+          </div>
+        );
+      };
 
       export default Test;`;
 

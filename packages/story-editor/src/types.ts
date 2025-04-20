@@ -32,7 +32,14 @@ export interface IHierarchy {
   };
 }
 
+export type ParsedHierarchy = Omit<
+  IHierarchy,
+  "manualData" | "updateData" | "originData"
+>;
+
 export interface IFlatHierarchy extends IFlatStructure<IHierarchy> {}
+
+export interface IFlatParsedHierarchy extends IFlatStructure<ParsedHierarchy> {}
 
 export interface IGroup {
   selectedHierarchyIds: string[];
