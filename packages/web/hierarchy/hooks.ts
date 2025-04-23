@@ -2,13 +2,11 @@ import { calc } from "@vanilla-extract/css-utils";
 import { useCallback, useContext, useMemo } from "react";
 import { useSnapshot } from "valtio";
 
-import { WithRequired } from "@/global";
-
 import { DataContext, find } from "./DataProvider";
 import { HorizontalAnchor, IHierarchy, VerticalAnchor } from "./types";
 
 export function useHierarchy(
-  id: string | undefined
+  id: string | undefined,
 ): Partial<IHierarchy> | IHierarchy;
 
 export function useHierarchy(id: string | undefined): Partial<IHierarchy> {
@@ -63,7 +61,7 @@ export function useHierarchyStyle(id: string) {
 }
 
 export const hasHierarchy = (
-  hierarchy?: Partial<IHierarchy>
+  hierarchy?: Partial<IHierarchy>,
 ): hierarchy is IHierarchy => {
   if (hierarchy?.id != null) {
     return true;
@@ -77,29 +75,29 @@ export const useSetHierarchy = () => {
     (hierarchy: IHierarchy) => {
       hierarchyProxy[hierarchy.id] = hierarchy;
     },
-    [hierarchyProxy]
+    [hierarchyProxy],
   );
 
   return setHierarchy;
 };
 
-export const useAddHierarchy = () => {
-  const { hierarchyProxy } = useContext(DataContext);
+// export const useAddHierarchy = () => {
+//   const { hierarchyProxy } = useContext(DataContext);
 
-  const addHierarchy = useCallback(
-    (hierarchy: WithRequired<IHierarchy, "parentId">) => {
-      const parentId = hierarchy.parentId;
-      const parent = hierarchyProxy[parentId];
-      if (parent) {
-        parent.childIds.push(hierarchy.id);
-        hierarchyProxy[hierarchy.id] = hierarchy;
-      }
-    },
-    [hierarchyProxy]
-  );
+//   const addHierarchy = useCallback(
+//     (hierarchy: WithRequired<IHierarchy, "parentId">) => {
+//       const parentId = hierarchy.parentId;
+//       const parent = hierarchyProxy[parentId];
+//       if (parent) {
+//         parent.childIds.push(hierarchy.id);
+//         hierarchyProxy[hierarchy.id] = hierarchy;
+//       }
+//     },
+//     [hierarchyProxy]
+//   );
 
-  return addHierarchy;
-};
+//   return addHierarchy;
+// };
 
 export const useRemoveHierarchy = () => {
   const { hierarchyProxy } = useContext(DataContext);
@@ -114,7 +112,7 @@ export const useRemoveHierarchy = () => {
         }
       }
     },
-    [hierarchyProxy]
+    [hierarchyProxy],
   );
 
   return removeHierarchy;
@@ -145,7 +143,7 @@ export const useMoveHierarchy = () => {
         child.parentId = toParentId;
       }
     },
-    [hierarchyProxy]
+    [hierarchyProxy],
   );
 
   return moveHierarchy;

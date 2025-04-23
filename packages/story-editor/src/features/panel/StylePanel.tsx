@@ -4,11 +4,13 @@ import { SingleElementStylePanel } from "../SingleElementStylePanel";
 import { MultiElementStylePanel } from "../MultiElementStylePanel";
 import Button from "../../components/Button";
 import { saveHierarchyChange } from "../../utils/saveHierarchyChange";
+import { useTemporaryMode, useToggleTemporaryMode } from "../../store";
 
 const StylePanel = () => {
   const selectedHierarchies = useSelectedHierarchies();
   const selectedHierarchy = selectedHierarchies[0];
-
+  const temporaryMode = useTemporaryMode();
+  const toggleTemporaryMode = useToggleTemporaryMode();
   return (
     <Panel title="样式面板" position="right" defaultCollapsed={false} top={100}>
       {selectedHierarchy && (
@@ -24,6 +26,16 @@ const StylePanel = () => {
           保存
         </Button>
       )}
+      <h4>临时模式</h4>
+      <input
+        type="checkbox"
+        checked={temporaryMode}
+        name=""
+        id=""
+        onChange={(event) => {
+          toggleTemporaryMode();
+        }}
+      />
       {selectedHierarchies.length === 0 ? (
         <div>请选择一个元素</div>
       ) : selectedHierarchies.length === 1 ? (

@@ -54,6 +54,7 @@ export interface IResizer {
   originRect?: IRect;
   syncedRect?: IRect;
   manualRect?: IRect;
+  originStyle?: Record<string, string>;
   syncedStyle?: Record<string, string>;
 }
 
@@ -72,4 +73,8 @@ export interface IStoryContext {
 
 export interface IUpdateTWStyleParams {
   content: string | false;
+}
+
+export interface IStyleConfig {
+  temporaryMode?: boolean;
 }

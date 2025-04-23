@@ -6,6 +6,7 @@ import {
   useSelectHierarchy,
 } from "../hierarchy";
 import { useResizerGroup, useUpdateElements } from "./useResizerGroup";
+import { useTemporaryMode } from "../store";
 
 const GroupResizer = () => {
   const {
@@ -20,6 +21,7 @@ const GroupResizer = () => {
     bottomLeft,
     bottomRight,
   } = useResizerGroup();
+  const temporaryMode = useTemporaryMode();
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const selectHierarchy = useSelectHierarchy();
   const flatHierarchy = useHierarchies();
@@ -86,62 +88,66 @@ const GroupResizer = () => {
   return (
     <Fragment>
       <div
-        {...bodyBind()}
+        {...(temporaryMode ? { ...bodyBind() } : {})}
         className="absolute bg-blue-400 opacity-50"
         onDoubleClickCapture={handleDoubleClick}
         style={{
           position: "absolute",
           backgroundColor: "blue",
           opacity: 0.5,
-          cursor: "move",
+          cursor: temporaryMode ? "move" : "default",
           touchAction: "none",
           ...body,
         }}
       />
-      <div
-        {...topLeftBind()}
-        style={{
-          position: "absolute",
-          backgroundColor: "black",
-          cursor: "nwse-resize", // 左上角
-          touchAction: "none",
-          ...topLeft,
-        }}
-        className="top-left absolute bg-black"
-      />
-      <div
-        {...topRightBind()}
-        style={{
-          position: "absolute",
-          backgroundColor: "black",
-          cursor: "nesw-resize", // 右上角
-          touchAction: "none",
-          ...topRight,
-        }}
-        className="top-right absolute bg-black"
-      />
-      <div
-        {...bottomLeftBind()}
-        style={{
-          position: "absolute",
-          backgroundColor: "black",
-          cursor: "nesw-resize", // 左下角
-          touchAction: "none",
-          ...bottomLeft,
-        }}
-        className="bottom-left absolute bg-black"
-      />
-      <div
-        {...bottomRightBind()}
-        style={{
-          position: "absolute",
-          backgroundColor: "black",
-          cursor: "nwse-resize", // 右下角
-          touchAction: "none",
-          ...bottomRight,
-        }}
-        className="bottom-right absolute bg-black"
-      />
+      {temporaryMode ? (
+        <Fragment>
+          <div
+            {...topLeftBind()}
+            style={{
+              position: "absolute",
+              backgroundColor: "black",
+              cursor: "nwse-resize", // 左上角
+              touchAction: "none",
+              ...topLeft,
+            }}
+            className="top-left absolute bg-black"
+          />
+          <div
+            {...topRightBind()}
+            style={{
+              position: "absolute",
+              backgroundColor: "black",
+              cursor: "nesw-resize", // 右上角
+              touchAction: "none",
+              ...topRight,
+            }}
+            className="top-right absolute bg-black"
+          />
+          <div
+            {...bottomLeftBind()}
+            style={{
+              position: "absolute",
+              backgroundColor: "black",
+              cursor: "nesw-resize", // 左下角
+              touchAction: "none",
+              ...bottomLeft,
+            }}
+            className="bottom-left absolute bg-black"
+          />
+          <div
+            {...bottomRightBind()}
+            style={{
+              position: "absolute",
+              backgroundColor: "black",
+              cursor: "nwse-resize", // 右下角
+              touchAction: "none",
+              ...bottomRight,
+            }}
+            className="bottom-right absolute bg-black"
+          />
+        </Fragment>
+      ) : null}
     </Fragment>
   );
 };

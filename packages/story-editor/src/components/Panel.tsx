@@ -21,7 +21,7 @@ export const Panel = (props: PanelProps) => {
 
   const toggleCollapse = () => {
     setIsCollapsed((prev) => !prev);
-    panelProxy.selected = panelIdRef.current;
+    panelProxy.selectedPanel = panelIdRef.current;
   };
 
   const currentSelected = useMemo(() => {

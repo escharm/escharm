@@ -2,11 +2,7 @@ import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
 import { CSSProperties, useContext, useMemo } from "react";
 
-import {
-  useGroup,
-  useSelectedHierarchyIds,
-  useSelectedResizers,
-} from "../hierarchy";
+import { useGroup, useResizers, useSelectedHierarchyIds } from "../hierarchy";
 import { StoryContext } from "../StoryProvider";
 import { IRect } from "../types";
 import { useAnimationEffect } from "../useAnimationEffect";
@@ -257,13 +253,16 @@ export const useResizerGroup = () => {
 };
 
 export const useUpdateElements = () => {
-  const selectedResizers = useSelectedResizers();
+  const resizers = useResizers();
   const storyProxy = useContext(StoryContext);
 
   useAnimationEffect(() => {
     const rects: IRect[] = [];
 
-    selectedResizers.forEach((resizer) => {
+    Object.values(resizers).forEach((resizer) => {
+      if (resizer == null) {
+        return;
+      }
       const element = document.querySelector(`[data-id="${resizer.id}"]`) as
         | HTMLElement
         | undefined;
@@ -322,7 +321,7 @@ export const useUpdateElements = () => {
       }
     }
   }, [
-    selectedResizers,
+    resizers,
     storyProxy.group.syncedRect,
     storyProxy.hierarchies,
     storyProxy.resizers,
