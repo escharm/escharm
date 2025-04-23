@@ -1,12 +1,16 @@
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback } from "react";
 
 import {
   useHierarchies,
   useSelectedHierarchyIds,
   useSelectHierarchy,
 } from "../hierarchy";
-import { useResizerGroup, useUpdateElements } from "./useResizerGroup";
-import { useTemporaryMode } from "../store";
+import {
+  useListenSketchpadMode,
+  useResizerGroup,
+  useSyncElements,
+} from "./useResizerGroup";
+import { useSketchpadMode } from "../store";
 
 const GroupResizer = () => {
   const {
@@ -21,7 +25,7 @@ const GroupResizer = () => {
     bottomLeft,
     bottomRight,
   } = useResizerGroup();
-  const temporaryMode = useTemporaryMode();
+  const sketchpadMode = useSketchpadMode();
   const selectedHierarchyIds = useSelectedHierarchyIds();
   const selectHierarchy = useSelectHierarchy();
   const flatHierarchy = useHierarchies();
@@ -79,7 +83,8 @@ const GroupResizer = () => {
     [flatHierarchy, selectedHierarchyIds, selectHierarchy],
   );
 
-  useUpdateElements();
+  useSyncElements();
+  useListenSketchpadMode();
 
   if (selectedHierarchyIds.length === 0) {
     return null;
@@ -88,19 +93,19 @@ const GroupResizer = () => {
   return (
     <Fragment>
       <div
-        {...(temporaryMode ? { ...bodyBind() } : {})}
+        {...(sketchpadMode ? { ...bodyBind() } : {})}
         className="absolute bg-blue-400 opacity-50"
         onDoubleClickCapture={handleDoubleClick}
         style={{
           position: "absolute",
           backgroundColor: "blue",
           opacity: 0.5,
-          cursor: temporaryMode ? "move" : "default",
+          cursor: sketchpadMode ? "move" : "default",
           touchAction: "none",
           ...body,
         }}
       />
-      {temporaryMode ? (
+      {sketchpadMode ? (
         <Fragment>
           <div
             {...topLeftBind()}

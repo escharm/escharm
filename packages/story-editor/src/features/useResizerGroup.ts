@@ -1,11 +1,20 @@
 import { useDrag } from "@use-gesture/react";
 import { calc } from "@vanilla-extract/css-utils";
-import { CSSProperties, useContext, useMemo } from "react";
+import { CSSProperties, useContext, useEffect, useMemo } from "react";
 
-import { useGroup, useResizers, useSelectedHierarchyIds } from "../hierarchy";
+import {
+  useGroup,
+  useResizers,
+  useSelectedHierarchyIds,
+  useSelectedResizers,
+} from "../hierarchy";
 import { StoryContext } from "../StoryProvider";
 import { IRect } from "../types";
-import { useAnimationEffect } from "../useAnimationEffect";
+import {
+  useAnimationEffect,
+  useRequestAnimationFrame,
+} from "../useAnimationEffect";
+import { useSketchpadMode } from "../store";
 
 export const useTopLeftResizer = () => {
   const storyProxy = useContext(StoryContext);
@@ -29,19 +38,13 @@ export const useTopLeftResizer = () => {
   const topLeftBind = useDrag(({ delta: [dx, dy] }) => {
     selectedHierarchyIds.forEach((hierarchyId) => {
       const resizerProxy = storyProxy.resizers[hierarchyId];
-      const manualRectProxy = resizerProxy?.manualRect;
       const syncedRectProxy = resizerProxy?.syncedRect;
 
-      if (manualRectProxy && syncedRectProxy) {
+      if (syncedRectProxy) {
         syncedRectProxy.x += dx;
         syncedRectProxy.width -= dx;
         syncedRectProxy.y += dy;
         syncedRectProxy.height -= dy;
-
-        manualRectProxy.x += dx;
-        manualRectProxy.width -= dx;
-        manualRectProxy.y += dy;
-        manualRectProxy.height -= dy;
       }
     });
   });
@@ -77,17 +80,12 @@ export const useTopRightResizer = () => {
   const topRightBind = useDrag(({ delta: [dx, dy] }) => {
     selectedHierarchyIds.forEach((hierarchyId) => {
       const resizerProxy = storyProxy.resizers[hierarchyId];
-      const manualRectProxy = resizerProxy?.manualRect;
       const syncedRectProxy = resizerProxy?.syncedRect;
 
-      if (manualRectProxy && syncedRectProxy) {
+      if (syncedRectProxy) {
         syncedRectProxy.width += dx;
         syncedRectProxy.y += dy;
         syncedRectProxy.height -= dy;
-
-        manualRectProxy.width += dx;
-        manualRectProxy.y += dy;
-        manualRectProxy.height -= dy;
       }
     });
   });
@@ -123,17 +121,12 @@ export const useBottomLeftResizer = () => {
   const bottomLeftBind = useDrag(({ delta: [dx, dy] }) => {
     selectedHierarchyIds.forEach((hierarchyId) => {
       const resizerProxy = storyProxy.resizers[hierarchyId];
-      const manualRectProxy = resizerProxy?.manualRect;
       const syncedRectProxy = resizerProxy?.syncedRect;
 
-      if (manualRectProxy && syncedRectProxy) {
+      if (syncedRectProxy) {
         syncedRectProxy.x += dx;
         syncedRectProxy.width -= dx;
         syncedRectProxy.height += dy;
-
-        manualRectProxy.x += dx;
-        manualRectProxy.width -= dx;
-        manualRectProxy.height += dy;
       }
     });
   });
@@ -171,15 +164,11 @@ export const useBottomRightResizer = () => {
   const bottomRightBind = useDrag(({ delta: [dx, dy] }) => {
     selectedHierarchyIds.forEach((hierarchyId) => {
       const resizerProxy = storyProxy.resizers[hierarchyId];
-      const manualRectProxy = resizerProxy?.manualRect;
       const syncedRectProxy = resizerProxy?.syncedRect;
 
-      if (manualRectProxy && syncedRectProxy) {
+      if (syncedRectProxy) {
         syncedRectProxy.width += dx;
         syncedRectProxy.height += dy;
-
-        manualRectProxy.width += dx;
-        manualRectProxy.height += dy;
       }
     });
   });
@@ -212,15 +201,11 @@ export const useBodyResizer = () => {
   const bodyBind = useDrag(({ delta: [dx, dy] }) => {
     selectedHierarchyIds.forEach((hierarchyId) => {
       const resizerProxy = storyProxy.resizers[hierarchyId];
-      const manualRectProxy = resizerProxy?.manualRect;
       const syncedRectProxy = resizerProxy?.syncedRect;
 
-      if (manualRectProxy && syncedRectProxy) {
+      if (syncedRectProxy) {
         syncedRectProxy.x += dx;
         syncedRectProxy.y += dy;
-
-        manualRectProxy.x += dx;
-        manualRectProxy.y += dy;
       }
     });
   });
@@ -252,21 +237,24 @@ export const useResizerGroup = () => {
   };
 };
 
-export const useUpdateElements = () => {
+export const useSyncElements = () => {
+  const selectedResizers = useSelectedResizers();
   const resizers = useResizers();
   const storyProxy = useContext(StoryContext);
+  const sketchpadMode = useSketchpadMode();
 
-  useAnimationEffect(() => {
-    const rects: IRect[] = [];
-
+  useRequestAnimationFrame(() => {
+    if (!sketchpadMode) {
+      return;
+    }
     Object.values(resizers).forEach((resizer) => {
-      if (resizer == null) {
+      if (resizer?.syncedRect == null) {
         return;
       }
       const element = document.querySelector(`[data-id="${resizer.id}"]`) as
         | HTMLElement
         | undefined;
-      if (element && resizer.syncedRect) {
+      if (element && resizer.syncedRect && sketchpadMode) {
         const style = element.style;
         style.left = calc(`${resizer.syncedRect.x}px`).toString();
         style.top = calc(`${resizer.syncedRect.y}px`).toString();
@@ -277,7 +265,6 @@ export const useUpdateElements = () => {
       const resizerProxy = storyProxy.resizers[resizer.id];
       const syncedRectProxy = resizerProxy?.syncedRect;
       if (updateRect) {
-        rects.push(updateRect);
         if (
           syncedRectProxy &&
           (updateRect.x !== resizer.syncedRect?.x ||
@@ -297,6 +284,27 @@ export const useUpdateElements = () => {
           const propertyValue = element?.style.getPropertyValue(propertyName);
           resizerProxy.syncedStyle[propertyName] = propertyValue;
         }
+      }
+    });
+  });
+
+  useRequestAnimationFrame(() => {
+    const rects: IRect[] = [];
+    if (!sketchpadMode) {
+      return;
+    }
+    selectedResizers.forEach((resizer) => {
+      if (resizer?.syncedRect == null) {
+        return;
+      }
+      const element = document.querySelector(`[data-id="${resizer.id}"]`) as
+        | HTMLElement
+        | undefined;
+
+      const updateRect = element?.getBoundingClientRect();
+
+      if (updateRect) {
+        rects.push(updateRect);
       }
     });
 
@@ -320,10 +328,45 @@ export const useUpdateElements = () => {
         storyProxy.group.syncedRect.height = maxY - minY;
       }
     }
-  }, [
-    resizers,
-    storyProxy.group.syncedRect,
-    storyProxy.hierarchies,
-    storyProxy.resizers,
-  ]);
+  });
+};
+
+export const useListenSketchpadMode = () => {
+  const storyProxy = useContext(StoryContext);
+  const sketchpadMode = useSketchpadMode();
+  const resizers = useResizers();
+
+  useEffect(() => {
+    Object.values(storyProxy.resizers).forEach((resizer) => {
+      if (!sketchpadMode && resizer) {
+        resizer.syncedRect = null;
+      }
+    });
+  }, [storyProxy.resizers, sketchpadMode]);
+
+  useAnimationEffect(() => {
+    Object.values(resizers).forEach((resizer) => {
+      if (resizer == null) {
+        return;
+      }
+      const element = document.querySelector(`[data-id="${resizer.id}"]`) as
+        | HTMLElement
+        | undefined;
+
+      if (resizer.originNode != null && sketchpadMode === false) {
+        const children = element?.childNodes;
+
+        if (children && resizer.originNode) {
+          const clonedNode = resizer.originNode.cloneNode(false);
+          // 将所有子节点移动到克隆节点下
+          while (children.length > 0) {
+            clonedNode.appendChild(children[0]);
+          }
+          // 用克隆节点替换原来的 element
+          element?.replaceWith(clonedNode);
+        }
+        return;
+      }
+    });
+  }, [resizers, sketchpadMode]);
 };

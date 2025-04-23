@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from "react";
-import { proxy, useSnapshot } from "valtio";
+import { proxy, useSnapshot, ref } from "valtio";
 
 import {
   IFlatHierarchy,
@@ -70,13 +70,6 @@ export const useSelectHierarchy = () => {
           id: hierarchyId,
         }));
 
-      resizerProxy.originRect ??= proxy({
-        x,
-        y,
-        width,
-        height,
-      });
-
       resizerProxy.syncedRect ??= proxy({
         x,
         y,
@@ -84,18 +77,18 @@ export const useSelectHierarchy = () => {
         height,
       });
 
-      resizerProxy.manualRect ??= proxy({
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0,
-      });
-
       resizerProxy.syncedStyle ??= proxy({});
 
       const element = document.querySelector(`[data-id="${hierarchyId}"]`) as
         | HTMLElement
         | undefined;
+
+      if (!resizerProxy.originNode) {
+        const targegtNode = element?.cloneNode(false);
+        if (targegtNode) {
+          resizerProxy.originNode = ref(targegtNode);
+        }
+      }
 
       if (element?.style) {
         const computedStyle = element.style;

@@ -1,5 +1,3 @@
-import { CSSProperties } from "react";
-
 export interface IFlatStructure<T = unknown> {
   [id: string]: T | undefined;
 }
@@ -51,11 +49,9 @@ export interface ISaveHierarchyParams {
 
 export interface IResizer {
   id: string;
-  originRect?: IRect;
-  syncedRect?: IRect;
-  manualRect?: IRect;
-  originStyle?: Record<string, string>;
-  syncedStyle?: Record<string, string>;
+  originNode?: Node | null;
+  syncedRect?: IRect | null;
+  syncedStyle?: Record<string, string> | null;
 }
 
 export interface IStoryContext {
@@ -76,5 +72,5 @@ export interface IUpdateTWStyleParams {
 }
 
 export interface IStyleConfig {
-  temporaryMode?: boolean;
+  sketchpadMode?: boolean;
 }

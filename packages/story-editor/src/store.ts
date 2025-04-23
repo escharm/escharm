@@ -1,33 +1,28 @@
 import { proxy, useSnapshot } from "valtio";
-import { useCallback, useContext } from "react";
-import { StoryContext } from "./StoryProvider";
+import { useCallback } from "react";
 
 export const panelProxy = proxy<{
   selectedPanel: string | null;
-  temporaryMode: boolean;
+  sketchpadMode: boolean;
 }>({
   selectedPanel: null,
-  temporaryMode: false,
+  sketchpadMode: false,
 });
 
 export const useSelectedPanel = () => {
   return useSnapshot(panelProxy).selectedPanel;
 };
 
-export const useTemporaryMode = () => {
-  return useSnapshot(panelProxy).temporaryMode;
+export const useSketchpadMode = () => {
+  return useSnapshot(panelProxy).sketchpadMode;
 };
 
-export const useToggleTemporaryMode = () => {
-  const storyProxy = useContext(StoryContext);
+export const useToggleSketchpadMode = () => {
   return useCallback(() => {
-    if (panelProxy.temporaryMode) {
-      storyProxy.resizers = {};
-    }
-    panelProxy.temporaryMode = !panelProxy.temporaryMode;
-  }, [storyProxy]);
+    panelProxy.sketchpadMode = !panelProxy.sketchpadMode;
+  }, []);
 };
 
-export const toggleTemporaryMode = () => {
-  panelProxy.temporaryMode = !panelProxy.temporaryMode;
+export const toggleSketchpadMode = () => {
+  panelProxy.sketchpadMode = !panelProxy.sketchpadMode;
 };
